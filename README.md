@@ -1,2 +1,5 @@
 # pallets.alanwsmith.com
-A viewer for different color pallets from color hunt
+
+A viewer for color pallets from color hunt and wherever else. 
+
+
