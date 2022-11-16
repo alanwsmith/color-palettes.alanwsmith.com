@@ -82,13 +82,25 @@ const handleClick = (event) => {
 const handleKeyup = (event) => {
     const theKey = event.key.toLowerCase()
     if (theKey === 'j') {
-        currentPalette += 1
-        changeColorsToIndex(currentPalette)
-        console.log(theKey)
+        if (currentPalette < paletts.length - 2) {
+            currentPalette += 1
+            changeColorsToIndex(currentPalette)
+        }
     } else if (theKey === 'k') {
-        currentPalette -= 1
-        changeColorsToIndex(currentPalette)
-        console.log(theKey)
+        if (currentPalette > 0) {
+            currentPalette -= 1
+            changeColorsToIndex(currentPalette)
+        }
+    } else if (theKey === 'l') {
+        if (currentArrangement < 24) {
+            currentArrangement += 1
+            changeArrangement(currentArrangement)
+        }
+    } else if (theKey === 'h') {
+        if (currentArrangement > 0) {
+            currentArrangement -= 1
+            changeArrangement(currentArrangement)
+        }
     }
 }
 
