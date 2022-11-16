@@ -2,3 +2,45 @@ body {
   background-color: #000000;
   color: #123433;
 }
+
+#col-wrapper {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+}
+
+#colors-col {
+  height: 440px;
+  overflow-y: scroll;
+}
+
+#arrangements {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.palette-name {
+  cursor: pointer;
+  width: 140px;
+  height: 30px;
+}
+
+.color-swatch {
+  display: inline-block;
+  width: 24px;
+  height: 30px;
+  border: 1px solid #aaa;
+  cursor: pointer;
+}
+
+.color-arrangement {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  width: 30px;
+}
+
+.color-arrangement-swatch {
+  display: inline-block;
+  width: 30px;
+  height: 40px;
+  border: 1px solid #aaa;
+}
