@@ -16,11 +16,14 @@ const permutator = (inputArr) => {
 }
 
 let currentColors = []
+let currentPalette = 0
+let currentArrangement = 0
 
 const changeColorsToIndex = (index) => {
+    currentPalette = index
+    currentArrangement = 0
     const values = paletts[index]
     const colors = values.colors
-
     document.body.style.backgroundColor = colors[0]
     document.body.style.color = colors[3]
     document.querySelectorAll('h1').forEach((a_tag) => {
@@ -32,15 +35,12 @@ const changeColorsToIndex = (index) => {
     document.querySelectorAll('a').forEach((a_tag) => {
         a_tag.style.color = colors[1]
     })
-
     const label_buttons = document.getElementsByClassName('palette-name')
     for (const label_button of label_buttons) {
         // console.log(label_button)
         // label_button.style.backgroundColor = colors[0]
     }
-
     currentColors = permutator(colors)
-
     for (pi = 0; pi < currentColors.length; pi++) {
         for (si = 0; si < 4; si++) {
             document.getElementById(
@@ -76,6 +76,19 @@ const handleClick = (event) => {
         changeColorsToIndex(parseInt(paletteIndex, 10))
     } else if (colorArrangement) {
         changeArrangement(colorArrangement)
+    }
+}
+
+const handleKeyup = (event) => {
+    const theKey = event.key.toLowerCase()
+    if (theKey === 'j') {
+        currentPalette += 1
+        changeColorsToIndex(currentPalette)
+        console.log(theKey)
+    } else if (theKey === 'k') {
+        currentPalette -= 1
+        changeColorsToIndex(currentPalette)
+        console.log(theKey)
     }
 }
 
