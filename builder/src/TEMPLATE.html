@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>A Brand New Website</title>
+    <title>Color Palette Explorer</title>
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="A Brand New Website" />
+    <meta property="og:title" content="Color Palette Explorer" />
     <meta
       property="og:description"
-      content="A new website I haven't filled out yet"
+      content="A set of color pallets to click around on and see how they look on a live page"
     />
     <meta
       property="og:image"
@@ -17,6 +17,12 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site:id" content="@TheIdOfAlan" />
     <meta name="twitter:creator" content="@TheIdOfAlan" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="icon"
       type="image/png"
@@ -32,22 +38,64 @@
     $HEAD
 
     <style>
-      $CSS
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+      * {
+        margin: 0;
+      }
+      html, body {
+        height: 100%;
+        font-family: 'Open Sans', sans-serif;
+      }
+      body {
+        line-height: 1.4;
+        -webkit-font-smoothing: antialiased;
+          font-size: 1.2rem;
+
+      }
+      img, picture, video, canvas, svg {
+        display: block;
+        max-width: 100%;
+      }
+      input, button, textarea, select {
+        font: inherit;
+      }
+      p, h1, h2, h3, h4, h5, h6 {
+        overflow-wrap: break-word;
+      }
+      #root, #__next {
+        isolation: isolate;
+      }
+
+
+            $CSS
     </style>
     <script>
+      $JS_DATA
       $JS
     </script>
   </head>
   <body>
-    <header>
-      <a href="/">Home</a> ~
-      <a href="https://www.alanwsmith.com/">alanwsmith.com</a> ~
-      <a href="https://links.alanwsmith.com">links</a> ~
-      <a href="https://podcast.alanwsmith.com/">podcast</a>
-    </header>
+    <header></header>
     <main>
-      <h1>A Brand New Website</h1>
-      $BODY
+      <div id="col-wrapper">
+        <div>
+          <a href="https://www.alanwsmith.com/">alanwsmith.com</a><br />
+          <a href="https://links.alanwsmith.com">links</a><br />
+          <a href="https://podcast.alanwsmith.com/">podcast</a><br />
+        </div>
+
+        <div id="arrangement-wrapper">
+          <div id="arrangements">$ARRANGEMENTS</div>
+        </div>
+        <div></div>
+        <div id="headline-wrapper">
+          <h1 id="main-headline" class="body-text">Color Palette Explorer</h1>
+        </div>
+        <div id="colors-col">$COLORS</div>
+        <div id="text-col">$BODY</div>
+      </div>
     </main>
     <footer>
       made by <a href="https://twitter.com/TheIdOfAlan">alan w. smith</a>

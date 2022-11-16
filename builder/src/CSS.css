@@ -1,4 +1,131 @@
+:root {
+  --content-left-pad: 20px;
+  --swatch-top: 0px;
+  --arrangement-pad: 22px;
+}
+
+#arrangements {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+#arrangement-wrapper {
+  padding-left: var(--content-left-pad);
+}
+
 body {
   background-color: #000000;
   color: #123433;
+}
+
+button {
+  font-size: 0.9rem;
+  border: 0px;
+  text-align: left;
+  background-color: #444;
+  padding: 0px;
+}
+.color-arrangement {
+  display: grid;
+  grid-template-rows: 30fr 30fr 18fr 18fr;
+  width: 30px;
+}
+
+#color-arrangement-4 {
+  margin-right: var(--arrangement-pad);
+}
+
+#color-arrangement-18 {
+  margin-right: var(--arrangement-pad);
+}
+
+#color-arrangement-7 {
+  margin-right: var(--arrangement-pad);
+}
+
+.color-arrangement-swatch-0 {
+  margin-top: var(--swatch-top);
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #aaa;
+}
+
+.color-arrangement-swatch-1 {
+  margin-top: var(--swatch-top);
+  display: inline-block;
+  width: 30px;
+  height: 18px;
+  border: 1px solid #aaa;
+}
+
+.color-arrangement-swatch-2 {
+  margin-top: var(--swatch-top);
+  display: inline-block;
+  width: 30px;
+  height: 18px;
+  border: 1px solid #aaa;
+}
+
+.color-arrangement-swatch-3 {
+  margin-top: var(--swatch-top);
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #aaa;
+}
+
+#colors-col {
+  height: 440px;
+  overflow-y: scroll;
+  margin-top: 10px;
+}
+
+.color-swatch {
+  display: inline-block;
+  width: 35px;
+  height: 30px;
+  border: 1px solid #aaa;
+  cursor: pointer;
+}
+
+#col-wrapper {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  max-width: 1000px;
+  margin-left: max(0px, calc(50vw - 450px - 130px));
+  margin-top: 24px;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+#headline-wrapper {
+  margin-left: 18px;
+}
+
+#main-headline {
+  margin-top: 2rem;
+}
+
+.palette-name {
+  cursor: pointer;
+  width: 140px;
+  height: 30px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+p {
+  margin-bottom: 1.3rem;
+}
+
+.palette-wrapper {
+  margin-bottom: 12px;
+}
+
+#text-col {
+  padding-left: var(--content-left-pad);
 }
