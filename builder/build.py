@@ -52,15 +52,10 @@ class Builder():
                     '</button><br />'
                 ]
 
-                for i in range(0,4):
 
-                    # hex_string = f"""#{
-                    #      raw_palette['colors'][i]['hex']['r']}{
-                    #      raw_palette['colors'][i]['hex']['g']}{ 
-                    #      raw_palette['colors'][i]['hex']['b']}"""
-
+                order = [0, 3, 1, 2]
+                for i in order:
                     hex_string = raw_palette['colors'][i]['hex']
-
                     color_item.append(
                         f'''<button class="color-swatch" style="background-color: {hex_string}" data-palette-index="{counter}">&nbsp;</button>'''
                     )
