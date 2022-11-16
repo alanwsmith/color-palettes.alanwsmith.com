@@ -23,17 +23,24 @@ const changeColorsToIndex = (index) => {
 
     document.body.style.backgroundColor = colors[0]
     document.body.style.color = colors[3]
-    document.querySelectorAll('a').forEach((a_tag) => {
+    document.querySelectorAll('h1').forEach((a_tag) => {
         a_tag.style.color = colors[2]
     })
-    document.querySelectorAll('h1').forEach((a_tag) => {
-        a_tag.style.color = colors[1]
-    })
     document.querySelectorAll('h2').forEach((a_tag) => {
+        a_tag.style.color = colors[2]
+    })
+    document.querySelectorAll('a').forEach((a_tag) => {
         a_tag.style.color = colors[1]
     })
 
+    const label_buttons = document.getElementsByClassName('palette-name')
+    for (const label_button of label_buttons) {
+        // console.log(label_button)
+        // label_button.style.backgroundColor = colors[0]
+    }
+
     currentColors = permutator(colors)
+
     for (pi = 0; pi < currentColors.length; pi++) {
         for (si = 0; si < 4; si++) {
             document.getElementById(

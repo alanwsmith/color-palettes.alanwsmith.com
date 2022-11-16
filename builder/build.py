@@ -28,32 +28,41 @@ class Builder():
     def load_color_data(self):
         color_list = []
         with open(self.color_data_path) as _cd:
-            raw_palettes = json.load(_cd)
+            json_in = json.load(_cd)
+            raw_palettes = json_in['data']
             counter = 0
             for raw_palette in raw_palettes:
-                color_item = [
-                    '<div class="palette-wrapper">',
-                    f'''<button id="palette-{raw_palette['name']}" class="palette-name" data-palette-index="{counter}">''', 
-                    raw_palette['name'],
-                    '</button>'
-                ]
-
-                for i in range(0,4):
-                    hex_string = f"""#{
-                         raw_palette['colors'][i]['hex']['r']}{
-                         raw_palette['colors'][i]['hex']['g']}{ 
-                         raw_palette['colors'][i]['hex']['b']}"""
-                    color_item.append(
-                        f'''<button class="color-swatch" style="background-color: {hex_string}" data-palette-index="{counter}">&nbsp;</button>'''
-                    )
-
                 colors = []
                 for i in range(0,4):
                     colors.append(
-                        f"""#{
-                        raw_palette['colors'][i]['hex']['r']}{
-                        raw_palette['colors'][i]['hex']['g']}{ 
-                        raw_palette['colors'][i]['hex']['b']}"""
+
+                        raw_palette['colors'][i]['hex']
+
+                        # f"""#{
+                        # raw_palette['colors'][i]['hex']['r']}{
+                        # raw_palette['colors'][i]['hex']['g']}{ 
+                        # raw_palette['colors'][i]['hex']['b']}"""
+
+                    )
+
+                color_item = [
+                    '<div class="palette-wrapper">',
+                    f'''<button style="background-color: {colors[0]}; color: {colors[3]}" id="palette-{raw_palette['name']}" class="palette-name" data-palette-index="{counter}">''', 
+                    raw_palette['name'],
+                    '</button><br />'
+                ]
+
+                for i in range(0,4):
+
+                    # hex_string = f"""#{
+                    #      raw_palette['colors'][i]['hex']['r']}{
+                    #      raw_palette['colors'][i]['hex']['g']}{ 
+                    #      raw_palette['colors'][i]['hex']['b']}"""
+
+                    hex_string = raw_palette['colors'][i]['hex']
+
+                    color_item.append(
+                        f'''<button class="color-swatch" style="background-color: {hex_string}" data-palette-index="{counter}">&nbsp;</button>'''
                     )
 
                 self.palettes[raw_palette['name']] = colors 
@@ -83,8 +92,12 @@ class Builder():
         arrangements = []
         for i in range(0,24):
             arrangement = [f'<div id="color-arrangement-{i}" class="color-arrangement">']
-            for x in range(0,4):
-                arrangement.append(f'<button id="swatch--{i}--{x}" class="color-arrangement-swatch" data-color-arrangement="{i}">&nbsp;</button>')
+            arrangement.append(f'<button id="swatch--{i}--0" class="color-arrangement-swatch-0" data-color-arrangement="{i}">&nbsp;</button>')
+            arrangement.append(f'<button id="swatch--{i}--3" class="color-arrangement-swatch-3" data-color-arrangement="{i}">&nbsp;</button>')
+            arrangement.append(f'<button id="swatch--{i}--1" class="color-arrangement-swatch-1" data-color-arrangement="{i}">&nbsp;</button>')
+            arrangement.append(f'<button id="swatch--{i}--2" class="color-arrangement-swatch-2" data-color-arrangement="{i}">&nbsp;</button>')
+            #for x in range(0,4):
+                #arrangement.append(f'<button id="swatch--{i}--{x}" class="color-arrangement-swatch-{x}" data-color-arrangement="{i}">&nbsp;</button>')
             arrangement.append('</div>')
             arrangements.append("\n".join(arrangement))
         self.parts['ARRANGEMENTS'] = "\n".join(arrangements)
