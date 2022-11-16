@@ -73,6 +73,7 @@
             :root {
   --content-left-pad: 20px;
   --swatch-top: 0px;
+  --arrangement-pad: 22px;
 }
 
 #arrangements {
@@ -94,11 +95,24 @@ button {
   border: 0px;
   text-align: left;
   background-color: #444;
+  padding: 0px;
 }
 .color-arrangement {
   display: grid;
   grid-template-rows: 30fr 30fr 18fr 18fr;
   width: 30px;
+}
+
+#color-arrangement-4 {
+  margin-right: var(--arrangement-pad);
+}
+
+#color-arrangement-18 {
+  margin-right: var(--arrangement-pad);
+}
+
+#color-arrangement-7 {
+  margin-right: var(--arrangement-pad);
 }
 
 .color-arrangement-swatch-0 {
@@ -276,6 +290,7 @@ const init = () => {
     console.log('init')
     document.addEventListener('click', handleClick)
     changeColorsToIndex(0)
+    document.addEventListener('keyup', handleKeyup)
 }
 
 document.addEventListener('DOMContentLoaded', init)
@@ -293,35 +308,17 @@ document.addEventListener('DOMContentLoaded', init)
         </div>
 
         <div id="arrangement-wrapper">
-          <div id="arrangements"><div id="color-arrangement-0" class="color-arrangement">
-<button id="swatch--0--0" class="color-arrangement-swatch-0" data-color-arrangement="0">&nbsp;</button>
-<button id="swatch--0--3" class="color-arrangement-swatch-3" data-color-arrangement="0">&nbsp;</button>
-<button id="swatch--0--1" class="color-arrangement-swatch-1" data-color-arrangement="0">&nbsp;</button>
-<button id="swatch--0--2" class="color-arrangement-swatch-2" data-color-arrangement="0">&nbsp;</button>
-</div>
-<div id="color-arrangement-1" class="color-arrangement">
-<button id="swatch--1--0" class="color-arrangement-swatch-0" data-color-arrangement="1">&nbsp;</button>
-<button id="swatch--1--3" class="color-arrangement-swatch-3" data-color-arrangement="1">&nbsp;</button>
-<button id="swatch--1--1" class="color-arrangement-swatch-1" data-color-arrangement="1">&nbsp;</button>
-<button id="swatch--1--2" class="color-arrangement-swatch-2" data-color-arrangement="1">&nbsp;</button>
-</div>
-<div id="color-arrangement-2" class="color-arrangement">
+          <div id="arrangements"><div id="color-arrangement-2" class="color-arrangement">
 <button id="swatch--2--0" class="color-arrangement-swatch-0" data-color-arrangement="2">&nbsp;</button>
 <button id="swatch--2--3" class="color-arrangement-swatch-3" data-color-arrangement="2">&nbsp;</button>
 <button id="swatch--2--1" class="color-arrangement-swatch-1" data-color-arrangement="2">&nbsp;</button>
 <button id="swatch--2--2" class="color-arrangement-swatch-2" data-color-arrangement="2">&nbsp;</button>
 </div>
-<div id="color-arrangement-3" class="color-arrangement">
-<button id="swatch--3--0" class="color-arrangement-swatch-0" data-color-arrangement="3">&nbsp;</button>
-<button id="swatch--3--3" class="color-arrangement-swatch-3" data-color-arrangement="3">&nbsp;</button>
-<button id="swatch--3--1" class="color-arrangement-swatch-1" data-color-arrangement="3">&nbsp;</button>
-<button id="swatch--3--2" class="color-arrangement-swatch-2" data-color-arrangement="3">&nbsp;</button>
-</div>
-<div id="color-arrangement-4" class="color-arrangement">
-<button id="swatch--4--0" class="color-arrangement-swatch-0" data-color-arrangement="4">&nbsp;</button>
-<button id="swatch--4--3" class="color-arrangement-swatch-3" data-color-arrangement="4">&nbsp;</button>
-<button id="swatch--4--1" class="color-arrangement-swatch-1" data-color-arrangement="4">&nbsp;</button>
-<button id="swatch--4--2" class="color-arrangement-swatch-2" data-color-arrangement="4">&nbsp;</button>
+<div id="color-arrangement-0" class="color-arrangement">
+<button id="swatch--0--0" class="color-arrangement-swatch-0" data-color-arrangement="0">&nbsp;</button>
+<button id="swatch--0--3" class="color-arrangement-swatch-3" data-color-arrangement="0">&nbsp;</button>
+<button id="swatch--0--1" class="color-arrangement-swatch-1" data-color-arrangement="0">&nbsp;</button>
+<button id="swatch--0--2" class="color-arrangement-swatch-2" data-color-arrangement="0">&nbsp;</button>
 </div>
 <div id="color-arrangement-5" class="color-arrangement">
 <button id="swatch--5--0" class="color-arrangement-swatch-0" data-color-arrangement="5">&nbsp;</button>
@@ -329,95 +326,29 @@ document.addEventListener('DOMContentLoaded', init)
 <button id="swatch--5--1" class="color-arrangement-swatch-1" data-color-arrangement="5">&nbsp;</button>
 <button id="swatch--5--2" class="color-arrangement-swatch-2" data-color-arrangement="5">&nbsp;</button>
 </div>
-<div id="color-arrangement-6" class="color-arrangement">
-<button id="swatch--6--0" class="color-arrangement-swatch-0" data-color-arrangement="6">&nbsp;</button>
-<button id="swatch--6--3" class="color-arrangement-swatch-3" data-color-arrangement="6">&nbsp;</button>
-<button id="swatch--6--1" class="color-arrangement-swatch-1" data-color-arrangement="6">&nbsp;</button>
-<button id="swatch--6--2" class="color-arrangement-swatch-2" data-color-arrangement="6">&nbsp;</button>
+<div id="color-arrangement-3" class="color-arrangement">
+<button id="swatch--3--0" class="color-arrangement-swatch-0" data-color-arrangement="3">&nbsp;</button>
+<button id="swatch--3--3" class="color-arrangement-swatch-3" data-color-arrangement="3">&nbsp;</button>
+<button id="swatch--3--1" class="color-arrangement-swatch-1" data-color-arrangement="3">&nbsp;</button>
+<button id="swatch--3--2" class="color-arrangement-swatch-2" data-color-arrangement="3">&nbsp;</button>
 </div>
-<div id="color-arrangement-7" class="color-arrangement">
-<button id="swatch--7--0" class="color-arrangement-swatch-0" data-color-arrangement="7">&nbsp;</button>
-<button id="swatch--7--3" class="color-arrangement-swatch-3" data-color-arrangement="7">&nbsp;</button>
-<button id="swatch--7--1" class="color-arrangement-swatch-1" data-color-arrangement="7">&nbsp;</button>
-<button id="swatch--7--2" class="color-arrangement-swatch-2" data-color-arrangement="7">&nbsp;</button>
+<div id="color-arrangement-1" class="color-arrangement">
+<button id="swatch--1--0" class="color-arrangement-swatch-0" data-color-arrangement="1">&nbsp;</button>
+<button id="swatch--1--3" class="color-arrangement-swatch-3" data-color-arrangement="1">&nbsp;</button>
+<button id="swatch--1--1" class="color-arrangement-swatch-1" data-color-arrangement="1">&nbsp;</button>
+<button id="swatch--1--2" class="color-arrangement-swatch-2" data-color-arrangement="1">&nbsp;</button>
 </div>
-<div id="color-arrangement-8" class="color-arrangement">
-<button id="swatch--8--0" class="color-arrangement-swatch-0" data-color-arrangement="8">&nbsp;</button>
-<button id="swatch--8--3" class="color-arrangement-swatch-3" data-color-arrangement="8">&nbsp;</button>
-<button id="swatch--8--1" class="color-arrangement-swatch-1" data-color-arrangement="8">&nbsp;</button>
-<button id="swatch--8--2" class="color-arrangement-swatch-2" data-color-arrangement="8">&nbsp;</button>
+<div id="color-arrangement-4" class="color-arrangement">
+<button id="swatch--4--0" class="color-arrangement-swatch-0" data-color-arrangement="4">&nbsp;</button>
+<button id="swatch--4--3" class="color-arrangement-swatch-3" data-color-arrangement="4">&nbsp;</button>
+<button id="swatch--4--1" class="color-arrangement-swatch-1" data-color-arrangement="4">&nbsp;</button>
+<button id="swatch--4--2" class="color-arrangement-swatch-2" data-color-arrangement="4">&nbsp;</button>
 </div>
-<div id="color-arrangement-9" class="color-arrangement">
-<button id="swatch--9--0" class="color-arrangement-swatch-0" data-color-arrangement="9">&nbsp;</button>
-<button id="swatch--9--3" class="color-arrangement-swatch-3" data-color-arrangement="9">&nbsp;</button>
-<button id="swatch--9--1" class="color-arrangement-swatch-1" data-color-arrangement="9">&nbsp;</button>
-<button id="swatch--9--2" class="color-arrangement-swatch-2" data-color-arrangement="9">&nbsp;</button>
-</div>
-<div id="color-arrangement-10" class="color-arrangement">
-<button id="swatch--10--0" class="color-arrangement-swatch-0" data-color-arrangement="10">&nbsp;</button>
-<button id="swatch--10--3" class="color-arrangement-swatch-3" data-color-arrangement="10">&nbsp;</button>
-<button id="swatch--10--1" class="color-arrangement-swatch-1" data-color-arrangement="10">&nbsp;</button>
-<button id="swatch--10--2" class="color-arrangement-swatch-2" data-color-arrangement="10">&nbsp;</button>
-</div>
-<div id="color-arrangement-11" class="color-arrangement">
-<button id="swatch--11--0" class="color-arrangement-swatch-0" data-color-arrangement="11">&nbsp;</button>
-<button id="swatch--11--3" class="color-arrangement-swatch-3" data-color-arrangement="11">&nbsp;</button>
-<button id="swatch--11--1" class="color-arrangement-swatch-1" data-color-arrangement="11">&nbsp;</button>
-<button id="swatch--11--2" class="color-arrangement-swatch-2" data-color-arrangement="11">&nbsp;</button>
-</div>
-<div id="color-arrangement-12" class="color-arrangement">
-<button id="swatch--12--0" class="color-arrangement-swatch-0" data-color-arrangement="12">&nbsp;</button>
-<button id="swatch--12--3" class="color-arrangement-swatch-3" data-color-arrangement="12">&nbsp;</button>
-<button id="swatch--12--1" class="color-arrangement-swatch-1" data-color-arrangement="12">&nbsp;</button>
-<button id="swatch--12--2" class="color-arrangement-swatch-2" data-color-arrangement="12">&nbsp;</button>
-</div>
-<div id="color-arrangement-13" class="color-arrangement">
-<button id="swatch--13--0" class="color-arrangement-swatch-0" data-color-arrangement="13">&nbsp;</button>
-<button id="swatch--13--3" class="color-arrangement-swatch-3" data-color-arrangement="13">&nbsp;</button>
-<button id="swatch--13--1" class="color-arrangement-swatch-1" data-color-arrangement="13">&nbsp;</button>
-<button id="swatch--13--2" class="color-arrangement-swatch-2" data-color-arrangement="13">&nbsp;</button>
-</div>
-<div id="color-arrangement-14" class="color-arrangement">
-<button id="swatch--14--0" class="color-arrangement-swatch-0" data-color-arrangement="14">&nbsp;</button>
-<button id="swatch--14--3" class="color-arrangement-swatch-3" data-color-arrangement="14">&nbsp;</button>
-<button id="swatch--14--1" class="color-arrangement-swatch-1" data-color-arrangement="14">&nbsp;</button>
-<button id="swatch--14--2" class="color-arrangement-swatch-2" data-color-arrangement="14">&nbsp;</button>
-</div>
-<div id="color-arrangement-15" class="color-arrangement">
-<button id="swatch--15--0" class="color-arrangement-swatch-0" data-color-arrangement="15">&nbsp;</button>
-<button id="swatch--15--3" class="color-arrangement-swatch-3" data-color-arrangement="15">&nbsp;</button>
-<button id="swatch--15--1" class="color-arrangement-swatch-1" data-color-arrangement="15">&nbsp;</button>
-<button id="swatch--15--2" class="color-arrangement-swatch-2" data-color-arrangement="15">&nbsp;</button>
-</div>
-<div id="color-arrangement-16" class="color-arrangement">
-<button id="swatch--16--0" class="color-arrangement-swatch-0" data-color-arrangement="16">&nbsp;</button>
-<button id="swatch--16--3" class="color-arrangement-swatch-3" data-color-arrangement="16">&nbsp;</button>
-<button id="swatch--16--1" class="color-arrangement-swatch-1" data-color-arrangement="16">&nbsp;</button>
-<button id="swatch--16--2" class="color-arrangement-swatch-2" data-color-arrangement="16">&nbsp;</button>
-</div>
-<div id="color-arrangement-17" class="color-arrangement">
-<button id="swatch--17--0" class="color-arrangement-swatch-0" data-color-arrangement="17">&nbsp;</button>
-<button id="swatch--17--3" class="color-arrangement-swatch-3" data-color-arrangement="17">&nbsp;</button>
-<button id="swatch--17--1" class="color-arrangement-swatch-1" data-color-arrangement="17">&nbsp;</button>
-<button id="swatch--17--2" class="color-arrangement-swatch-2" data-color-arrangement="17">&nbsp;</button>
-</div>
-<div id="color-arrangement-18" class="color-arrangement">
-<button id="swatch--18--0" class="color-arrangement-swatch-0" data-color-arrangement="18">&nbsp;</button>
-<button id="swatch--18--3" class="color-arrangement-swatch-3" data-color-arrangement="18">&nbsp;</button>
-<button id="swatch--18--1" class="color-arrangement-swatch-1" data-color-arrangement="18">&nbsp;</button>
-<button id="swatch--18--2" class="color-arrangement-swatch-2" data-color-arrangement="18">&nbsp;</button>
-</div>
-<div id="color-arrangement-19" class="color-arrangement">
-<button id="swatch--19--0" class="color-arrangement-swatch-0" data-color-arrangement="19">&nbsp;</button>
-<button id="swatch--19--3" class="color-arrangement-swatch-3" data-color-arrangement="19">&nbsp;</button>
-<button id="swatch--19--1" class="color-arrangement-swatch-1" data-color-arrangement="19">&nbsp;</button>
-<button id="swatch--19--2" class="color-arrangement-swatch-2" data-color-arrangement="19">&nbsp;</button>
-</div>
-<div id="color-arrangement-20" class="color-arrangement">
-<button id="swatch--20--0" class="color-arrangement-swatch-0" data-color-arrangement="20">&nbsp;</button>
-<button id="swatch--20--3" class="color-arrangement-swatch-3" data-color-arrangement="20">&nbsp;</button>
-<button id="swatch--20--1" class="color-arrangement-swatch-1" data-color-arrangement="20">&nbsp;</button>
-<button id="swatch--20--2" class="color-arrangement-swatch-2" data-color-arrangement="20">&nbsp;</button>
+<div id="color-arrangement-23" class="color-arrangement">
+<button id="swatch--23--0" class="color-arrangement-swatch-0" data-color-arrangement="23">&nbsp;</button>
+<button id="swatch--23--3" class="color-arrangement-swatch-3" data-color-arrangement="23">&nbsp;</button>
+<button id="swatch--23--1" class="color-arrangement-swatch-1" data-color-arrangement="23">&nbsp;</button>
+<button id="swatch--23--2" class="color-arrangement-swatch-2" data-color-arrangement="23">&nbsp;</button>
 </div>
 <div id="color-arrangement-21" class="color-arrangement">
 <button id="swatch--21--0" class="color-arrangement-swatch-0" data-color-arrangement="21">&nbsp;</button>
@@ -425,17 +356,101 @@ document.addEventListener('DOMContentLoaded', init)
 <button id="swatch--21--1" class="color-arrangement-swatch-1" data-color-arrangement="21">&nbsp;</button>
 <button id="swatch--21--2" class="color-arrangement-swatch-2" data-color-arrangement="21">&nbsp;</button>
 </div>
+<div id="color-arrangement-19" class="color-arrangement">
+<button id="swatch--19--0" class="color-arrangement-swatch-0" data-color-arrangement="19">&nbsp;</button>
+<button id="swatch--19--3" class="color-arrangement-swatch-3" data-color-arrangement="19">&nbsp;</button>
+<button id="swatch--19--1" class="color-arrangement-swatch-1" data-color-arrangement="19">&nbsp;</button>
+<button id="swatch--19--2" class="color-arrangement-swatch-2" data-color-arrangement="19">&nbsp;</button>
+</div>
 <div id="color-arrangement-22" class="color-arrangement">
 <button id="swatch--22--0" class="color-arrangement-swatch-0" data-color-arrangement="22">&nbsp;</button>
 <button id="swatch--22--3" class="color-arrangement-swatch-3" data-color-arrangement="22">&nbsp;</button>
 <button id="swatch--22--1" class="color-arrangement-swatch-1" data-color-arrangement="22">&nbsp;</button>
 <button id="swatch--22--2" class="color-arrangement-swatch-2" data-color-arrangement="22">&nbsp;</button>
 </div>
-<div id="color-arrangement-23" class="color-arrangement">
-<button id="swatch--23--0" class="color-arrangement-swatch-0" data-color-arrangement="23">&nbsp;</button>
-<button id="swatch--23--3" class="color-arrangement-swatch-3" data-color-arrangement="23">&nbsp;</button>
-<button id="swatch--23--1" class="color-arrangement-swatch-1" data-color-arrangement="23">&nbsp;</button>
-<button id="swatch--23--2" class="color-arrangement-swatch-2" data-color-arrangement="23">&nbsp;</button>
+<div id="color-arrangement-20" class="color-arrangement">
+<button id="swatch--20--0" class="color-arrangement-swatch-0" data-color-arrangement="20">&nbsp;</button>
+<button id="swatch--20--3" class="color-arrangement-swatch-3" data-color-arrangement="20">&nbsp;</button>
+<button id="swatch--20--1" class="color-arrangement-swatch-1" data-color-arrangement="20">&nbsp;</button>
+<button id="swatch--20--2" class="color-arrangement-swatch-2" data-color-arrangement="20">&nbsp;</button>
+</div>
+<div id="color-arrangement-18" class="color-arrangement">
+<button id="swatch--18--0" class="color-arrangement-swatch-0" data-color-arrangement="18">&nbsp;</button>
+<button id="swatch--18--3" class="color-arrangement-swatch-3" data-color-arrangement="18">&nbsp;</button>
+<button id="swatch--18--1" class="color-arrangement-swatch-1" data-color-arrangement="18">&nbsp;</button>
+<button id="swatch--18--2" class="color-arrangement-swatch-2" data-color-arrangement="18">&nbsp;</button>
+</div>
+<div id="color-arrangement-9" class="color-arrangement">
+<button id="swatch--9--0" class="color-arrangement-swatch-0" data-color-arrangement="9">&nbsp;</button>
+<button id="swatch--9--3" class="color-arrangement-swatch-3" data-color-arrangement="9">&nbsp;</button>
+<button id="swatch--9--1" class="color-arrangement-swatch-1" data-color-arrangement="9">&nbsp;</button>
+<button id="swatch--9--2" class="color-arrangement-swatch-2" data-color-arrangement="9">&nbsp;</button>
+</div>
+<div id="color-arrangement-11" class="color-arrangement">
+<button id="swatch--11--0" class="color-arrangement-swatch-0" data-color-arrangement="11">&nbsp;</button>
+<button id="swatch--11--3" class="color-arrangement-swatch-3" data-color-arrangement="11">&nbsp;</button>
+<button id="swatch--11--1" class="color-arrangement-swatch-1" data-color-arrangement="11">&nbsp;</button>
+<button id="swatch--11--2" class="color-arrangement-swatch-2" data-color-arrangement="11">&nbsp;</button>
+</div>
+<div id="color-arrangement-6" class="color-arrangement">
+<button id="swatch--6--0" class="color-arrangement-swatch-0" data-color-arrangement="6">&nbsp;</button>
+<button id="swatch--6--3" class="color-arrangement-swatch-3" data-color-arrangement="6">&nbsp;</button>
+<button id="swatch--6--1" class="color-arrangement-swatch-1" data-color-arrangement="6">&nbsp;</button>
+<button id="swatch--6--2" class="color-arrangement-swatch-2" data-color-arrangement="6">&nbsp;</button>
+</div>
+<div id="color-arrangement-8" class="color-arrangement">
+<button id="swatch--8--0" class="color-arrangement-swatch-0" data-color-arrangement="8">&nbsp;</button>
+<button id="swatch--8--3" class="color-arrangement-swatch-3" data-color-arrangement="8">&nbsp;</button>
+<button id="swatch--8--1" class="color-arrangement-swatch-1" data-color-arrangement="8">&nbsp;</button>
+<button id="swatch--8--2" class="color-arrangement-swatch-2" data-color-arrangement="8">&nbsp;</button>
+</div>
+<div id="color-arrangement-10" class="color-arrangement">
+<button id="swatch--10--0" class="color-arrangement-swatch-0" data-color-arrangement="10">&nbsp;</button>
+<button id="swatch--10--3" class="color-arrangement-swatch-3" data-color-arrangement="10">&nbsp;</button>
+<button id="swatch--10--1" class="color-arrangement-swatch-1" data-color-arrangement="10">&nbsp;</button>
+<button id="swatch--10--2" class="color-arrangement-swatch-2" data-color-arrangement="10">&nbsp;</button>
+</div>
+<div id="color-arrangement-7" class="color-arrangement">
+<button id="swatch--7--0" class="color-arrangement-swatch-0" data-color-arrangement="7">&nbsp;</button>
+<button id="swatch--7--3" class="color-arrangement-swatch-3" data-color-arrangement="7">&nbsp;</button>
+<button id="swatch--7--1" class="color-arrangement-swatch-1" data-color-arrangement="7">&nbsp;</button>
+<button id="swatch--7--2" class="color-arrangement-swatch-2" data-color-arrangement="7">&nbsp;</button>
+</div>
+<div id="color-arrangement-15" class="color-arrangement">
+<button id="swatch--15--0" class="color-arrangement-swatch-0" data-color-arrangement="15">&nbsp;</button>
+<button id="swatch--15--3" class="color-arrangement-swatch-3" data-color-arrangement="15">&nbsp;</button>
+<button id="swatch--15--1" class="color-arrangement-swatch-1" data-color-arrangement="15">&nbsp;</button>
+<button id="swatch--15--2" class="color-arrangement-swatch-2" data-color-arrangement="15">&nbsp;</button>
+</div>
+<div id="color-arrangement-17" class="color-arrangement">
+<button id="swatch--17--0" class="color-arrangement-swatch-0" data-color-arrangement="17">&nbsp;</button>
+<button id="swatch--17--3" class="color-arrangement-swatch-3" data-color-arrangement="17">&nbsp;</button>
+<button id="swatch--17--1" class="color-arrangement-swatch-1" data-color-arrangement="17">&nbsp;</button>
+<button id="swatch--17--2" class="color-arrangement-swatch-2" data-color-arrangement="17">&nbsp;</button>
+</div>
+<div id="color-arrangement-12" class="color-arrangement">
+<button id="swatch--12--0" class="color-arrangement-swatch-0" data-color-arrangement="12">&nbsp;</button>
+<button id="swatch--12--3" class="color-arrangement-swatch-3" data-color-arrangement="12">&nbsp;</button>
+<button id="swatch--12--1" class="color-arrangement-swatch-1" data-color-arrangement="12">&nbsp;</button>
+<button id="swatch--12--2" class="color-arrangement-swatch-2" data-color-arrangement="12">&nbsp;</button>
+</div>
+<div id="color-arrangement-14" class="color-arrangement">
+<button id="swatch--14--0" class="color-arrangement-swatch-0" data-color-arrangement="14">&nbsp;</button>
+<button id="swatch--14--3" class="color-arrangement-swatch-3" data-color-arrangement="14">&nbsp;</button>
+<button id="swatch--14--1" class="color-arrangement-swatch-1" data-color-arrangement="14">&nbsp;</button>
+<button id="swatch--14--2" class="color-arrangement-swatch-2" data-color-arrangement="14">&nbsp;</button>
+</div>
+<div id="color-arrangement-16" class="color-arrangement">
+<button id="swatch--16--0" class="color-arrangement-swatch-0" data-color-arrangement="16">&nbsp;</button>
+<button id="swatch--16--3" class="color-arrangement-swatch-3" data-color-arrangement="16">&nbsp;</button>
+<button id="swatch--16--1" class="color-arrangement-swatch-1" data-color-arrangement="16">&nbsp;</button>
+<button id="swatch--16--2" class="color-arrangement-swatch-2" data-color-arrangement="16">&nbsp;</button>
+</div>
+<div id="color-arrangement-13" class="color-arrangement">
+<button id="swatch--13--0" class="color-arrangement-swatch-0" data-color-arrangement="13">&nbsp;</button>
+<button id="swatch--13--3" class="color-arrangement-swatch-3" data-color-arrangement="13">&nbsp;</button>
+<button id="swatch--13--1" class="color-arrangement-swatch-1" data-color-arrangement="13">&nbsp;</button>
+<button id="swatch--13--2" class="color-arrangement-swatch-2" data-color-arrangement="13">&nbsp;</button>
 </div></div>
         </div>
         <div></div>

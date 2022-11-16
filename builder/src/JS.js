@@ -83,6 +83,7 @@ const init = () => {
     console.log('init')
     document.addEventListener('click', handleClick)
     changeColorsToIndex(0)
+    document.addEventListener('keyup', handleKeyup)
 }
 
 document.addEventListener('DOMContentLoaded', init)

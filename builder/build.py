@@ -52,7 +52,6 @@ class Builder():
                     '</button><br />'
                 ]
 
-
                 order = [0, 3, 1, 2]
                 for i in order:
                     hex_string = raw_palette['colors'][i]['hex']
@@ -66,7 +65,6 @@ class Builder():
                 color_item.append('</div>')
                 color_list.append("".join(color_item))
                 counter += 1
-
 
         # print(self.palettes)
         self.parts['JS_DATA'] = f"const paletts = {json.dumps(self.palettes_list)}"
@@ -85,16 +83,24 @@ class Builder():
 
     def setup_arrangements(self):
         arrangements = []
-        for i in range(0,24):
+        order_hack = [
+            2, 0, 5,  3, 1, 4,
+            23, 21, 19, 22, 20, 18,
+            9, 11, 6, 8, 10, 7,
+            15, 17, 12, 14, 16, 13, 
+        ]
+        # for i in range(0,24):
+        for i in order_hack:
+
             arrangement = [f'<div id="color-arrangement-{i}" class="color-arrangement">']
             arrangement.append(f'<button id="swatch--{i}--0" class="color-arrangement-swatch-0" data-color-arrangement="{i}">&nbsp;</button>')
             arrangement.append(f'<button id="swatch--{i}--3" class="color-arrangement-swatch-3" data-color-arrangement="{i}">&nbsp;</button>')
             arrangement.append(f'<button id="swatch--{i}--1" class="color-arrangement-swatch-1" data-color-arrangement="{i}">&nbsp;</button>')
             arrangement.append(f'<button id="swatch--{i}--2" class="color-arrangement-swatch-2" data-color-arrangement="{i}">&nbsp;</button>')
-            #for x in range(0,4):
-                #arrangement.append(f'<button id="swatch--{i}--{x}" class="color-arrangement-swatch-{x}" data-color-arrangement="{i}">&nbsp;</button>')
             arrangement.append('</div>')
             arrangements.append("\n".join(arrangement))
+
+
         self.parts['ARRANGEMENTS'] = "\n".join(arrangements)
 
     def make_page(self, template_path, output_path, data):

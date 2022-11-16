@@ -1,6 +1,7 @@
 :root {
   --content-left-pad: 20px;
   --swatch-top: 0px;
+  --arrangement-pad: 22px;
 }
 
 #arrangements {
@@ -22,11 +23,24 @@ button {
   border: 0px;
   text-align: left;
   background-color: #444;
+  padding: 0px;
 }
 .color-arrangement {
   display: grid;
   grid-template-rows: 30fr 30fr 18fr 18fr;
   width: 30px;
+}
+
+#color-arrangement-4 {
+  margin-right: var(--arrangement-pad);
+}
+
+#color-arrangement-18 {
+  margin-right: var(--arrangement-pad);
+}
+
+#color-arrangement-7 {
+  margin-right: var(--arrangement-pad);
 }
 
 .color-arrangement-swatch-0 {
