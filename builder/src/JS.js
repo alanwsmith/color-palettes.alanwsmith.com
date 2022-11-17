@@ -30,7 +30,8 @@ const handleClick = (event) => {
     const checkArrangement = event.target.dataset.arrangement
     if (checkPalette) {
         state.palette = parseInt(checkPalette, 10)
-        updateOrder()
+        state.order = 0
+        // updateOrder()
     } else if (checkArrangement) {
         state.order = parseInt(checkArrangement, 10)
     }
@@ -80,9 +81,15 @@ const increasePalette = () => {
 
 const handleKeydown = (event) => {
     const theKey = event.key.toLowerCase()
-    if (theKey === 'h') {
+    if (theKey === 's') {
         event.preventDefault()
-        handleShowHide()
+        handleToggleSide()
+    } else if (theKey === 't') {
+        event.preventDefault()
+        handleToggleTop()
+    } else if (theKey === 'h') {
+        event.preventDefault()
+        handleToggleSideAndTop()
     } else if (theKey === 'arrowdown') {
         event.preventDefault()
         if (state.palette < palettes.length - 2) {
@@ -210,16 +217,28 @@ const updateColors = () => {
     localStorage.setItem(`palette-${state.palette}-order`, state.order)
 }
 
+const handleToggleSideAndTop = () => {
+    if (state.top != state.side) {
+        // set both to true so the toggle
+        // call turns them both off if
+        // they aren't already
+        state.top = true
+        state.side = true
+    }
+    handleToggleTop()
+    handleToggleSide()
+}
+
 const handleToggleTop = () => {
     state.top = state.top ? false : true
     if (state.top) {
         e.arrangements.classList.remove('fade-out')
         e.arrangements.classList.add('fade-in')
-        e.toggleTop.innerText = '✓top'
+        e.toggleTop.innerText = 'top:y'
     } else {
         e.arrangements.classList.remove('fade-in')
         e.arrangements.classList.add('fade-out')
-        e.toggleTop.innerText = '⦻top'
+        e.toggleTop.innerText = 'top:n'
     }
 }
 
@@ -228,29 +247,28 @@ const handleToggleSide = () => {
     if (state.side) {
         e.colorsCol.classList.remove('fade-out')
         e.colorsCol.classList.add('fade-in')
-        e.toggleSide.innerText = '✓side'
+        e.toggleSide.innerText = 'side:y'
     } else {
         e.colorsCol.classList.remove('fade-in')
         e.colorsCol.classList.add('fade-out')
-        e.toggleSide.innerText = '⦻side'
+        e.toggleSide.innerText = 'side:n'
     }
 }
 
 const handleToggleReadme = () => {
     state.readme = state.readme ? false : true
-
-    // if (!state.readme) {
-    //     e.showReadme.innerText = 'show readme'
-    //     document.querySelectorAll('.introText').forEach((el) => {
-    //         console.log(el)
-    //         el.classList.add('hideReadme')
-    //     })
-    // } else {
-    //     e.showReadme.innerText = 'hide readme'
-    //     document.querySelectorAll('.introText').forEach((el) => {
-    //         el.classList.remove('hideReadme')
-    //     })
-    // }
+    if (!state.readme) {
+        e.toggleReadme.innerText = 'readme:n'
+        document.querySelectorAll('.introText').forEach((el) => {
+            console.log(el)
+            el.classList.add('hideReadme')
+        })
+    } else {
+        e.toggleReadme.innerText = 'readme:y'
+        document.querySelectorAll('.introText').forEach((el) => {
+            el.classList.remove('hideReadme')
+        })
+    }
 }
 
 const init = () => {

@@ -168,3 +168,15 @@ p {
   opacity: 1;
   transition: visibility 0s linear 0s, opacity 300ms;
 }
+
+#toggleSide {
+  width: 55px;
+}
+
+#toggleTop {
+  width: 48px;
+}
+
+#toggleReadme {
+  width: 95px;
+}
