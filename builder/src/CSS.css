@@ -27,6 +27,7 @@ button {
   text-align: left;
   background-color: #444;
   padding: 0px;
+  cursor: pointer;
 }
 
 .color-arrangement {
@@ -146,4 +147,15 @@ p {
 
 #text-col {
   padding-left: var(--content-left-pad);
+}
+
+.fade-out {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 300ms, opacity 300ms;
+}
+.fade-in {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity 300ms;
 }

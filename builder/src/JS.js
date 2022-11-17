@@ -18,7 +18,11 @@ const permutator = (inputArr) => {
 const state = {
     palette: 0,
     order: 0,
+    show: true,
+    els: {},
 }
+
+const e = {}
 
 const handleClick = (event) => {
     const checkPalette = event.target.dataset.palette
@@ -75,7 +79,10 @@ const increasePalette = () => {
 
 const handleKeydown = (event) => {
     const theKey = event.key.toLowerCase()
-    if (theKey === 'arrowdown') {
+    if (theKey === 'h') {
+        event.preventDefault()
+        handleShowHide()
+    } else if (theKey === 'arrowdown') {
         event.preventDefault()
         if (state.palette < palettes.length - 2) {
             state.palette += 1
@@ -181,10 +188,31 @@ const updateColors = () => {
     localStorage.setItem(`palette-${state.palette}-order`, state.order)
 }
 
+const handleShowHide = () => {
+    state.show = state.show ? false : true
+    if (state.show) {
+        e.arrangements.classList.remove('fade-out')
+        e.arrangements.classList.add('fade-in')
+        e.colorsCol.classList.remove('fade-out')
+        e.colorsCol.classList.add('fade-in')
+    } else {
+        e.arrangements.classList.remove('fade-in')
+        e.arrangements.classList.add('fade-out')
+        e.colorsCol.classList.remove('fade-in')
+        e.colorsCol.classList.add('fade-out')
+    }
+
+    console.log(state.show)
+}
+
 const init = () => {
     document.addEventListener('click', handleClick)
-    updateColors()
     document.addEventListener('keydown', handleKeydown)
+    updateColors()
+    state.els['showHide'] = document.getElementById('show-hide')
+    state.els['showHide'].addEventListener('click', handleShowHide)
+    e['arrangements'] = document.getElementById('arrangements')
+    e['colorsCol'] = document.getElementById('colors-col')
 }
 
 document.addEventListener('DOMContentLoaded', init)
