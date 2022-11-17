@@ -59,7 +59,7 @@ const decreaseOrder = () => {
 
 const decreasePalette = () => {
     if (state.palette == 1) {
-        state.palette = palettes.length
+        state.palette = palettes.length - 1
     } else {
         state.palette -= 1
     }
@@ -74,7 +74,7 @@ const increaseOrder = () => {
 }
 
 const increasePalette = () => {
-    if (state.palette == palettes.length) {
+    if (state.palette == palettes.length - 1) {
         state.palette = 1
     } else {
         state.palette += 1
@@ -92,20 +92,32 @@ const handleKeydown = (event) => {
     } else if (theKey === 'h') {
         event.preventDefault()
         handleToggleSideAndTop()
-    } else if (theKey === 'arrowdown') {
-        event.preventDefault()
-        if (state.palette < palettes.length - 2) {
-            state.palette += 1
-            updateOrder()
-            updateColors()
-        }
     } else if (theKey === 'arrowup') {
         event.preventDefault()
-        if (state.palette > 0) {
-            state.palette -= 1
-            updateOrder()
-            updateColors()
+        if (19 <= state.order && state.order <= 24) {
+            state.order = 13
+        } else if (13 <= state.order && state.order <= 18) {
+            state.order = 7
+        } else if (7 <= state.order && state.order <= 12) {
+            state.order = 1
+        } else if (1 <= state.order && state.order <= 6) {
+            decreasePalette()
+            state.order = 19
         }
+        updateColors()
+    } else if (theKey === 'arrowdown') {
+        event.preventDefault()
+        if (1 <= state.order && state.order <= 6) {
+            state.order = 7
+        } else if (7 <= state.order && state.order <= 12) {
+            state.order = 13
+        } else if (12 <= state.order && state.order <= 18) {
+            state.order = 19
+        } else if (19 <= state.order && state.order <= 24) {
+            increasePalette()
+            state.order = 1
+        }
+        updateColors()
     } else if (theKey === 'arrowleft') {
         event.preventDefault()
         decreaseOrder()
@@ -168,6 +180,9 @@ const updateColors = () => {
     document.body.style.backgroundColor = colors[0]
     document.body.style.color = colors[1]
     document.querySelectorAll('h1').forEach((el) => {
+        el.style.color = colors[2]
+    })
+    document.querySelectorAll('h2').forEach((el) => {
         el.style.color = colors[2]
     })
     document.querySelectorAll('a').forEach((el) => {

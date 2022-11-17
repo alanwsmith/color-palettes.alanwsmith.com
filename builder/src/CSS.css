@@ -115,7 +115,8 @@ button {
   margin-top: 24px;
 }
 
-h1 {
+h1,
+h2 {
   font-weight: bold;
 }
 
