@@ -249,7 +249,16 @@ const handleClick = (event) => {
     const checkPalette = event.target.dataset.palette
     const checkArrangement = event.target.dataset.arrangement
     if (checkPalette) {
-        state.palette = parseInt(checkPalette, 10)
+        // state.palette = parseInt(checkPalette, 10)
+        // const arrangement = localStorage.getItem(
+        //     `palette-${state.palette}-arrangement`
+        // )
+        // if (arrangement) {
+        //     state.arrangement = arrangement
+        // } else {
+        //     state.arrangement = 0
+        // }
+
         state.arrangement = 0
     } else if (checkArrangement) {
         state.arrangement = parseInt(checkArrangement, 10)
@@ -257,33 +266,44 @@ const handleClick = (event) => {
     updateColors()
 }
 
+const updateOrder = () => {
+    const arrangement = localStorage.getItem(
+        `palette-${state.palette}-arrangement`
+    )
+    if (arrangement) {
+        state.arrangement = parseInt(arrangement, 10)
+    } else {
+        state.arrangement = 0
+    }
+}
+
 const handleKeydown = (event) => {
     const theKey = event.key.toLowerCase()
     // console.log(theKey)
     if (theKey === 'arrowdown') {
+        event.preventDefault()
         if (state.palette < palettes.length - 2) {
             state.palette += 1
-            state.arrangement = 0
-            event.preventDefault()
+            updateOrder()
             updateColors()
         }
     } else if (theKey === 'arrowup') {
+        event.preventDefault()
         if (state.palette > 0) {
             state.palette -= 1
-            state.arrangement = 0
-            event.preventDefault()
+            updateOrder()
             updateColors()
         }
     } else if (theKey === 'arrowleft') {
+        event.preventDefault()
         if (state.arrangement > 0) {
             state.arrangement -= 1
-            event.preventDefault()
             updateColors()
         }
     } else if (theKey === 'arrowright') {
+        event.preventDefault()
         if (state.arrangement < 23) {
             state.arrangement += 1
-            event.preventDefault()
             updateColors()
         }
     }
@@ -346,9 +366,14 @@ const updateColors = () => {
     const activePalette = document.getElementById(
         `palette-wrapper-${state.palette}`
     )
-    activePalette.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
     activePalette.classList.remove('inactive-palette')
     activePalette.classList.add('active-palette')
+    activePalette.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+
+    localStorage.setItem(
+        `palette-${state.palette}-arrangement`,
+        state.arrangement
+    )
 }
 
 const init = () => {
