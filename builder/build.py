@@ -31,15 +31,14 @@ class Builder():
             counter = 1
             for raw_palette in raw_palettes:
                 colors = []
+                luminance = []
                 for i in range(0,4):
                     colors.append(
                         raw_palette['colors'][i]['hex']
                     )
-
-                # append luminance for contrast checking
-                #colors.append(
-                    # raw_palette['colors'][i]['hsl']['l']
-                # )
+                    luminance.append(
+                        raw_palette['colors'][i]['hsl']['l']
+                    )
 
                 color_item = [
                     f'<div id="palette-wrapper-{counter}" class="palette-wrapper inactive-palette">',

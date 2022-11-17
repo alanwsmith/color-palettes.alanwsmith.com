@@ -128,36 +128,47 @@ const updateColors = () => {
     // console.log(state)
     // Get the colors and put them in the display order
     const rawColorSet = permutator(palettes[state.palette].colors)
-    const colorSet = [
-        null,
-        rawColorSet[0],
-        rawColorSet[2],
-        rawColorSet[4],
-        rawColorSet[1],
-        rawColorSet[3],
-        rawColorSet[5],
 
-        rawColorSet[23],
-        rawColorSet[21],
-        rawColorSet[19],
-        rawColorSet[22],
-        rawColorSet[20],
-        rawColorSet[18],
-
-        rawColorSet[7],
-        rawColorSet[10],
-        rawColorSet[6],
-        rawColorSet[8],
-        rawColorSet[11],
-        rawColorSet[9],
-
-        rawColorSet[14],
-        rawColorSet[12],
-        rawColorSet[17],
-        rawColorSet[15],
-        rawColorSet[13],
-        rawColorSet[16],
+    const colorOrder = [
+        0, 2, 4, 1, 3, 5, 23, 21, 19, 22, 20, 18, 7, 10, 6, 8, 11, 9, 14, 12,
+        17, 15, 13, 16,
     ]
+
+    let colorSet = [null]
+
+    colorOrder.forEach((num) => {
+        colorSet.push(rawColorSet[num])
+    })
+
+    console.log(colorSet)
+
+    // colorSet = [
+    //     null,
+    //     rawColorSet[0],
+    //     rawColorSet[2],
+    //     rawColorSet[4],
+    //     rawColorSet[1],
+    //     rawColorSet[3],
+    //     rawColorSet[5],
+    //     rawColorSet[23],
+    //     rawColorSet[21],
+    //     rawColorSet[19],
+    //     rawColorSet[22],
+    //     rawColorSet[20],
+    //     rawColorSet[18],
+    //     rawColorSet[7],
+    //     rawColorSet[10],
+    //     rawColorSet[6],
+    //     rawColorSet[8],
+    //     rawColorSet[11],
+    //     rawColorSet[9],
+    //     rawColorSet[14],
+    //     rawColorSet[12],
+    //     rawColorSet[17],
+    //     rawColorSet[15],
+    //     rawColorSet[13],
+    //     rawColorSet[16],
+    // ]
 
     const colors = [
         colorSet[state.order][0],
@@ -165,6 +176,7 @@ const updateColors = () => {
         colorSet[state.order][1],
         colorSet[state.order][2],
     ]
+
     if (state.textColors == 2) {
         colors[3] = colorSet[state.order][1]
     } else if (state.textColors == 1) {
