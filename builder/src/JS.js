@@ -98,28 +98,32 @@ const handleClick = (event) => {
     // }
 }
 
-const handleKeyup = (event) => {
+const handleKeydown = (event) => {
     const theKey = event.key.toLowerCase()
-    console.log(theKey)
-
-    if (theKey === 'j') {
+    if (theKey === 'arrowdown') {
         if (state.palette < palettes.length - 2) {
             state.palette += 1
+            state.arrangement = 0
+            event.preventDefault()
             updateColors()
         }
-    } else if (theKey === 'k') {
+    } else if (theKey === 'arrowup') {
         if (state.palette > 0) {
             state.palette -= 1
+            state.arrangement = 0
+            event.preventDefault()
             updateColors()
         }
-    } else if (theKey === 'h') {
+    } else if (theKey === 'arrowleft') {
         if (state.arrangement > 0) {
             state.arrangement -= 1
+            event.preventDefault()
             updateColors()
         }
-    } else if (theKey === 'l') {
+    } else if (theKey === 'arrowright') {
         if (state.arrangement < 23) {
             state.arrangement += 1
+            event.preventDefault()
             updateColors()
         }
     }
@@ -200,7 +204,7 @@ const updateColors = () => {
 const init = () => {
     document.addEventListener('click', handleClick)
     updateColors()
-    document.addEventListener('keyup', handleKeyup)
+    document.addEventListener('keydown', handleKeydown)
 }
 
 document.addEventListener('DOMContentLoaded', init)
