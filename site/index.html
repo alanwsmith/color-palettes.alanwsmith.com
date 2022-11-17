@@ -165,8 +165,8 @@ button {
   border: 1px solid #aaa;
 }
 
-#colors-col {
-  height: 474px;
+#colorsCol {
+  height: 438px;
   overflow-y: scroll;
   margin-top: 10px;
 }
@@ -187,6 +187,10 @@ button {
   margin-top: 24px;
 }
 
+#designAlfaBody {
+  margin-left: var(--content-left-pad);
+}
+
 h1,
 h2 {
   font-weight: bold;
@@ -196,7 +200,7 @@ h2 {
   margin-left: 18px;
 }
 
-.hideReadme {
+.hideContent {
   display: none;
 }
 
@@ -225,6 +229,10 @@ p {
 
 .palette-wrapper {
   margin-bottom: 12px;
+}
+
+#settingsBody {
+  margin-left: var(--content-left-pad);
 }
 
 #text-col {
@@ -277,7 +285,7 @@ p {
 const state = {
     palette: 1,
     order: 1,
-    readme: true,
+    settings: true,
     side: true,
     top: true,
 }
@@ -380,14 +388,14 @@ const handleKeydown = (event) => {
     } else if (theKey === 'arrowleft') {
         event.preventDefault()
         decreaseOrder()
-        if (state.order == 23) {
+        if (state.order == 24) {
             decreasePalette()
         }
         updateColors()
     } else if (theKey === 'arrowright') {
         event.preventDefault()
         increaseOrder()
-        if (state.order == 0) {
+        if (state.order == 1) {
             increasePalette()
         }
         updateColors()
@@ -452,8 +460,8 @@ const updateColors = () => {
     e.toggleSide.style.color = colors[3]
     e.toggleTop.style.backgroundColor = colors[0]
     e.toggleTop.style.color = colors[3]
-    e.toggleReadme.style.backgroundColor = colors[0]
-    e.toggleReadme.style.color = colors[3]
+    e.toggleSettings.style.backgroundColor = colors[0]
+    e.toggleSettings.style.color = colors[3]
 
     // output the orded based swatches
     for (pi = 1; pi < colorSet.length; pi++) {
@@ -494,7 +502,8 @@ const updateColors = () => {
     activePalette.classList.add('active-palette')
     activePalette.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
 
-    localStorage.setItem(`palette-${state.palette}-order`, state.order)
+    localStorage.setItem(`statePalette`, state.palette)
+    localStorage.setItem(`stateOrder`, state.order)
 }
 
 const handleToggleSideAndTop = () => {
@@ -535,36 +544,51 @@ const handleToggleSide = () => {
     }
 }
 
-const handleToggleReadme = () => {
-    state.readme = state.readme ? false : true
-    if (!state.readme) {
-        e.toggleReadme.innerText = 'readme:n'
-        document.querySelectorAll('.introText').forEach((el) => {
-            console.log(el)
-            el.classList.add('hideReadme')
-        })
+const handleToggleSettings = () => {
+    console.log('a')
+    state.settings = state.settings ? false : true
+    if (state.settings) {
+        e.settingsBody.classList.remove('hideContent')
+        e.designAlfaBody.classList.add('hideContent')
     } else {
-        e.toggleReadme.innerText = 'readme:y'
-        document.querySelectorAll('.introText').forEach((el) => {
-            el.classList.remove('hideReadme')
-        })
+        e.settingsBody.classList.add('hideContent')
+        e.designAlfaBody.classList.remove('hideContent')
     }
 }
 
 const init = () => {
     document.addEventListener('click', handleClick)
     document.addEventListener('keydown', handleKeydown)
-    e['arrangements'] = document.getElementById('arrangements')
-    e['colorsCol'] = document.getElementById('colors-col')
-    e['currentOrder'] = document.getElementById('currentOrder')
-    e['currentPalette'] = document.getElementById('currentPalette')
-    e['currentStyles'] = document.getElementById('currentStyles')
-    e['toggleReadme'] = document.getElementById('toggleReadme')
-    e['toggleReadme'].addEventListener('click', handleToggleReadme)
-    e['toggleTop'] = document.getElementById('toggleTop')
+
+    const els = [
+        'arrangements',
+        'colorsCol',
+        'currentOrder',
+        'currentPalette',
+        'currentStyles',
+        'toggleSettings',
+        'toggleSide',
+        'toggleTop',
+        'settingsBody',
+        'designAlfaBody',
+    ]
+    els.forEach((name) => {
+        e[name] = document.getElementById(name)
+    })
+
+    e['toggleSettings'].addEventListener('click', handleToggleSettings)
     e['toggleTop'].addEventListener('click', handleToggleTop)
-    e['toggleSide'] = document.getElementById('toggleSide')
     e['toggleSide'].addEventListener('click', handleToggleSide)
+
+    const checkStatePalette = localStorage.getItem('statePalette')
+    const checkStateOrder = localStorage.getItem('stateOrder')
+    if (checkStatePalette) {
+        state.palette = parseInt(checkStatePalette, 10)
+    }
+    if (checkStateOrder) {
+        state.order = parseInt(checkStateOrder, 10)
+    }
+
     updateColors()
 }
 
@@ -727,15 +751,15 @@ document.addEventListener('DOMContentLoaded', init)
         <div id="headline-wrapper">
           <h1 id="main-headline" class="body-text">Color Palette Explorer</h1>
           <div>
+            <button id="toggleSettings">settings</button> ~
             <a href="https://www.alanwsmith.com/">alanwsmith.com</a> ~
             <a href="https://links.alanwsmith.com">links</a> ~
             <a href="https://podcast.alanwsmith.com/">podcast</a> ~
             <button id="toggleSide">side:y</button> ~
             <button id="toggleTop">top:y</button> ~
-            <button id="toggleReadme">readme:y</button>
           </div>
         </div>
-        <div id="colors-col"><div id="palette-wrapper-1" class="palette-wrapper inactive-palette"><button style="background-color: #fff8ea; color: #815b5b" id="palette-abandon-division" class="palette-name" data-palette="1">abandon-division</button><br /><button class="color-swatch" style="background-color: #fff8ea" data-palette="1">&nbsp;</button><button class="color-swatch" style="background-color: #815b5b" data-palette="1">&nbsp;</button><button class="color-swatch" style="background-color: #594545" data-palette="1">&nbsp;</button><button class="color-swatch" style="background-color: #9e7676" data-palette="1">&nbsp;</button></div>
+        <div id="colorsCol"><div id="palette-wrapper-1" class="palette-wrapper inactive-palette"><button style="background-color: #fff8ea; color: #815b5b" id="palette-abandon-division" class="palette-name" data-palette="1">abandon-division</button><br /><button class="color-swatch" style="background-color: #fff8ea" data-palette="1">&nbsp;</button><button class="color-swatch" style="background-color: #815b5b" data-palette="1">&nbsp;</button><button class="color-swatch" style="background-color: #594545" data-palette="1">&nbsp;</button><button class="color-swatch" style="background-color: #9e7676" data-palette="1">&nbsp;</button></div>
 <div id="palette-wrapper-2" class="palette-wrapper inactive-palette"><button style="background-color: #eff5f5; color: #497174" id="palette-abandon-health" class="palette-name" data-palette="2">abandon-health</button><br /><button class="color-swatch" style="background-color: #eff5f5" data-palette="2">&nbsp;</button><button class="color-swatch" style="background-color: #497174" data-palette="2">&nbsp;</button><button class="color-swatch" style="background-color: #eb6440" data-palette="2">&nbsp;</button><button class="color-swatch" style="background-color: #d6e4e5" data-palette="2">&nbsp;</button></div>
 <div id="palette-wrapper-3" class="palette-wrapper inactive-palette"><button style="background-color: #40dfef; color: #fffbe7" id="palette-abandon-overlook" class="palette-name" data-palette="3">abandon-overlook</button><br /><button class="color-swatch" style="background-color: #40dfef" data-palette="3">&nbsp;</button><button class="color-swatch" style="background-color: #fffbe7" data-palette="3">&nbsp;</button><button class="color-swatch" style="background-color: #e78ea9" data-palette="3">&nbsp;</button><button class="color-swatch" style="background-color: #b9f8d3" data-palette="3">&nbsp;</button></div>
 <div id="palette-wrapper-4" class="palette-wrapper inactive-palette"><button style="background-color: #fd5d5d; color: #fff7bc" id="palette-ability-question" class="palette-name" data-palette="4">ability-question</button><br /><button class="color-swatch" style="background-color: #fd5d5d" data-palette="4">&nbsp;</button><button class="color-swatch" style="background-color: #fff7bc" data-palette="4">&nbsp;</button><button class="color-swatch" style="background-color: #c0eda6" data-palette="4">&nbsp;</button><button class="color-swatch" style="background-color: #ff8080" data-palette="4">&nbsp;</button></div>
@@ -2223,159 +2247,164 @@ document.addEventListener('DOMContentLoaded', init)
 <div id="palette-wrapper-1486" class="palette-wrapper inactive-palette"><button style="background-color: #e14d2a; color: #3e6d9c" id="palette-worried-factor" class="palette-name" data-palette="1486">worried-factor</button><br /><button class="color-swatch" style="background-color: #e14d2a" data-palette="1486">&nbsp;</button><button class="color-swatch" style="background-color: #3e6d9c" data-palette="1486">&nbsp;</button><button class="color-swatch" style="background-color: #001253" data-palette="1486">&nbsp;</button><button class="color-swatch" style="background-color: #fd841f" data-palette="1486">&nbsp;</button></div>
 <div id="palette-wrapper-1487" class="palette-wrapper inactive-palette"><button style="background-color: #eff5f5; color: #497174" id="palette-writer-finish" class="palette-name" data-palette="1487">writer-finish</button><br /><button class="color-swatch" style="background-color: #eff5f5" data-palette="1487">&nbsp;</button><button class="color-swatch" style="background-color: #497174" data-palette="1487">&nbsp;</button><button class="color-swatch" style="background-color: #eb6440" data-palette="1487">&nbsp;</button><button class="color-swatch" style="background-color: #d6e4e5" data-palette="1487">&nbsp;</button></div>
 <div id="palette-wrapper-1488" class="palette-wrapper inactive-palette"><button style="background-color: #1c2b2d; color: #99a8b2" id="palette-writing-captain" class="palette-name" data-palette="1488">writing-captain</button><br /><button class="color-swatch" style="background-color: #1c2b2d" data-palette="1488">&nbsp;</button><button class="color-swatch" style="background-color: #99a8b2" data-palette="1488">&nbsp;</button><button class="color-swatch" style="background-color: #e6d5b8" data-palette="1488">&nbsp;</button><button class="color-swatch" style="background-color: #1f6f8b" data-palette="1488">&nbsp;</button></div></div>
-        <div id="text-col"><p class="introText">
-  Welcome to the color palette explorer. You can click the pallets or use the
-  arrow keys to switch colors. You can also click the &quot;hide&quot; button or
-  press &quot;h&quot; to hide the pallets to make it easier to focus on how the
-  colors look. The arrow keys still work when the palettes are hidden.
-</p>
-<p>
-  A gray mare walked before the colt. The bloom of the rose lasts a few days.
-  Twist the valve and release hot steam. This horse will nose his way to the
-  finish. A chink in the wall allowed a draft to blow. Much of the story makes
-  good sense. They took the axe and the saw to the forest. Corn cobs can be used
-  to kindle a fire.
-</p>
+        <div id="textCol"><div id="settingsBody">
+  <p>
+    Welcome to the color palette explorer. You can click the pallets or use the
+    arrow keys to switch colors. You can also click the &quot;hide&quot; button
+    or press &quot;h&quot; to hide the pallets to make it easier to focus on how
+    the colors look. The arrow keys still work when the palettes are hidden.
+  </p>
+</div>
+<div id="designAlfaBody">
+  <p>
+    A gray mare walked before the colt. The bloom of the rose lasts a few days.
+    Twist the valve and release hot steam. This horse will nose his way to the
+    finish. A chink in the wall allowed a draft to blow. Much of the story makes
+    good sense. They took the axe and the saw to the forest. Corn cobs can be
+    used to kindle a fire.
+  </p>
 
-<p>
-  <strong>Palette:</strong> <span id="currentPalette"></span>
-  <strong>Order:</strong> <span id="currentOrder"></span>
-  <strong>Styles:</strong> <span id="currentStyles"></span>
-</p>
+  <p>
+    <strong>Palette:</strong> <span id="currentPalette"></span>
+    <strong>Order:</strong> <span id="currentOrder"></span>
+    <strong>Styles:</strong> <span id="currentStyles"></span>
+  </p>
 
-<p>
-  Screen the porch with woven straw mats. The drip of the rain made a pleasant
-  sound. Pour the stew from the pot into the plate. Oak is strong and also gives
-  shade. Take the winding path to reach the lake. The source of the huge river
-  is the clear spring.
-</p>
+  <p>
+    Screen the porch with woven straw mats. The drip of the rain made a pleasant
+    sound. Pour the stew from the pot into the plate. Oak is strong and also
+    gives shade. Take the winding path to reach the lake. The source of the huge
+    river is the clear spring.
+  </p>
 
-<h2>A Small Creek</h2>
-<p>
-  Throw out the used paper cup and plate. They slice the sausage thin with a
-  knife. A lathe cuts and trims any wood. Our plans right now are hazy. A castle
-  built from sand fails to endure. Some ads serve to cheat buyers. The doorknob
-  was made of bright clean brass. A small creek cut across the field. The
-  curtain rose and the show was on.
-</p>
+  <h2>A Small Creek</h2>
+  <p>
+    Throw out the used paper cup and plate. They slice the sausage thin with a
+    knife. A lathe cuts and trims any wood. Our plans right now are hazy. A
+    castle built from sand fails to endure. Some ads serve to cheat buyers. The
+    doorknob was made of bright clean brass. A small creek cut across the field.
+    The curtain rose and the show was on.
+  </p>
 
-<p>
-  The ramp led up to the wide highway. No cement will hold hard wood. Smoke
-  poured out of every crack. He crawled with care along the ledge. This plank
-  was made for walking on. Add salt before you fry the egg. The sofa cushion is
-  red and of light weight. Pluck the bright rose without leaves. Split the log
-  with a quick, sharp blow. The ink stain dried on the finished page. The colt
-  reared and threw the tall rider.
-</p>
+  <p>
+    The ramp led up to the wide highway. No cement will hold hard wood. Smoke
+    poured out of every crack. He crawled with care along the ledge. This plank
+    was made for walking on. Add salt before you fry the egg. The sofa cushion
+    is red and of light weight. Pluck the bright rose without leaves. Split the
+    log with a quick, sharp blow. The ink stain dried on the finished page. The
+    colt reared and threw the tall rider.
+  </p>
 
-<p>
-  The point of the steel pen was bent and twisted. No hardship seemed to keep
-  him sad. The sun came up to light the eastern sky. The lake sparkled in the
-  red hot sun. Jazz and swing fans like fast music. Bring your best compass to
-  the third class. Torn scraps littered the stone floor.
-</p>
+  <p>
+    The point of the steel pen was bent and twisted. No hardship seemed to keep
+    him sad. The sun came up to light the eastern sky. The lake sparkled in the
+    red hot sun. Jazz and swing fans like fast music. Bring your best compass to
+    the third class. Torn scraps littered the stone floor.
+  </p>
 
-<h2>The Stone Fence</h2>
-<p>
-  The paper box is full of thumb tacks. Lift the square stone over the fence.
-</p>
+  <h2>The Stone Fence</h2>
+  <p>
+    The paper box is full of thumb tacks. Lift the square stone over the fence.
+  </p>
 
-<p>
-  Once we stood beside the shore. Tend the sheep while the dog wanders. Just
-  hoist it up and take it away, He wrote his last novel there at the inn. The
-  tree top waved in a graceful way. There are more than two factors here. Those
-  words were the cue for the actor to leave.
-</p>
+  <p>
+    Once we stood beside the shore. Tend the sheep while the dog wanders. Just
+    hoist it up and take it away, He wrote his last novel there at the inn. The
+    tree top waved in a graceful way. There are more than two factors here.
+    Those words were the cue for the actor to leave.
+  </p>
 
-<p>
-  The man wore a feather in his felt hat. Breakfast buns are fine with a hot
-  drink. Raise the sail and steer the ship northward. Write at once or you may
-  forget it. At that high level the air is pure. The ripe taste of cheese
-  improves with age. A wisp of cloud hung in the blue air. The dune rose from
-  the edge of the water. It snowed, rained, and hailed the same morning. The
-  birch canoe slid on the smooth planks.
-</p>
+  <p>
+    The man wore a feather in his felt hat. Breakfast buns are fine with a hot
+    drink. Raise the sail and steer the ship northward. Write at once or you may
+    forget it. At that high level the air is pure. The ripe taste of cheese
+    improves with age. A wisp of cloud hung in the blue air. The dune rose from
+    the edge of the water. It snowed, rained, and hailed the same morning. The
+    birch canoe slid on the smooth planks.
+  </p>
 
-<p>
-  Say it slowly but make it ring clear. Draw the chart with heavy black lines.
-  Soap can wash most dirt away. Tack the strip of carpet to the worn floor. The
-  map had an X that meant nothing. The petals fall with the next puff of wind.
-  The jacket hung on the back of the wide chair. He ordered peach pie with ice
-  cream. Open the crate but don't break the glass. Use a pencil to write the
-  first draft.
-</p>
+  <p>
+    Say it slowly but make it ring clear. Draw the chart with heavy black lines.
+    Soap can wash most dirt away. Tack the strip of carpet to the worn floor.
+    The map had an X that meant nothing. The petals fall with the next puff of
+    wind. The jacket hung on the back of the wide chair. He ordered peach pie
+    with ice cream. Open the crate but don't break the glass. Use a pencil to
+    write the first draft.
+  </p>
 
-<p>
-  Drop the ashes on the worn old rug. Seed is needed to plant the spring corn.
-  There is a lag between thought and act. The list of names is carved around the
-  base. The thaw came early and freed the stream. It takes a good trap to
-  capture a bear. He carved a head from the round block of marble. We admire and
-  love a good cook. The cup cracked and spilled its contents. A saw is a tool
-  used for making boards. The wide road shimmered in the hot sun.
-</p>
+  <p>
+    Drop the ashes on the worn old rug. Seed is needed to plant the spring corn.
+    There is a lag between thought and act. The list of names is carved around
+    the base. The thaw came early and freed the stream. It takes a good trap to
+    capture a bear. He carved a head from the round block of marble. We admire
+    and love a good cook. The cup cracked and spilled its contents. A saw is a
+    tool used for making boards. The wide road shimmered in the hot sun.
+  </p>
 
-<p>
-  He wrote down a long list of items. Mark the spot with a sign painted red. Let
-  it burn, it gives us warmth and comfort. He used the lathe to make brass
-  objects. Ducks fly north but lack a compass. It is hard to erase blue or red
-  ink. The coffee stand is too high for the couch. The cigar burned a hole in
-  the desk top. The salt breeze came across from the sea.
-</p>
+  <p>
+    He wrote down a long list of items. Mark the spot with a sign painted red.
+    Let it burn, it gives us warmth and comfort. He used the lathe to make brass
+    objects. Ducks fly north but lack a compass. It is hard to erase blue or red
+    ink. The coffee stand is too high for the couch. The cigar burned a hole in
+    the desk top. The salt breeze came across from the sea.
+  </p>
 
-<p>
-  Hats are worn to tea and not to dinner. Roads are paved with sticky tar. The
-  key you designed will fit the lock. The logs fell and tumbled into the clear
-  stream. These thistles bend in a high wind.
-</p>
+  <p>
+    Hats are worn to tea and not to dinner. Roads are paved with sticky tar. The
+    key you designed will fit the lock. The logs fell and tumbled into the clear
+    stream. These thistles bend in a high wind.
+  </p>
 
-<p>
-  The desk and both chairs were painted tan. The sheep were led home by a dog.
-  Feed the white mouse some flower seeds. Where were they when the noise
-  started. The office paint was a dull sad tan. The urge to write short stories
-  is rare. The grass curled around the fence post. The fruit peel was cut in
-  thick slices. Rice is often served in round bowls.
-</p>
+  <p>
+    The desk and both chairs were painted tan. The sheep were led home by a dog.
+    Feed the white mouse some flower seeds. Where were they when the noise
+    started. The office paint was a dull sad tan. The urge to write short
+    stories is rare. The grass curled around the fence post. The fruit peel was
+    cut in thick slices. Rice is often served in round bowls.
+  </p>
 
-<p>
-  The marsh will freeze when cold enough. The dry wax protects the deep scratch.
-  Jerk the dart from the cork target. It's a dense crowd in two distinct ways.
-  He took the lead and kept it the whole distance. The pencils have all been
-  used. A salt pickle tastes fine with ham. The young kid jumped the rusty gate.
-  The pipe began to rust while new.
-</p>
+  <p>
+    The marsh will freeze when cold enough. The dry wax protects the deep
+    scratch. Jerk the dart from the cork target. It's a dense crowd in two
+    distinct ways. He took the lead and kept it the whole distance. The pencils
+    have all been used. A salt pickle tastes fine with ham. The young kid jumped
+    the rusty gate. The pipe began to rust while new.
+  </p>
 
-<p>
-  He wheeled the bike past the winding road. We now have a new base for
-  shipping. The fur of cats goes by many names. He broke a new shoelace that
-  day. The frosty air passed through the coat. It's easy to tell the depth of a
-  well.
-</p>
+  <p>
+    He wheeled the bike past the winding road. We now have a new base for
+    shipping. The fur of cats goes by many names. He broke a new shoelace that
+    day. The frosty air passed through the coat. It's easy to tell the depth of
+    a well.
+  </p>
 
-<p>
-  Bottles hold four kinds of rum. Beat the dust from the rug onto the lawn. The
-  sand drifts over the sill of the old house. That move means the game is over.
-  The houses are built of red clay bricks. The spot on the blotter was made by
-  green ink. Guess the results from the first scores.
-</p>
+  <p>
+    Bottles hold four kinds of rum. Beat the dust from the rug onto the lawn.
+    The sand drifts over the sill of the old house. That move means the game is
+    over. The houses are built of red clay bricks. The spot on the blotter was
+    made by green ink. Guess the results from the first scores.
+  </p>
 
-<p>
-  The straw nest housed five robins. Fasten two pins on each side. Each penny
-  shone like new. A fresh start will work such wonders. Glue the sheet to the
-  dark blue background.
-</p>
+  <p>
+    The straw nest housed five robins. Fasten two pins on each side. Each penny
+    shone like new. A fresh start will work such wonders. Glue the sheet to the
+    dark blue background.
+  </p>
 
-<p>
-  The dirt piles were lines along the road. On the islands the sea breeze is
-  soft and mild. There was a sound of dry leaves outside. Steam hissed from the
-  broken valve.
-</p>
+  <p>
+    The dirt piles were lines along the road. On the islands the sea breeze is
+    soft and mild. There was a sound of dry leaves outside. Steam hissed from
+    the broken valve.
+  </p>
 
-<p>
-  A cold dip restores health and zest. A siege will crack the strong defense. Go
-  now and come here later. The vane on top of the pole revolved in the wind.
-  Weave the carpet on the right hand side. The bark of the pine tree was shiny
-  and dark. Cut the pie into large parts. Two blue fish swam in the tank.
-</p>
+  <p>
+    A cold dip restores health and zest. A siege will crack the strong defense.
+    Go now and come here later. The vane on top of the pole revolved in the
+    wind. Weave the carpet on the right hand side. The bark of the pine tree was
+    shiny and dark. Cut the pie into large parts. Two blue fish swam in the
+    tank.
+  </p>
+</div>
 </div>
       </div>
     </main>

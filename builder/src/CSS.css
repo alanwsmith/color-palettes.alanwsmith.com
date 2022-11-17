@@ -93,8 +93,8 @@ button {
   border: 1px solid #aaa;
 }
 
-#colors-col {
-  height: 474px;
+#colorsCol {
+  height: 438px;
   overflow-y: scroll;
   margin-top: 10px;
 }
@@ -115,6 +115,10 @@ button {
   margin-top: 24px;
 }
 
+#designAlfaBody {
+  margin-left: var(--content-left-pad);
+}
+
 h1,
 h2 {
   font-weight: bold;
@@ -124,7 +128,7 @@ h2 {
   margin-left: 18px;
 }
 
-.hideReadme {
+.hideContent {
   display: none;
 }
 
@@ -153,6 +157,10 @@ p {
 
 .palette-wrapper {
   margin-bottom: 12px;
+}
+
+#settingsBody {
+  margin-left: var(--content-left-pad);
 }
 
 #text-col {

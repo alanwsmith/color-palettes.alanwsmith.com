@@ -18,7 +18,7 @@ const permutator = (inputArr) => {
 const state = {
     palette: 1,
     order: 1,
-    readme: true,
+    settings: true,
     side: true,
     top: true,
 }
@@ -121,14 +121,14 @@ const handleKeydown = (event) => {
     } else if (theKey === 'arrowleft') {
         event.preventDefault()
         decreaseOrder()
-        if (state.order == 23) {
+        if (state.order == 24) {
             decreasePalette()
         }
         updateColors()
     } else if (theKey === 'arrowright') {
         event.preventDefault()
         increaseOrder()
-        if (state.order == 0) {
+        if (state.order == 1) {
             increasePalette()
         }
         updateColors()
@@ -193,8 +193,8 @@ const updateColors = () => {
     e.toggleSide.style.color = colors[3]
     e.toggleTop.style.backgroundColor = colors[0]
     e.toggleTop.style.color = colors[3]
-    e.toggleReadme.style.backgroundColor = colors[0]
-    e.toggleReadme.style.color = colors[3]
+    e.toggleSettings.style.backgroundColor = colors[0]
+    e.toggleSettings.style.color = colors[3]
 
     // output the orded based swatches
     for (pi = 1; pi < colorSet.length; pi++) {
@@ -235,7 +235,8 @@ const updateColors = () => {
     activePalette.classList.add('active-palette')
     activePalette.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
 
-    localStorage.setItem(`palette-${state.palette}-order`, state.order)
+    localStorage.setItem(`statePalette`, state.palette)
+    localStorage.setItem(`stateOrder`, state.order)
 }
 
 const handleToggleSideAndTop = () => {
@@ -276,36 +277,51 @@ const handleToggleSide = () => {
     }
 }
 
-const handleToggleReadme = () => {
-    state.readme = state.readme ? false : true
-    if (!state.readme) {
-        e.toggleReadme.innerText = 'readme:n'
-        document.querySelectorAll('.introText').forEach((el) => {
-            console.log(el)
-            el.classList.add('hideReadme')
-        })
+const handleToggleSettings = () => {
+    console.log('a')
+    state.settings = state.settings ? false : true
+    if (state.settings) {
+        e.settingsBody.classList.remove('hideContent')
+        e.designAlfaBody.classList.add('hideContent')
     } else {
-        e.toggleReadme.innerText = 'readme:y'
-        document.querySelectorAll('.introText').forEach((el) => {
-            el.classList.remove('hideReadme')
-        })
+        e.settingsBody.classList.add('hideContent')
+        e.designAlfaBody.classList.remove('hideContent')
     }
 }
 
 const init = () => {
     document.addEventListener('click', handleClick)
     document.addEventListener('keydown', handleKeydown)
-    e['arrangements'] = document.getElementById('arrangements')
-    e['colorsCol'] = document.getElementById('colors-col')
-    e['currentOrder'] = document.getElementById('currentOrder')
-    e['currentPalette'] = document.getElementById('currentPalette')
-    e['currentStyles'] = document.getElementById('currentStyles')
-    e['toggleReadme'] = document.getElementById('toggleReadme')
-    e['toggleReadme'].addEventListener('click', handleToggleReadme)
-    e['toggleTop'] = document.getElementById('toggleTop')
+
+    const els = [
+        'arrangements',
+        'colorsCol',
+        'currentOrder',
+        'currentPalette',
+        'currentStyles',
+        'toggleSettings',
+        'toggleSide',
+        'toggleTop',
+        'settingsBody',
+        'designAlfaBody',
+    ]
+    els.forEach((name) => {
+        e[name] = document.getElementById(name)
+    })
+
+    e['toggleSettings'].addEventListener('click', handleToggleSettings)
     e['toggleTop'].addEventListener('click', handleToggleTop)
-    e['toggleSide'] = document.getElementById('toggleSide')
     e['toggleSide'].addEventListener('click', handleToggleSide)
+
+    const checkStatePalette = localStorage.getItem('statePalette')
+    const checkStateOrder = localStorage.getItem('stateOrder')
+    if (checkStatePalette) {
+        state.palette = parseInt(checkStatePalette, 10)
+    }
+    if (checkStateOrder) {
+        state.order = parseInt(checkStateOrder, 10)
+    }
+
     updateColors()
 }
 
