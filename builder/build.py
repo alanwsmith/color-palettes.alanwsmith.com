@@ -11,7 +11,7 @@ class Builder():
         self.project_root = os.path.dirname(os.path.dirname(__file__))
         self.source_root = f"{self.project_root}/builder/src"
         self.site_root = f"{self.project_root}/site"
-        self.color_data_path = f"{self.source_root}/color-data.json"
+        self.color_data_path = f"{self.source_root}/data.json"
         self.parts = {}
         self.palettes = {}
         self.palettes_list = []

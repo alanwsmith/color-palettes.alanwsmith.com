@@ -17,38 +17,27 @@ const permutator = (inputArr) => {
 
 const state = {
     palette: 0,
-    arrangement: 0,
+    order: 0,
 }
 
 const handleClick = (event) => {
     const checkPalette = event.target.dataset.palette
     const checkArrangement = event.target.dataset.arrangement
     if (checkPalette) {
-        // state.palette = parseInt(checkPalette, 10)
-        // const arrangement = localStorage.getItem(
-        //     `palette-${state.palette}-arrangement`
-        // )
-        // if (arrangement) {
-        //     state.arrangement = arrangement
-        // } else {
-        //     state.arrangement = 0
-        // }
-
-        state.arrangement = 0
+        state.palette = parseInt(checkPalette, 10)
+        updateOrder()
     } else if (checkArrangement) {
-        state.arrangement = parseInt(checkArrangement, 10)
+        state.order = parseInt(checkArrangement, 10)
     }
     updateColors()
 }
 
 const updateOrder = () => {
-    const arrangement = localStorage.getItem(
-        `palette-${state.palette}-arrangement`
-    )
-    if (arrangement) {
-        state.arrangement = parseInt(arrangement, 10)
+    const order = localStorage.getItem(`palette-${state.palette}-order`)
+    if (order) {
+        state.order = parseInt(order, 10)
     } else {
-        state.arrangement = 0
+        state.order = 0
     }
 }
 
@@ -71,14 +60,14 @@ const handleKeydown = (event) => {
         }
     } else if (theKey === 'arrowleft') {
         event.preventDefault()
-        if (state.arrangement > 0) {
-            state.arrangement -= 1
+        if (state.order > 0) {
+            state.order -= 1
             updateColors()
         }
     } else if (theKey === 'arrowright') {
         event.preventDefault()
-        if (state.arrangement < 23) {
-            state.arrangement += 1
+        if (state.order < 23) {
+            state.order += 1
             updateColors()
         }
     }
@@ -114,13 +103,13 @@ const updateColors = () => {
         rawColorSet[16],
         rawColorSet[13],
     ]
-    document.body.style.backgroundColor = colorSet[state.arrangement][0]
-    document.body.style.color = colorSet[state.arrangement][3]
+    document.body.style.backgroundColor = colorSet[state.order][0]
+    document.body.style.color = colorSet[state.order][3]
     document.querySelectorAll('h1').forEach((el) => {
-        el.style.color = colorSet[state.arrangement][1]
+        el.style.color = colorSet[state.order][1]
     })
     document.querySelectorAll('a').forEach((el) => {
-        el.style.color = colorSet[state.arrangement][2]
+        el.style.color = colorSet[state.order][2]
     })
     for (pi = 0; pi < colorSet.length; pi++) {
         for (si = 0; si < 4; si++) {
@@ -131,13 +120,24 @@ const updateColors = () => {
     }
     document.getElementById('color-id').innerText = `${
         palettes[state.palette].name
-    }-${state.arrangement}`
+    }-${state.order}`
 
+    // Switch on the actice order
+    document.querySelectorAll('.color-arrangement').forEach((el) => {
+        el.classList.remove('color-arrangement-active')
+        el.classList.add('color-arrangement-inactive')
+    })
+    const activeOrder = document.getElementById(
+        `color-arrangement-${state.order}`
+    )
+    activeOrder.classList.remove('color-arrangement-inactive')
+    activeOrder.classList.add('color-arrangement-active')
+
+    // Switch on the active palette
     document.querySelectorAll('.palette-wrapper').forEach((el) => {
         el.classList.remove('active-palette')
         el.classList.add('inactive-palette')
     })
-
     const activePalette = document.getElementById(
         `palette-wrapper-${state.palette}`
     )
@@ -145,10 +145,7 @@ const updateColors = () => {
     activePalette.classList.add('active-palette')
     activePalette.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
 
-    localStorage.setItem(
-        `palette-${state.palette}-arrangement`,
-        state.arrangement
-    )
+    localStorage.setItem(`palette-${state.palette}-order`, state.order)
 }
 
 const init = () => {
