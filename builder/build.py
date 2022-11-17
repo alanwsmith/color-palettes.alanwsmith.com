@@ -82,8 +82,8 @@ class Builder():
             9, 11, 6, 8, 10, 7,
             15, 17, 12, 14, 16, 13, 
         ]
-        # for i in range(0,24):
-        for i in order_hack:
+        for i in range(0,24):
+        # for i in order_hack:
             arrangement = [f'<div id="color-arrangement-{i}" class="color-arrangement color-arrangement-inactive">']
             arrangement.append(f'<button id="swatch--{i}--0" class="color-arrangement-swatch-0" data-arrangement="{i}">&nbsp;</button>')
             arrangement.append(f'<button id="swatch--{i}--3" class="color-arrangement-swatch-3" data-arrangement="{i}">&nbsp;</button>')

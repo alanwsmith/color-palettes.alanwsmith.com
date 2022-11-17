@@ -144,7 +144,35 @@ const handleKeyup = (event) => {
 
 const updateColors = () => {
     console.log('update colors')
-    const colorSet = permutator(palettes[state.palette].colors)
+    // Get the colors and put them in the display order
+    const rawColorSet = permutator(palettes[state.palette].colors)
+    const colorSet = [
+        rawColorSet[2],
+        rawColorSet[0],
+        rawColorSet[5],
+        rawColorSet[3],
+        rawColorSet[1],
+        rawColorSet[4],
+        rawColorSet[23],
+        rawColorSet[21],
+        rawColorSet[19],
+        rawColorSet[22],
+        rawColorSet[20],
+        rawColorSet[18],
+        rawColorSet[9],
+        rawColorSet[11],
+        rawColorSet[6],
+        rawColorSet[8],
+        rawColorSet[10],
+        rawColorSet[7],
+        rawColorSet[15],
+        rawColorSet[17],
+        rawColorSet[12],
+        rawColorSet[14],
+        rawColorSet[16],
+        rawColorSet[13],
+    ]
+
     document.body.style.backgroundColor = colorSet[state.arrangement][0]
     document.body.style.color = colorSet[state.arrangement][3]
     document.querySelectorAll('h1').forEach((el) => {
