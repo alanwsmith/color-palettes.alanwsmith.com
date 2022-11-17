@@ -175,21 +175,30 @@ const handleKeydown = (event) => {
 
 const updateColors = () => {
     const colors = p[state.palette].orders[state.order]
-    const bg = colors[0].hex
-    const body = colors[1].hex
-    const h = colors[2].hex
-    const a = colors[3].hex
+    const hex = [colors[0].hex, colors[1].hex, colors[2].hex, colors[3].hex]
+    if (state.textColors == 2) {
+        hex[3] = hex[2]
+    }
+    if (state.textColors == 1) {
+        hex[2] = hex[1]
+        hex[3] = hex[1]
+    }
 
-    document.body.style.backgroundColor = bg
-    document.body.style.color = body
+    // const bg = colors[0].hex
+    // const body = colors[1].hex
+    // let h = colors[2].hex
+    // let a = colors[3].hex
+
+    document.body.style.backgroundColor = hex[0]
+    document.body.style.color = hex[1]
     document.querySelectorAll('h1').forEach((el) => {
-        el.style.color = h
+        el.style.color = hex[2]
     })
     document.querySelectorAll('h2').forEach((el) => {
-        el.style.color = h
+        el.style.color = hex[2]
     })
     document.querySelectorAll('a').forEach((el) => {
-        el.style.color = a
+        el.style.color = hex[3]
     })
 
     for (pi = 1; pi <= 24; pi++) {
@@ -202,7 +211,7 @@ const updateColors = () => {
 
     e.currentPalette.innerText = p[state.palette].name
     e.currentOrder.innerText = state.order
-    const styleString = `body { background-color: ${bg}; color: ${body}; } h1, h2 { color: ${h}; } a { color: ${a}; }`
+    const styleString = `body { background-color: ${hex[0]}; color: ${hex[1]}; } h1, h2 { color: ${hex[2]}; } a { color: ${hex[3]}; }`
     e.currentStyles.innerText = styleString
 
     // Switch on the actice order
