@@ -35,19 +35,12 @@ class Builder():
                 colors = []
                 for i in range(0,4):
                     colors.append(
-
                         raw_palette['colors'][i]['hex']
-
-                        # f"""#{
-                        # raw_palette['colors'][i]['hex']['r']}{
-                        # raw_palette['colors'][i]['hex']['g']}{ 
-                        # raw_palette['colors'][i]['hex']['b']}"""
-
                     )
 
                 color_item = [
                     '<div class="palette-wrapper">',
-                    f'''<button style="background-color: {colors[0]}; color: {colors[3]}" id="palette-{raw_palette['name']}" class="palette-name" data-palette-index="{counter}">''', 
+                    f'''<button style="background-color: {colors[0]}; color: {colors[3]}" id="palette-{raw_palette['name']}" class="palette-name" data-palette="{counter}">''', 
                     raw_palette['name'],
                     '</button><br />'
                 ]
@@ -56,7 +49,7 @@ class Builder():
                 for i in order:
                     hex_string = raw_palette['colors'][i]['hex']
                     color_item.append(
-                        f'''<button class="color-swatch" style="background-color: {hex_string}" data-palette-index="{counter}">&nbsp;</button>'''
+                        f'''<button class="color-swatch" style="background-color: {hex_string}" data-palette="{counter}">&nbsp;</button>'''
                     )
 
                 self.palettes[raw_palette['name']] = colors 
@@ -67,7 +60,7 @@ class Builder():
                 counter += 1
 
         # print(self.palettes)
-        self.parts['JS_DATA'] = f"const paletts = {json.dumps(self.palettes_list)}"
+        self.parts['JS_DATA'] = f"const palettes = {json.dumps(self.palettes_list)}"
         self.parts['COLORS'] = "\n".join(color_list)
         print(self.parts['COLORS'])
 
@@ -91,16 +84,13 @@ class Builder():
         ]
         # for i in range(0,24):
         for i in order_hack:
-
-            arrangement = [f'<div id="color-arrangement-{i}" class="color-arrangement">']
-            arrangement.append(f'<button id="swatch--{i}--0" class="color-arrangement-swatch-0" data-color-arrangement="{i}">&nbsp;</button>')
-            arrangement.append(f'<button id="swatch--{i}--3" class="color-arrangement-swatch-3" data-color-arrangement="{i}">&nbsp;</button>')
-            arrangement.append(f'<button id="swatch--{i}--1" class="color-arrangement-swatch-1" data-color-arrangement="{i}">&nbsp;</button>')
-            arrangement.append(f'<button id="swatch--{i}--2" class="color-arrangement-swatch-2" data-color-arrangement="{i}">&nbsp;</button>')
+            arrangement = [f'<div id="color-arrangement-{i}" class="color-arrangement color-arrangement-inactive">']
+            arrangement.append(f'<button id="swatch--{i}--0" class="color-arrangement-swatch-0" data-arrangement="{i}">&nbsp;</button>')
+            arrangement.append(f'<button id="swatch--{i}--3" class="color-arrangement-swatch-3" data-arrangement="{i}">&nbsp;</button>')
+            arrangement.append(f'<button id="swatch--{i}--1" class="color-arrangement-swatch-1" data-arrangement="{i}">&nbsp;</button>')
+            arrangement.append(f'<button id="swatch--{i}--2" class="color-arrangement-swatch-2" data-arrangement="{i}">&nbsp;</button>')
             arrangement.append('</div>')
             arrangements.append("\n".join(arrangement))
-
-
         self.parts['ARRANGEMENTS'] = "\n".join(arrangements)
 
     def make_page(self, template_path, output_path, data):
