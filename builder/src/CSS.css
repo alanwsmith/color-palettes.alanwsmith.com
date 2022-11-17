@@ -4,6 +4,9 @@
   --arrangement-pad: 22px;
 }
 
+.active-palette {
+}
+
 #arrangements {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -102,7 +105,7 @@ button {
 
 #col-wrapper {
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: 160px 1fr;
   max-width: 1000px;
   margin-left: max(0px, calc(50vw - 450px - 130px));
   margin-top: 24px;
@@ -114,6 +117,10 @@ h1 {
 
 #headline-wrapper {
   margin-left: 18px;
+}
+
+.inactive-palette {
+  padding-left: 16px;
 }
 
 #main-headline {
