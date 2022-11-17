@@ -69,14 +69,6 @@ button {
   border: 1px solid #aaa;
 }
 
-.color-arrangement-swatch-1 {
-  margin-top: var(--swatch-top);
-  display: inline-block;
-  width: 30px;
-  height: 12px;
-  border: 1px solid #aaa;
-}
-
 .color-arrangement-swatch-2 {
   margin-top: var(--swatch-top);
   display: inline-block;
@@ -86,6 +78,14 @@ button {
 }
 
 .color-arrangement-swatch-3 {
+  margin-top: var(--swatch-top);
+  display: inline-block;
+  width: 30px;
+  height: 12px;
+  border: 1px solid #aaa;
+}
+
+.color-arrangement-swatch-1 {
   margin-top: var(--swatch-top);
   display: inline-block;
   width: 30px;

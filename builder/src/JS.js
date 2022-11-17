@@ -1,3 +1,33 @@
+// Holder for the state
+const state = {
+    palette: 1,
+    order: 1,
+    settings: true,
+    side: true,
+    top: true,
+    textColors: 3,
+}
+
+// Holder for the elements
+const e = {}
+
+// Holder for colors
+const c = [null]
+
+const loadColors = () => {
+    palettes.forEach((palette, index) => {
+        if (index > 0) {
+            const payload = {
+                name: palette.name,
+                colors: palette.colors,
+                lums: palette.lums,
+            }
+            c.push(payload)
+        }
+    })
+    console.log(c[3])
+}
+
 const permutator = (inputArr) => {
     let result = []
     const permute = (arr, m = []) => {
@@ -14,18 +44,6 @@ const permutator = (inputArr) => {
     permute(inputArr)
     return result
 }
-
-const state = {
-    palette: 1,
-    order: 1,
-    settings: true,
-    side: true,
-    top: true,
-    textColors: 3,
-}
-
-const e = {}
-
 const handleClick = (event) => {
     const checkPalette = event.target.dataset.palette
     const checkArrangement = event.target.dataset.arrangement
@@ -128,6 +146,7 @@ const updateColors = () => {
     // console.log(state)
     // Get the colors and put them in the display order
     const rawColorSet = permutator(palettes[state.palette].colors)
+    const rawLumsSet = permutator(palettes[state.palette].lums)
 
     const colorOrder = [
         0, 2, 4, 1, 3, 5, 23, 21, 19, 22, 20, 18, 7, 10, 6, 8, 11, 9, 14, 12,
@@ -135,12 +154,14 @@ const updateColors = () => {
     ]
 
     let colorSet = [null]
+    let lumsSet = [null]
 
     colorOrder.forEach((num) => {
         colorSet.push(rawColorSet[num])
+        lumsSet.push(rawLumsSet[num])
     })
 
-    console.log(colorSet)
+    // console.log(colorSet)
 
     // colorSet = [
     //     null,
@@ -172,10 +193,12 @@ const updateColors = () => {
 
     const colors = [
         colorSet[state.order][0],
-        colorSet[state.order][3],
         colorSet[state.order][1],
         colorSet[state.order][2],
+        colorSet[state.order][3],
     ]
+
+    const contrasts = [{ r1: 0 }, { r1: 2 }, { r1: 4 }]
 
     if (state.textColors == 2) {
         colors[3] = colorSet[state.order][1]
@@ -306,6 +329,7 @@ const handleSwitchTextColors = () => {
 }
 
 const init = () => {
+    loadColors()
     document.addEventListener('click', handleClick)
     document.addEventListener('keydown', handleKeydown)
 
@@ -321,6 +345,9 @@ const init = () => {
         'settingsBody',
         'designAlfaBody',
         'switchTextColors',
+        'bodyLums',
+        'headerLums',
+        'linkLums',
     ]
     els.forEach((name) => {
         e[name] = document.getElementById(name)

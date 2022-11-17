@@ -31,12 +31,13 @@ class Builder():
             counter = 1
             for raw_palette in raw_palettes:
                 colors = []
-                luminance = []
-                for i in range(0,4):
+                lums = []
+                order = [0, 3, 1, 2]
+                for i in order:
                     colors.append(
                         raw_palette['colors'][i]['hex']
                     )
-                    luminance.append(
+                    lums.append(
                         raw_palette['colors'][i]['hsl']['l']
                     )
 
@@ -47,7 +48,6 @@ class Builder():
                     '</button><br />'
                 ]
 
-                order = [0, 3, 1, 2]
                 for i in order:
                     hex_string = raw_palette['colors'][i]['hex']
                     color_item.append(
@@ -57,7 +57,8 @@ class Builder():
                 # self.palettes[raw_palette['name']] = colors 
                 self.palettes_list.append({ 
                     "name": raw_palette['name'], 
-                    "colors": colors 
+                    "colors": colors,
+                    "lums": lums
                 })
 
                 color_item.append('</div>')
@@ -92,9 +93,9 @@ class Builder():
             shift = i+1
             arrangement = [f'<div id="color-arrangement-{shift}" class="color-arrangement color-arrangement-inactive">']
             arrangement.append(f'<button id="swatch--{shift}--0" class="color-arrangement-swatch-0" data-arrangement="{shift}">&nbsp;</button>')
-            arrangement.append(f'<button id="swatch--{shift}--3" class="color-arrangement-swatch-3" data-arrangement="{shift}">&nbsp;</button>')
             arrangement.append(f'<button id="swatch--{shift}--1" class="color-arrangement-swatch-1" data-arrangement="{shift}">&nbsp;</button>')
             arrangement.append(f'<button id="swatch--{shift}--2" class="color-arrangement-swatch-2" data-arrangement="{shift}">&nbsp;</button>')
+            arrangement.append(f'<button id="swatch--{shift}--3" class="color-arrangement-swatch-3" data-arrangement="{shift}">&nbsp;</button>')
             arrangement.append('</div>')
             arrangements.append("\n".join(arrangement))
         self.parts['ARRANGEMENTS'] = "\n".join(arrangements)
