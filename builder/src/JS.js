@@ -18,9 +18,9 @@ const permutator = (inputArr) => {
 const state = {
     palette: 0,
     order: 0,
-    show: true,
-    els: {},
     readme: true,
+    side: true,
+    top: true,
 }
 
 const e = {}
@@ -161,10 +161,12 @@ const updateColors = () => {
         el.style.color = colors[3]
     })
 
-    e.showHide.style.backgroundColor = colors[0]
-    e.showHide.style.color = colors[3]
-    e.showReadme.style.backgroundColor = colors[0]
-    e.showReadme.style.color = colors[3]
+    e.toggleSide.style.backgroundColor = colors[0]
+    e.toggleSide.style.color = colors[3]
+    e.toggleTop.style.backgroundColor = colors[0]
+    e.toggleTop.style.color = colors[3]
+    e.toggleReadme.style.backgroundColor = colors[0]
+    e.toggleReadme.style.color = colors[3]
 
     // output the orded based swatches
     for (pi = 0; pi < colorSet.length; pi++) {
@@ -208,39 +210,47 @@ const updateColors = () => {
     localStorage.setItem(`palette-${state.palette}-order`, state.order)
 }
 
-const handleShowHide = () => {
-    state.show = state.show ? false : true
-    if (state.show) {
+const handleToggleTop = () => {
+    state.top = state.top ? false : true
+    if (state.top) {
         e.arrangements.classList.remove('fade-out')
         e.arrangements.classList.add('fade-in')
-        e.colorsCol.classList.remove('fade-out')
-        e.colorsCol.classList.add('fade-in')
-        e.showHide.innerText = 'hide palettes'
+        e.toggleTop.innerText = '✓top'
     } else {
         e.arrangements.classList.remove('fade-in')
         e.arrangements.classList.add('fade-out')
-        e.colorsCol.classList.remove('fade-in')
-        e.colorsCol.classList.add('fade-out')
-        e.showHide.innerText = 'show palettes'
+        e.toggleTop.innerText = '⦻top'
     }
-
-    console.log(state.show)
 }
 
-const handleShowReadme = () => {
-    state.readme = state.readme ? false : true
-    console.log(state.readme)
-
-    if (state.readme) {
-        document.querySelectorAll('.introText').forEach((el) => {
-            console.log(el)
-            el.classList.add('hideReadme')
-        })
+const handleToggleSide = () => {
+    state.side = state.side ? false : true
+    if (state.side) {
+        e.colorsCol.classList.remove('fade-out')
+        e.colorsCol.classList.add('fade-in')
+        e.toggleSide.innerText = '✓side'
     } else {
-        document.querySelectorAll('.introText').forEach((el) => {
-            el.classList.remove('hideReadme')
-        })
+        e.colorsCol.classList.remove('fade-in')
+        e.colorsCol.classList.add('fade-out')
+        e.toggleSide.innerText = '⦻side'
     }
+}
+
+const handleToggleReadme = () => {
+    state.readme = state.readme ? false : true
+
+    // if (!state.readme) {
+    //     e.showReadme.innerText = 'show readme'
+    //     document.querySelectorAll('.introText').forEach((el) => {
+    //         console.log(el)
+    //         el.classList.add('hideReadme')
+    //     })
+    // } else {
+    //     e.showReadme.innerText = 'hide readme'
+    //     document.querySelectorAll('.introText').forEach((el) => {
+    //         el.classList.remove('hideReadme')
+    //     })
+    // }
 }
 
 const init = () => {
@@ -251,10 +261,12 @@ const init = () => {
     e['currentOrder'] = document.getElementById('currentOrder')
     e['currentPalette'] = document.getElementById('currentPalette')
     e['currentStyles'] = document.getElementById('currentStyles')
-    e['showReadme'] = document.getElementById('showReadme')
-    e['showReadme'].addEventListener('click', handleShowReadme)
-    e['showHide'] = document.getElementById('showHide')
-    e['showHide'].addEventListener('click', handleShowHide)
+    e['toggleReadme'] = document.getElementById('toggleReadme')
+    e['toggleReadme'].addEventListener('click', handleToggleReadme)
+    e['toggleTop'] = document.getElementById('toggleTop')
+    e['toggleTop'].addEventListener('click', handleToggleTop)
+    e['toggleSide'] = document.getElementById('toggleSide')
+    e['toggleSide'].addEventListener('click', handleToggleSide)
     updateColors()
 }
 
