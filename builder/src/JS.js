@@ -143,7 +143,6 @@ const handleKeyup = (event) => {
 }
 
 const updateColors = () => {
-    console.log('update colors')
     // Get the colors and put them in the display order
     const rawColorSet = permutator(palettes[state.palette].colors)
     const colorSet = [
@@ -192,6 +191,10 @@ const updateColors = () => {
     document.getElementById('color-id').innerText = `${
         palettes[state.palette].name
     }-${state.arrangement}`
+
+    document
+        .getElementById(`palette-wrapper-${state.palette}`)
+        .scrollIntoView({ behavior: 'smooth', block: 'nearest' })
 }
 
 const init = () => {

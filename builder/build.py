@@ -39,7 +39,7 @@ class Builder():
                     )
 
                 color_item = [
-                    '<div class="palette-wrapper">',
+                    f'<div id="palette-wrapper-{counter}" class="palette-wrapper">',
                     f'''<button style="background-color: {colors[0]}; color: {colors[3]}" id="palette-{raw_palette['name']}" class="palette-name" data-palette="{counter}">''', 
                     raw_palette['name'],
                     '</button><br />'
