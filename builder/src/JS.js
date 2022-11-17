@@ -48,7 +48,10 @@ const loadPalettes = () => {
                     )
                 }
             }
-            const payload = { orders: orders }
+            const payload = {
+                name: palette.name,
+                orders: orders,
+            }
             p.push(payload)
         }
     })
@@ -172,19 +175,23 @@ const handleKeydown = (event) => {
 
 const updateColors = () => {
     const colors = p[state.palette].orders[state.order]
-    document.body.style.backgroundColor = colors[0].hex
-    document.body.style.color = colors[1].hex
+    const bg = colors[0].hex
+    const body = colors[1].hex
+    const h = colors[2].hex
+    const a = colors[3].hex
+
+    document.body.style.backgroundColor = bg
+    document.body.style.color = body
     document.querySelectorAll('h1').forEach((el) => {
-        el.style.color = colors[2].hex
+        el.style.color = h
     })
     document.querySelectorAll('h2').forEach((el) => {
-        el.style.color = colors[2].hex
+        el.style.color = h
     })
     document.querySelectorAll('a').forEach((el) => {
-        el.style.color = colors[3].hex
+        el.style.color = a
     })
 
-    // // output the orded based swatches
     for (pi = 1; pi <= 24; pi++) {
         for (si = 0; si <= 3; si++) {
             document.getElementById(
@@ -193,35 +200,58 @@ const updateColors = () => {
         }
     }
 
-    updateColors_old()
+    e.currentPalette.innerText = p[state.palette].name
+    e.currentOrder.innerText = state.order
+
+    const styleString = `body { background-color: ${bg}; color: ${body}; } h1, h2 { color: ${h}; } a { color: ${a}; }`
+    e.currentStyles.innerText = styleString
+
+    // Switch on the actice order
+    document.querySelectorAll('.color-arrangement').forEach((el) => {
+        el.classList.remove('color-arrangement-active')
+        el.classList.add('color-arrangement-inactive')
+    })
+    const activeOrder = document.getElementById(
+        `color-arrangement-${state.order}`
+    )
+    activeOrder.classList.remove('color-arrangement-inactive')
+    activeOrder.classList.add('color-arrangement-active')
+    // Switch on the active palette
+    document.querySelectorAll('.palette-wrapper').forEach((el) => {
+        el.classList.remove('active-palette')
+        el.classList.add('inactive-palette')
+    })
+    const activePalette = document.getElementById(
+        `palette-wrapper-${state.palette}`
+    )
+    activePalette.classList.remove('inactive-palette')
+    activePalette.classList.add('active-palette')
+    activePalette.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    localStorage.setItem(`statePalette`, state.palette)
+    localStorage.setItem(`stateOrder`, state.order)
+
+    // updateColors_old()
 }
 
 const updateColors_old = () => {
     const rawColorSet = permutator(palettes[state.palette].colors)
     const rawLumsSet = permutator(palettes[state.palette].lums)
-
     const colorOrder = [
         0, 2, 4, 1, 3, 5, 23, 21, 19, 22, 20, 18, 7, 10, 6, 8, 11, 9, 14, 12,
         17, 15, 13, 16,
     ]
-
     let colorSet = [null]
     let lumsSet = [null]
-
     colorOrder.forEach((num) => {
         colorSet.push(rawColorSet[num])
         lumsSet.push(rawLumsSet[num])
     })
-
     const colors = [
         colorSet[state.order][0],
         colorSet[state.order][1],
         colorSet[state.order][2],
         colorSet[state.order][3],
     ]
-
-    const contrasts = [{ r1: 0 }, { r1: 2 }, { r1: 4 }]
-
     if (state.textColors == 2) {
         colors[3] = colorSet[state.order][1]
     } else if (state.textColors == 1) {
@@ -240,14 +270,12 @@ const updateColors_old = () => {
     // document.querySelectorAll('a').forEach((el) => {
     //     el.style.color = colors[3]
     // })
-
     // e.toggleSide.style.backgroundColor = colors[0]
     // e.toggleSide.style.color = colors[3]
     // e.toggleTop.style.backgroundColor = colors[0]
     // e.toggleTop.style.color = colors[3]
     // e.toggleSettings.style.backgroundColor = colors[0]
     // e.toggleSettings.style.color = colors[3]
-
     // // output the orded based swatches
     // for (pi = 1; pi < colorSet.length; pi++) {
     //     for (si = 0; si < 4; si++) {
@@ -256,13 +284,10 @@ const updateColors_old = () => {
     //         ).style.backgroundColor = colorSet[pi][si]
     //     }
     // }
-
-    e.currentPalette.innerText = palettes[state.palette].name
-    e.currentOrder.innerText = state.order
-
-    const styleString = `body { background-color: ${colors[0]}; color: ${colors[1]}; } h1, h2 { color: ${colors[2]}; } a { color: ${colors[3]}; }`
-
-    e.currentStyles.innerText = styleString
+    // e.currentPalette.innerText = palettes[state.palette].name
+    // e.currentOrder.innerText = state.order
+    // const styleString = `body { background-color: ${colors[0]}; color: ${colors[1]}; } h1, h2 { color: ${colors[2]}; } a { color: ${colors[3]}; }`
+    // e.currentStyles.innerText = styleString
 
     // Switch on the actice order
     document.querySelectorAll('.color-arrangement').forEach((el) => {
@@ -274,7 +299,6 @@ const updateColors_old = () => {
     )
     activeOrder.classList.remove('color-arrangement-inactive')
     activeOrder.classList.add('color-arrangement-active')
-
     // Switch on the active palette
     document.querySelectorAll('.palette-wrapper').forEach((el) => {
         el.classList.remove('active-palette')
@@ -286,7 +310,6 @@ const updateColors_old = () => {
     activePalette.classList.remove('inactive-palette')
     activePalette.classList.add('active-palette')
     activePalette.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-
     localStorage.setItem(`statePalette`, state.palette)
     localStorage.setItem(`stateOrder`, state.order)
 }
