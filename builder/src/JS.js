@@ -20,6 +20,7 @@ const state = {
     order: 0,
     show: true,
     els: {},
+    readme: true,
 }
 
 const e = {}
@@ -143,14 +144,29 @@ const updateColors = () => {
         rawColorSet[16],
         rawColorSet[13],
     ]
-    document.body.style.backgroundColor = colorSet[state.order][0]
-    document.body.style.color = colorSet[state.order][3]
+
+    const colors = [
+        colorSet[state.order][0],
+        colorSet[state.order][3],
+        colorSet[state.order][1],
+        colorSet[state.order][2],
+    ]
+
+    document.body.style.backgroundColor = colors[0]
+    document.body.style.color = colors[1]
     document.querySelectorAll('h1').forEach((el) => {
-        el.style.color = colorSet[state.order][1]
+        el.style.color = colors[2]
     })
     document.querySelectorAll('a').forEach((el) => {
-        el.style.color = colorSet[state.order][2]
+        el.style.color = colors[3]
     })
+
+    e.showHide.style.backgroundColor = colors[0]
+    e.showHide.style.color = colors[3]
+    e.showReadme.style.backgroundColor = colors[0]
+    e.showReadme.style.color = colors[3]
+
+    // output the orded based swatches
     for (pi = 0; pi < colorSet.length; pi++) {
         for (si = 0; si < 4; si++) {
             document.getElementById(
@@ -158,9 +174,13 @@ const updateColors = () => {
             ).style.backgroundColor = colorSet[pi][si]
         }
     }
-    document.getElementById('color-id').innerText = `${
-        palettes[state.palette].name
-    }-${state.order}`
+
+    e.currentPalette.innerText = palettes[state.palette].name
+    e.currentOrder.innerText = state.order
+
+    const styleString = `body { background-color: ${colors[0]}; color: ${colors[1]}; } h1, h2 { color: ${colors[2]}; } a { color: ${colors[3]}; }`
+
+    e.currentStyles.innerText = styleString
 
     // Switch on the actice order
     document.querySelectorAll('.color-arrangement').forEach((el) => {
@@ -195,24 +215,47 @@ const handleShowHide = () => {
         e.arrangements.classList.add('fade-in')
         e.colorsCol.classList.remove('fade-out')
         e.colorsCol.classList.add('fade-in')
+        e.showHide.innerText = 'hide palettes'
     } else {
         e.arrangements.classList.remove('fade-in')
         e.arrangements.classList.add('fade-out')
         e.colorsCol.classList.remove('fade-in')
         e.colorsCol.classList.add('fade-out')
+        e.showHide.innerText = 'show palettes'
     }
 
     console.log(state.show)
 }
 
+const handleShowReadme = () => {
+    state.readme = state.readme ? false : true
+    console.log(state.readme)
+
+    if (state.readme) {
+        document.querySelectorAll('.introText').forEach((el) => {
+            console.log(el)
+            el.classList.add('hideReadme')
+        })
+    } else {
+        document.querySelectorAll('.introText').forEach((el) => {
+            el.classList.remove('hideReadme')
+        })
+    }
+}
+
 const init = () => {
     document.addEventListener('click', handleClick)
     document.addEventListener('keydown', handleKeydown)
-    updateColors()
-    state.els['showHide'] = document.getElementById('show-hide')
-    state.els['showHide'].addEventListener('click', handleShowHide)
     e['arrangements'] = document.getElementById('arrangements')
     e['colorsCol'] = document.getElementById('colors-col')
+    e['currentOrder'] = document.getElementById('currentOrder')
+    e['currentPalette'] = document.getElementById('currentPalette')
+    e['currentStyles'] = document.getElementById('currentStyles')
+    e['showReadme'] = document.getElementById('showReadme')
+    e['showReadme'].addEventListener('click', handleShowReadme)
+    e['showHide'] = document.getElementById('showHide')
+    e['showHide'].addEventListener('click', handleShowHide)
+    updateColors()
 }
 
 document.addEventListener('DOMContentLoaded', init)

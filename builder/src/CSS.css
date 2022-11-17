@@ -4,6 +4,10 @@
   --arrangement-pad: 22px;
 }
 
+a {
+  text-decoration: none;
+}
+
 .active-palette {
 }
 
@@ -22,11 +26,10 @@ body {
 }
 
 button {
-  font-size: 0.9rem;
   border: 0px;
   text-align: left;
   background-color: #444;
-  padding: 0px;
+  padding: 4px;
   cursor: pointer;
 }
 
@@ -120,12 +123,16 @@ h1 {
   margin-left: 18px;
 }
 
+.hideReadme {
+  display: none;
+}
+
 .inactive-palette {
   padding-left: 16px;
 }
 
 #main-headline {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .palette-name {
@@ -135,6 +142,8 @@ h1 {
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   border: 1px solid #ddd;
+  font-size: 0.9rem;
+  font-weight: bold;
 }
 
 p {
