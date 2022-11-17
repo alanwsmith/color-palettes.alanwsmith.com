@@ -41,9 +41,40 @@ const updateOrder = () => {
     }
 }
 
+const decreaseOrder = () => {
+    if (state.order == 0) {
+        state.order = 23
+    } else {
+        state.order -= 1
+    }
+}
+
+const decreasePalette = () => {
+    if (state.palette == 0) {
+        state.palette = palettes.length - 1
+    } else {
+        state.palette -= 1
+    }
+}
+
+const increaseOrder = () => {
+    if (state.order == 23) {
+        state.order = 0
+    } else {
+        state.order += 1
+    }
+}
+
+const increasePalette = () => {
+    if (state.palette == palettes.length - 1) {
+        state.palette = 0
+    } else {
+        state.palette += 1
+    }
+}
+
 const handleKeydown = (event) => {
     const theKey = event.key.toLowerCase()
-    // console.log(theKey)
     if (theKey === 'arrowdown') {
         event.preventDefault()
         if (state.palette < palettes.length - 2) {
@@ -60,16 +91,18 @@ const handleKeydown = (event) => {
         }
     } else if (theKey === 'arrowleft') {
         event.preventDefault()
-        if (state.order > 0) {
-            state.order -= 1
-            updateColors()
+        decreaseOrder()
+        if (state.order == 23) {
+            decreasePalette()
         }
+        updateColors()
     } else if (theKey === 'arrowright') {
         event.preventDefault()
-        if (state.order < 23) {
-            state.order += 1
-            updateColors()
+        increaseOrder()
+        if (state.order == 0) {
+            increasePalette()
         }
+        updateColors()
     }
 }
 
