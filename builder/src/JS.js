@@ -16,8 +16,8 @@ const permutator = (inputArr) => {
 }
 
 const state = {
-    palette: 0,
-    order: 0,
+    palette: 1,
+    order: 1,
     readme: true,
     side: true,
     top: true,
@@ -30,7 +30,7 @@ const handleClick = (event) => {
     const checkArrangement = event.target.dataset.arrangement
     if (checkPalette) {
         state.palette = parseInt(checkPalette, 10)
-        state.order = 0
+        state.order = 1
         // updateOrder()
     } else if (checkArrangement) {
         state.order = parseInt(checkArrangement, 10)
@@ -39,41 +39,43 @@ const handleClick = (event) => {
 }
 
 const updateOrder = () => {
-    const order = localStorage.getItem(`palette-${state.palette}-order`)
-    if (order) {
-        state.order = parseInt(order, 10)
-    } else {
-        state.order = 0
-    }
+    state.order = 1
+
+    // const order = localStorage.getItem(`palette-${state.palette}-order`)
+    // if (order) {
+    //     state.order = parseInt(order, 10)
+    // } else {
+    //     state.order = 0
+    // }
 }
 
 const decreaseOrder = () => {
-    if (state.order == 0) {
-        state.order = 23
+    if (state.order == 1) {
+        state.order = 24
     } else {
         state.order -= 1
     }
 }
 
 const decreasePalette = () => {
-    if (state.palette == 0) {
-        state.palette = palettes.length - 1
+    if (state.palette == 1) {
+        state.palette = palettes.length
     } else {
         state.palette -= 1
     }
 }
 
 const increaseOrder = () => {
-    if (state.order == 23) {
-        state.order = 0
+    if (state.order == 24) {
+        state.order = 1
     } else {
         state.order += 1
     }
 }
 
 const increasePalette = () => {
-    if (state.palette == palettes.length - 1) {
-        state.palette = 0
+    if (state.palette == palettes.length) {
+        state.palette = 1
     } else {
         state.palette += 1
     }
@@ -126,30 +128,34 @@ const updateColors = () => {
     // Get the colors and put them in the display order
     const rawColorSet = permutator(palettes[state.palette].colors)
     const colorSet = [
-        rawColorSet[2],
+        null,
         rawColorSet[0],
-        rawColorSet[5],
-        rawColorSet[3],
-        rawColorSet[1],
+        rawColorSet[2],
         rawColorSet[4],
+        rawColorSet[1],
+        rawColorSet[3],
+        rawColorSet[5],
+
         rawColorSet[23],
         rawColorSet[21],
         rawColorSet[19],
         rawColorSet[22],
         rawColorSet[20],
         rawColorSet[18],
-        rawColorSet[9],
-        rawColorSet[11],
+
+        rawColorSet[7],
+        rawColorSet[10],
         rawColorSet[6],
         rawColorSet[8],
-        rawColorSet[10],
-        rawColorSet[7],
-        rawColorSet[15],
-        rawColorSet[17],
-        rawColorSet[12],
+        rawColorSet[11],
+        rawColorSet[9],
+
         rawColorSet[14],
-        rawColorSet[16],
+        rawColorSet[12],
+        rawColorSet[17],
+        rawColorSet[15],
         rawColorSet[13],
+        rawColorSet[16],
     ]
 
     const colors = [
@@ -176,7 +182,7 @@ const updateColors = () => {
     e.toggleReadme.style.color = colors[3]
 
     // output the orded based swatches
-    for (pi = 0; pi < colorSet.length; pi++) {
+    for (pi = 1; pi < colorSet.length; pi++) {
         for (si = 0; si < 4; si++) {
             document.getElementById(
                 `swatch--${pi}--${si}`

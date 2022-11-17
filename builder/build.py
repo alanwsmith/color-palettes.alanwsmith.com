@@ -14,7 +14,7 @@ class Builder():
         self.color_data_path = f"{self.source_root}/data.json"
         self.parts = {}
         self.palettes = {}
-        self.palettes_list = []
+        self.palettes_list = [{'name': 'placeholder', 'colors': []}]
 
     def load_template(self):
         with open(f"{self.source_root}/TEMPLATE.html") as _template:
@@ -30,7 +30,7 @@ class Builder():
         with open(self.color_data_path) as _cd:
             json_in = json.load(_cd)
             raw_palettes = json_in['data']
-            counter = 0
+            counter = 1
             for raw_palette in raw_palettes:
                 colors = []
                 for i in range(0,4):
@@ -84,11 +84,12 @@ class Builder():
         ]
         for i in range(0,24):
         # for i in order_hack:
-            arrangement = [f'<div id="color-arrangement-{i}" class="color-arrangement color-arrangement-inactive">']
-            arrangement.append(f'<button id="swatch--{i}--0" class="color-arrangement-swatch-0" data-arrangement="{i}">&nbsp;</button>')
-            arrangement.append(f'<button id="swatch--{i}--3" class="color-arrangement-swatch-3" data-arrangement="{i}">&nbsp;</button>')
-            arrangement.append(f'<button id="swatch--{i}--1" class="color-arrangement-swatch-1" data-arrangement="{i}">&nbsp;</button>')
-            arrangement.append(f'<button id="swatch--{i}--2" class="color-arrangement-swatch-2" data-arrangement="{i}">&nbsp;</button>')
+            shift = i+1
+            arrangement = [f'<div id="color-arrangement-{shift}" class="color-arrangement color-arrangement-inactive">']
+            arrangement.append(f'<button id="swatch--{shift}--0" class="color-arrangement-swatch-0" data-arrangement="{shift}">&nbsp;</button>')
+            arrangement.append(f'<button id="swatch--{shift}--3" class="color-arrangement-swatch-3" data-arrangement="{shift}">&nbsp;</button>')
+            arrangement.append(f'<button id="swatch--{shift}--1" class="color-arrangement-swatch-1" data-arrangement="{shift}">&nbsp;</button>')
+            arrangement.append(f'<button id="swatch--{shift}--2" class="color-arrangement-swatch-2" data-arrangement="{shift}">&nbsp;</button>')
             arrangement.append('</div>')
             arrangements.append("\n".join(arrangement))
         self.parts['ARRANGEMENTS'] = "\n".join(arrangements)
