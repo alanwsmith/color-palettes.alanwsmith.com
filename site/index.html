@@ -285,27 +285,60 @@ const e = {}
 // Holder for colors
 const c = [null]
 
-const getRatios = (a, b) => {
-    const ratio = (a + 0.05) / (b + 0.05)
+const getRatio = (a, b) => {
+    const ratio = (b + 0.05) / (a + 0.05)
     return ratio.toFixed(2)
 }
 
 const loadColors = () => {
+    const colorOrder = [
+        0, 2, 4, 1, 3, 5, 23, 21, 19, 22, 20, 18, 7, 10, 6, 8, 11, 9, 14, 12,
+        17, 15, 13, 16,
+    ]
+
     palettes.forEach((palette, index) => {
         if (index > 0) {
-            const payload = {
-                name: palette.name,
-                colors: palette.colors,
-                lums: palette.lums,
-                ratios: [null],
+            const rawColors = [
+                { hex: palette.colors[0], lums: palette.lums[0] },
+                { hex: palette.colors[1], lums: palette.lums[1] },
+                { hex: palette.colors[2], lums: palette.lums[2] },
+                { hex: palette.colors[3], lums: palette.lums[3] },
+            ]
+            const perms = permutator(rawColors)
+            const orders = [null]
+            for (let i of colorOrder) {
+                // make it a string and pull it back out
+                // so it's no a reference
+                orders.push(JSON.parse(JSON.stringify(perms[i])))
             }
-            payload.ratios.push(getRatios(payload.lums[0], payload.lums[1]))
-            payload.ratios.push(getRatios(payload.lums[0], payload.lums[2]))
-            payload.ratios.push(getRatios(payload.lums[0], payload.lums[3]))
+
+            for (let o = 1; o < orders.length; o++) {
+                for (let x = 1; x <= 3; x++) {
+                    orders[o][x].ratio = getRatio(
+                        orders[o][0].lums,
+                        orders[o][x].lums
+                    )
+                }
+                //
+                // getRatios(orders[o][0].lums[0], payload.lums[1])
+            }
+
+            const payload = { orders: orders }
+
+            // name: palette.name,
+            // colors: palette.colors,
+            // lums: palette.lums,
+            // ratios: [null],
+            // perms: [null],
+            // }
+            // payload.ratios.push(getRatios(payload.lums[0], payload.lums[1]))
+            // payload.ratios.push(getRatios(payload.lums[0], payload.lums[2]))
+            // payload.ratios.push(getRatios(payload.lums[0], payload.lums[3]))
+
             c.push(payload)
         }
     })
-    console.log(c[3])
+    console.log(c[1])
 }
 
 const permutator = (inputArr) => {
