@@ -14,6 +14,11 @@ const e = {}
 // Holder for colors
 const c = [null]
 
+const getRatios = (a, b) => {
+    const ratio = (a + 0.05) / (b + 0.05)
+    return ratio.toFixed(2)
+}
+
 const loadColors = () => {
     palettes.forEach((palette, index) => {
         if (index > 0) {
@@ -21,7 +26,11 @@ const loadColors = () => {
                 name: palette.name,
                 colors: palette.colors,
                 lums: palette.lums,
+                ratios: [null],
             }
+            payload.ratios.push(getRatios(payload.lums[0], payload.lums[1]))
+            payload.ratios.push(getRatios(payload.lums[0], payload.lums[2]))
+            payload.ratios.push(getRatios(payload.lums[0], payload.lums[3]))
             c.push(payload)
         }
     })
