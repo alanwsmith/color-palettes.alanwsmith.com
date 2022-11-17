@@ -140,6 +140,10 @@ h2 {
   margin-top: 1rem;
 }
 
+.navButton {
+  padding: 0px 3px;
+}
+
 .palette-name {
   cursor: pointer;
   width: 140px;

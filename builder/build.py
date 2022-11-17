@@ -21,8 +21,6 @@ class Builder():
             self.template = _template.read()
 
     def build_content(self):
-        # Make dynamic content here
-        # self.parts['CONTENT'] = "the quick brown fox"
         pass
 
     def load_color_data(self):
@@ -38,6 +36,11 @@ class Builder():
                         raw_palette['colors'][i]['hex']
                     )
 
+                # append luminance for contrast checking
+                #colors.append(
+                    # raw_palette['colors'][i]['hsl']['l']
+                # )
+
                 color_item = [
                     f'<div id="palette-wrapper-{counter}" class="palette-wrapper inactive-palette">',
                     f'''<button style="background-color: {colors[0]}; color: {colors[3]}" id="palette-{raw_palette['name']}" class="palette-name" data-palette="{counter}">''', 
@@ -52,8 +55,11 @@ class Builder():
                         f'''<button class="color-swatch" style="background-color: {hex_string}" data-palette="{counter}">&nbsp;</button>'''
                     )
 
-                self.palettes[raw_palette['name']] = colors 
-                self.palettes_list.append({"name": raw_palette['name'], "colors": colors })
+                # self.palettes[raw_palette['name']] = colors 
+                self.palettes_list.append({ 
+                    "name": raw_palette['name'], 
+                    "colors": colors 
+                })
 
                 color_item.append('</div>')
                 color_list.append("".join(color_item))

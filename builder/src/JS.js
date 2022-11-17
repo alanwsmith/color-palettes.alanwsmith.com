@@ -21,6 +21,7 @@ const state = {
     settings: true,
     side: true,
     top: true,
+    textColors: 3,
 }
 
 const e = {}
@@ -31,22 +32,10 @@ const handleClick = (event) => {
     if (checkPalette) {
         state.palette = parseInt(checkPalette, 10)
         state.order = 1
-        // updateOrder()
     } else if (checkArrangement) {
         state.order = parseInt(checkArrangement, 10)
     }
     updateColors()
-}
-
-const updateOrder = () => {
-    state.order = 1
-
-    // const order = localStorage.getItem(`palette-${state.palette}-order`)
-    // if (order) {
-    //     state.order = parseInt(order, 10)
-    // } else {
-    //     state.order = 0
-    // }
 }
 
 const decreaseOrder = () => {
@@ -176,6 +165,12 @@ const updateColors = () => {
         colorSet[state.order][1],
         colorSet[state.order][2],
     ]
+    if (state.textColors == 2) {
+        colors[3] = colorSet[state.order][1]
+    } else if (state.textColors == 1) {
+        colors[2] = colorSet[state.order][3]
+        colors[3] = colorSet[state.order][3]
+    }
 
     document.body.style.backgroundColor = colors[0]
     document.body.style.color = colors[1]
@@ -289,6 +284,15 @@ const handleToggleSettings = () => {
     }
 }
 
+const handleSwitchTextColors = () => {
+    if (state.textColors == 1) {
+        state.textColors = 3
+    } else {
+        state.textColors -= 1
+    }
+    updateColors()
+}
+
 const init = () => {
     document.addEventListener('click', handleClick)
     document.addEventListener('keydown', handleKeydown)
@@ -304,6 +308,7 @@ const init = () => {
         'toggleTop',
         'settingsBody',
         'designAlfaBody',
+        'switchTextColors',
     ]
     els.forEach((name) => {
         e[name] = document.getElementById(name)
@@ -312,6 +317,7 @@ const init = () => {
     e['toggleSettings'].addEventListener('click', handleToggleSettings)
     e['toggleTop'].addEventListener('click', handleToggleTop)
     e['toggleSide'].addEventListener('click', handleToggleSide)
+    e['switchTextColors'].addEventListener('click', handleSwitchTextColors)
 
     const checkStatePalette = localStorage.getItem('statePalette')
     const checkStateOrder = localStorage.getItem('stateOrder')
