@@ -69,10 +69,10 @@ const loadPalettes = () => {
     palettes.forEach((palette, index) => {
         if (index > 0) {
             const rawColors = [
-                { hex: palette.colors[0], lums: palette.lums[0] },
-                { hex: palette.colors[1], lums: palette.lums[1] },
-                { hex: palette.colors[2], lums: palette.lums[2] },
-                { hex: palette.colors[3], lums: palette.lums[3] },
+                { hex: palette.colors[0] },
+                { hex: palette.colors[1] },
+                { hex: palette.colors[2] },
+                { hex: palette.colors[3] },
             ]
             const perms = permutator(rawColors)
             const orders = [null]
@@ -87,6 +87,12 @@ const loadPalettes = () => {
                         orders[o][0].hex,
                         orders[o][x].hex
                     )
+                    orders[o][x].pass_l1 =
+                        parseFloat(orders[o][x].ratio) > 3 ? true : false
+                    orders[o][x].pass_l2 =
+                        parseFloat(orders[o][x].ratio) > 4.5 ? true : false
+                    orders[o][x].pass_l3 =
+                        parseFloat(orders[o][x].ratio) > 7 ? true : false
                 }
             }
             const payload = {
@@ -96,6 +102,7 @@ const loadPalettes = () => {
             p.push(payload)
         }
     })
+    console.log(p[3])
 }
 
 const permutator = (inputArr) => {
@@ -251,19 +258,19 @@ const updateColors = () => {
     e.currentOrder.innerText = state.order
     const styleString = `body { background-color: ${hex[0]}; color: ${hex[1]}; } h1, h2 { color: ${hex[2]}; } a { color: ${hex[3]}; }`
     e.currentStyles.innerHTML = styleString
-    e.bodyLums.innerHTML = `${ratios[1]}`
-    e.headerLums.innerHTML = `${ratios[2]}`
-    e.headerRatio.innerHTML = `${ratios[2]}`
-    e.linkLums.innerHTML = `${ratios[3]}`
-    e.headerRatioL1.innerHTML = `✓`
-    e.headerRatioL2.innerHTML = `✓`
-    e.headerRatioL3.innerHTML = `✓`
-    e.bodyRatioL1.innerHTML = `✓`
-    e.bodyRatioL2.innerHTML = `ⓧ`
-    e.bodyRatioL3.innerHTML = `ⓧ`
-    e.linkRatioL1.innerHTML = `✓`
-    e.linkRatioL2.innerHTML = `✓`
-    e.linkRatioL3.innerHTML = `ⓧ`
+    e.bodyLums.innerHTML = `${ratios[3]}`
+    e.headerLums.innerHTML = `${ratios[1]}`
+    e.headerRatio.innerHTML = `${ratios[1]}`
+    e.linkLums.innerHTML = `${ratios[2]}`
+    e.headerRatioL1.innerHTML = colors[1].pass_l1 ? `✓` : `ⓧ`
+    e.headerRatioL2.innerHTML = colors[1].pass_l2 ? `✓` : `ⓧ`
+    e.headerRatioL3.innerHTML = colors[1].pass_l3 ? `✓` : `ⓧ`
+    e.bodyRatioL1.innerHTML = colors[3].pass_l1 ? `✓` : `ⓧ`
+    e.bodyRatioL2.innerHTML = colors[3].pass_l2 ? `✓` : `ⓧ`
+    e.bodyRatioL3.innerHTML = colors[3].pass_l3 ? `✓` : `ⓧ`
+    e.linkRatioL1.innerHTML = colors[2].pass_l1 ? `✓` : `ⓧ`
+    e.linkRatioL2.innerHTML = colors[2].pass_l2 ? `✓` : `ⓧ`
+    e.linkRatioL3.innerHTML = colors[2].pass_l3 ? `✓` : `ⓧ`
 
     for (pi = 1; pi <= 24; pi++) {
         for (si = 0; si <= 3; si++) {

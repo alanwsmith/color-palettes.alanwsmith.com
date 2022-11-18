@@ -158,6 +158,10 @@ h2 {
   margin-top: 1rem;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 .palette-name {
   cursor: pointer;
   width: 140px;
@@ -183,6 +187,11 @@ p {
 
 #text-col {
   padding-left: var(--content-left-pad);
+}
+
+th {
+  font-weight: normal;
+  white-space: nowrap;
 }
 
 .fade-out {
