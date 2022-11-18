@@ -14,9 +14,50 @@ const e = {}
 // Holder for full palette set
 const p = [null]
 
-// Need to check this math
+const prepColor = (hex) => {
+    payload = {
+        hex: hex,
+        hex_r: hex.substr(1, 2),
+        hex_g: hex.substr(3, 2),
+        hex_b: hex.substr(5, 2),
+    }
+    payload.rgb_r = parseInt(payload.hex_r, 16)
+    payload.rgb_g = parseInt(payload.hex_g, 16)
+    payload.rgb_b = parseInt(payload.hex_b, 16)
+
+    payload.tmp_r = payload.rgb_r / 255
+    payload.tmp_g = payload.rgb_g / 255
+    payload.tmp_b = payload.rgb_b / 255
+
+    payload.srgb_r =
+        payload.tmp_r <= 0.03928
+            ? payload.tmp_r / 12.92
+            : Math.pow((payload.tmp_r + 0.055) / 1.055, 2.4)
+
+    payload.srgb_g =
+        payload.tmp_g <= 0.03928
+            ? payload.tmp_g / 12.92
+            : Math.pow((payload.tmp_g + 0.055) / 1.055, 2.4)
+
+    payload.srgb_b =
+        payload.tmp_b <= 0.03928
+            ? payload.tmp_b / 12.92
+            : Math.pow((payload.tmp_b + 0.055) / 1.055, 2.4)
+
+    payload.lum_r = 0.2126 * payload.srgb_r
+    payload.lum_g = 0.7152 * payload.srgb_g
+    payload.lum_b = 0.0722 * payload.srgb_b
+
+    payload.lum = payload.lum_r + payload.lum_g + payload.lum_b
+
+    return payload
+}
+
 const getRatio = (a, b) => {
-    const ratio = (b + 0.05) / (a + 0.05)
+    const c1 = prepColor(a)
+    const c2 = prepColor(b)
+    const ratio =
+        (Math.max(c1.lum, c2.lum) + 0.05) / (Math.min(c1.lum, c2.lum) + 0.05)
     return ratio.toFixed(2)
 }
 
@@ -43,8 +84,8 @@ const loadPalettes = () => {
             for (let o = 1; o < orders.length; o++) {
                 for (let x = 1; x <= 3; x++) {
                     orders[o][x].ratio = getRatio(
-                        orders[o][0].lums,
-                        orders[o][x].lums
+                        orders[o][0].hex,
+                        orders[o][x].hex
                     )
                 }
             }
@@ -55,7 +96,6 @@ const loadPalettes = () => {
             p.push(payload)
         }
     })
-    // console.log(p[1])
 }
 
 const permutator = (inputArr) => {
@@ -84,6 +124,7 @@ const handleClick = (event) => {
     } else if (checkArrangement) {
         state.order = parseInt(checkArrangement, 10)
     }
+    state.textColors = 3
     updateColors()
 }
 
@@ -132,6 +173,7 @@ const handleKeydown = (event) => {
         handleToggleSideAndTop()
     } else if (theKey === 'arrowup') {
         event.preventDefault()
+        state.textColors = 3
         if (19 <= state.order && state.order <= 24) {
             state.order = 13
         } else if (13 <= state.order && state.order <= 18) {
@@ -145,6 +187,7 @@ const handleKeydown = (event) => {
         updateColors()
     } else if (theKey === 'arrowdown') {
         event.preventDefault()
+        state.textColors = 3
         if (1 <= state.order && state.order <= 6) {
             state.order = 7
         } else if (7 <= state.order && state.order <= 12) {
@@ -158,6 +201,7 @@ const handleKeydown = (event) => {
         updateColors()
     } else if (theKey === 'arrowleft') {
         event.preventDefault()
+        state.textColors = 3
         decreaseOrder()
         if (state.order == 24) {
             decreasePalette()
@@ -165,6 +209,7 @@ const handleKeydown = (event) => {
         updateColors()
     } else if (theKey === 'arrowright') {
         event.preventDefault()
+        state.textColors = 3
         increaseOrder()
         if (state.order == 1) {
             increasePalette()
@@ -176,18 +221,17 @@ const handleKeydown = (event) => {
 const updateColors = () => {
     const colors = p[state.palette].orders[state.order]
     const hex = [colors[0].hex, colors[1].hex, colors[2].hex, colors[3].hex]
+    const ratios = [null, colors[1].ratio, colors[2].ratio, colors[3].ratio]
     if (state.textColors == 2) {
         hex[3] = hex[2]
+        ratios[3] = ratios[2]
     }
     if (state.textColors == 1) {
         hex[2] = hex[1]
         hex[3] = hex[1]
+        ratios[2] = ratios[1]
+        ratios[3] = ratios[1]
     }
-
-    // const bg = colors[0].hex
-    // const body = colors[1].hex
-    // let h = colors[2].hex
-    // let a = colors[3].hex
 
     document.body.style.backgroundColor = hex[0]
     document.body.style.color = hex[1]
@@ -201,6 +245,14 @@ const updateColors = () => {
         el.style.color = hex[3]
     })
 
+    e.currentPalette.innerText = p[state.palette].name
+    e.currentOrder.innerText = state.order
+    const styleString = `body { background-color: ${hex[0]}; color: ${hex[1]}; } h1, h2 { color: ${hex[2]}; } a { color: ${hex[3]}; }`
+    e.currentStyles.innerText = styleString
+    e.bodyLums.innerText = ratios[1]
+    e.headerLums.innerText = ratios[2]
+    e.linkLums.innerText = ratios[3]
+
     for (pi = 1; pi <= 24; pi++) {
         for (si = 0; si <= 3; si++) {
             document.getElementById(
@@ -208,11 +260,6 @@ const updateColors = () => {
             ).style.backgroundColor = p[state.palette].orders[pi][si].hex
         }
     }
-
-    e.currentPalette.innerText = p[state.palette].name
-    e.currentOrder.innerText = state.order
-    const styleString = `body { background-color: ${hex[0]}; color: ${hex[1]}; } h1, h2 { color: ${hex[2]}; } a { color: ${hex[3]}; }`
-    e.currentStyles.innerText = styleString
 
     // Switch on the actice order
     document.querySelectorAll('.color-arrangement').forEach((el) => {
