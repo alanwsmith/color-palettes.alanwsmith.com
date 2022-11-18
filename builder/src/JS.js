@@ -87,12 +87,21 @@ const loadPalettes = () => {
                         orders[o][0].hex,
                         orders[o][x].hex
                     )
-                    orders[o][x].pass_l1 =
-                        parseFloat(orders[o][x].ratio) > 3 ? true : false
-                    orders[o][x].pass_l2 =
-                        parseFloat(orders[o][x].ratio) > 4.5 ? true : false
-                    orders[o][x].pass_l3 =
-                        parseFloat(orders[o][x].ratio) > 7 ? true : false
+                    orders[o][x].l1_delta = parseFloat(orders[o][x].ratio) - 3
+                    orders[o][x].l2_delta = parseFloat(orders[o][x].ratio) - 4.5
+                    orders[o][x].l3_delta = parseFloat(orders[o][x].ratio) - 7
+                    orders[o][x].l1_pass =
+                        orders[o][x].l1_delta < 0 ? false : true
+                    orders[o][x].l2_pass =
+                        orders[o][x].l2_delta < 0 ? false : true
+                    orders[o][x].l3_pass =
+                        orders[o][x].l3_delta < 0 ? false : true
+                    // do this now to convert to string for output. it's a
+                    // little odd for the order since this hits things three
+                    // times but it's fine
+                    orders[o][x].l1_delta = orders[o][x].l1_delta.toFixed(2)
+                    orders[o][x].l2_delta = orders[o][x].l2_delta.toFixed(2)
+                    orders[o][x].l3_delta = orders[o][x].l3_delta.toFixed(2)
                 }
             }
             const payload = {
@@ -254,23 +263,33 @@ const updateColors = () => {
         el.style.color = hex[2]
     })
 
-    e.currentPalette.innerText = p[state.palette].name
-    e.currentOrder.innerText = state.order
+    e.currentPaletteName.innerText = p[state.palette].name
+    e.currentPaletteIndex.innerText = state.palette
+    e.currentOrderIndex.innerText = state.order
     const styleString = `body { background-color: ${hex[0]}; color: ${hex[1]}; } h1, h2 { color: ${hex[2]}; } a { color: ${hex[3]}; }`
     e.currentStyles.innerHTML = styleString
     e.bodyLums.innerHTML = `${ratios[3]}`
     e.headerLums.innerHTML = `${ratios[1]}`
-    e.headerRatio.innerHTML = `${ratios[1]}`
     e.linkLums.innerHTML = `${ratios[2]}`
-    e.headerRatioL1.innerHTML = colors[1].pass_l1 ? `✓` : `ⓧ`
-    e.headerRatioL2.innerHTML = colors[1].pass_l2 ? `✓` : `ⓧ`
-    e.headerRatioL3.innerHTML = colors[1].pass_l3 ? `✓` : `ⓧ`
-    e.bodyRatioL1.innerHTML = colors[3].pass_l1 ? `✓` : `ⓧ`
-    e.bodyRatioL2.innerHTML = colors[3].pass_l2 ? `✓` : `ⓧ`
-    e.bodyRatioL3.innerHTML = colors[3].pass_l3 ? `✓` : `ⓧ`
-    e.linkRatioL1.innerHTML = colors[2].pass_l1 ? `✓` : `ⓧ`
-    e.linkRatioL2.innerHTML = colors[2].pass_l2 ? `✓` : `ⓧ`
-    e.linkRatioL3.innerHTML = colors[2].pass_l3 ? `✓` : `ⓧ`
+    e.headerRatioL1.innerHTML = colors[1].l1_pass ? `✓` : `ⓧ`
+    e.headerRatioL2.innerHTML = colors[1].l2_pass ? `✓` : `ⓧ`
+    e.headerRatioL3.innerHTML = colors[1].l3_pass ? `✓` : `ⓧ`
+    e.bodyRatioL1.innerHTML = colors[3].l1_pass ? `✓` : `ⓧ`
+    e.bodyRatioL2.innerHTML = colors[3].l2_pass ? `✓` : `ⓧ`
+    e.bodyRatioL3.innerHTML = colors[3].l3_pass ? `✓` : `ⓧ`
+    e.linkRatioL1.innerHTML = colors[2].l1_pass ? `✓` : `ⓧ`
+    e.linkRatioL2.innerHTML = colors[2].l2_pass ? `✓` : `ⓧ`
+    e.linkRatioL3.innerHTML = colors[2].l3_pass ? `✓` : `ⓧ`
+
+    e.headerRatioD1.innerHTML = colors[1].l1_pass ? `` : colors[1].l1_delta
+    e.headerRatioD2.innerHTML = colors[1].l2_pass ? `` : colors[1].l2_delta
+    e.headerRatioD3.innerHTML = colors[1].l3_pass ? `` : colors[1].l3_delta
+    e.bodyRatioD1.innerHTML = colors[3].l1_pass ? `` : colors[3].l1_delta
+    e.bodyRatioD2.innerHTML = colors[3].l2_pass ? `` : colors[3].l2_delta
+    e.bodyRatioD3.innerHTML = colors[3].l3_pass ? `` : colors[3].l3_delta
+    e.linkRatioD1.innerHTML = colors[2].l1_pass ? `` : colors[2].l1_delta
+    e.linkRatioD2.innerHTML = colors[2].l2_pass ? `` : colors[2].l2_delta
+    e.linkRatioD3.innerHTML = colors[2].l3_pass ? `` : colors[2].l3_delta
 
     for (pi = 1; pi <= 24; pi++) {
         for (si = 0; si <= 3; si++) {
@@ -371,8 +390,9 @@ const init = () => {
     const els = [
         'arrangements',
         'colorsCol',
-        'currentOrder',
-        'currentPalette',
+        'currentOrderIndex',
+        'currentPaletteIndex',
+        'currentPaletteName',
         'currentStyles',
         'toggleSettings',
         // 'toggleSide',
@@ -382,7 +402,6 @@ const init = () => {
         'switchTextColors',
         'bodyLums',
         'headerLums',
-        'headerRatio',
         'linkLums',
         'headerRatioL1',
         'headerRatioL2',
@@ -393,6 +412,15 @@ const init = () => {
         'linkRatioL1',
         'linkRatioL2',
         'linkRatioL3',
+        'headerRatioD1',
+        'headerRatioD2',
+        'headerRatioD3',
+        'bodyRatioD1',
+        'bodyRatioD2',
+        'bodyRatioD3',
+        'linkRatioD1',
+        'linkRatioD2',
+        'linkRatioD3',
     ]
     els.forEach((name) => {
         e[name] = document.getElementById(name)
