@@ -263,6 +263,13 @@ const updateColors = () => {
         el.style.color = hex[2]
     })
 
+    document.querySelectorAll('.reportHeaderTextCell').forEach((el) => {
+        el.style.color = hex[1]
+    })
+    document.querySelectorAll('.reportLinkTextCell').forEach((el) => {
+        el.style.color = hex[2]
+    })
+
     e.currentPaletteName.innerText = p[state.palette].name
     e.currentPaletteIndex.innerText = state.palette
     e.currentOrderIndex.innerText = state.order
@@ -281,15 +288,15 @@ const updateColors = () => {
     e.linkRatioL2.innerHTML = colors[2].l2_pass ? `✓` : `ⓧ`
     e.linkRatioL3.innerHTML = colors[2].l3_pass ? `✓` : `ⓧ`
 
-    e.headerRatioD1.innerHTML = colors[1].l1_pass ? `` : colors[1].l1_delta
-    e.headerRatioD2.innerHTML = colors[1].l2_pass ? `` : colors[1].l2_delta
-    e.headerRatioD3.innerHTML = colors[1].l3_pass ? `` : colors[1].l3_delta
-    e.bodyRatioD1.innerHTML = colors[3].l1_pass ? `` : colors[3].l1_delta
-    e.bodyRatioD2.innerHTML = colors[3].l2_pass ? `` : colors[3].l2_delta
-    e.bodyRatioD3.innerHTML = colors[3].l3_pass ? `` : colors[3].l3_delta
-    e.linkRatioD1.innerHTML = colors[2].l1_pass ? `` : colors[2].l1_delta
-    e.linkRatioD2.innerHTML = colors[2].l2_pass ? `` : colors[2].l2_delta
-    e.linkRatioD3.innerHTML = colors[2].l3_pass ? `` : colors[2].l3_delta
+    e.headerRatioD1.innerHTML = colors[1].l1_pass ? `✓` : colors[1].l1_delta
+    e.headerRatioD2.innerHTML = colors[1].l2_pass ? `✓` : colors[1].l2_delta
+    e.headerRatioD3.innerHTML = colors[1].l3_pass ? `✓` : colors[1].l3_delta
+    e.bodyRatioD1.innerHTML = colors[3].l1_pass ? `✓` : colors[3].l1_delta
+    e.bodyRatioD2.innerHTML = colors[3].l2_pass ? `✓` : colors[3].l2_delta
+    e.bodyRatioD3.innerHTML = colors[3].l3_pass ? `✓` : colors[3].l3_delta
+    e.linkRatioD1.innerHTML = colors[2].l1_pass ? `✓` : colors[2].l1_delta
+    e.linkRatioD2.innerHTML = colors[2].l2_pass ? `✓` : colors[2].l2_delta
+    e.linkRatioD3.innerHTML = colors[2].l3_pass ? `✓` : colors[2].l3_delta
 
     for (pi = 1; pi <= 24; pi++) {
         for (si = 0; si <= 3; si++) {

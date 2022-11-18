@@ -36,6 +36,10 @@ button {
   cursor: pointer;
 }
 
+.center {
+  text-align: center;
+}
+
 .color-arrangement {
   display: grid;
   grid-template-rows: 2fr 1.3fr 1.3fr 1.3fr;

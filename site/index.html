@@ -108,6 +108,10 @@ button {
   cursor: pointer;
 }
 
+.center {
+  text-align: center;
+}
+
 .color-arrangement {
   display: grid;
   grid-template-rows: 2fr 1.3fr 1.3fr 1.3fr;
@@ -561,6 +565,13 @@ const updateColors = () => {
         el.style.color = hex[2]
     })
 
+    document.querySelectorAll('.reportHeaderTextCell').forEach((el) => {
+        el.style.color = hex[1]
+    })
+    document.querySelectorAll('.reportLinkTextCell').forEach((el) => {
+        el.style.color = hex[2]
+    })
+
     e.currentPaletteName.innerText = p[state.palette].name
     e.currentPaletteIndex.innerText = state.palette
     e.currentOrderIndex.innerText = state.order
@@ -579,15 +590,15 @@ const updateColors = () => {
     e.linkRatioL2.innerHTML = colors[2].l2_pass ? `✓` : `ⓧ`
     e.linkRatioL3.innerHTML = colors[2].l3_pass ? `✓` : `ⓧ`
 
-    e.headerRatioD1.innerHTML = colors[1].l1_pass ? `` : colors[1].l1_delta
-    e.headerRatioD2.innerHTML = colors[1].l2_pass ? `` : colors[1].l2_delta
-    e.headerRatioD3.innerHTML = colors[1].l3_pass ? `` : colors[1].l3_delta
-    e.bodyRatioD1.innerHTML = colors[3].l1_pass ? `` : colors[3].l1_delta
-    e.bodyRatioD2.innerHTML = colors[3].l2_pass ? `` : colors[3].l2_delta
-    e.bodyRatioD3.innerHTML = colors[3].l3_pass ? `` : colors[3].l3_delta
-    e.linkRatioD1.innerHTML = colors[2].l1_pass ? `` : colors[2].l1_delta
-    e.linkRatioD2.innerHTML = colors[2].l2_pass ? `` : colors[2].l2_delta
-    e.linkRatioD3.innerHTML = colors[2].l3_pass ? `` : colors[2].l3_delta
+    e.headerRatioD1.innerHTML = colors[1].l1_pass ? `✓` : colors[1].l1_delta
+    e.headerRatioD2.innerHTML = colors[1].l2_pass ? `✓` : colors[1].l2_delta
+    e.headerRatioD3.innerHTML = colors[1].l3_pass ? `✓` : colors[1].l3_delta
+    e.bodyRatioD1.innerHTML = colors[3].l1_pass ? `✓` : colors[3].l1_delta
+    e.bodyRatioD2.innerHTML = colors[3].l2_pass ? `✓` : colors[3].l2_delta
+    e.bodyRatioD3.innerHTML = colors[3].l3_pass ? `✓` : colors[3].l3_delta
+    e.linkRatioD1.innerHTML = colors[2].l1_pass ? `✓` : colors[2].l1_delta
+    e.linkRatioD2.innerHTML = colors[2].l2_pass ? `✓` : colors[2].l2_delta
+    e.linkRatioD3.innerHTML = colors[2].l3_pass ? `✓` : colors[2].l3_delta
 
     for (pi = 1; pi <= 24; pi++) {
         for (si = 0; si <= 3; si++) {
@@ -2441,35 +2452,35 @@ document.addEventListener('DOMContentLoaded', init)
     </thead>
     <tbody>
       <tr>
-        <td class="nowrap">Header Text Color:</td>
-        <td id="headerLums"></td>
-        <td id="headerRatioL1"></td>
-        <td id="headerRatioL2"></td>
-        <td id="headerRatioL3">-</td>
-        <td id="headerRatioD1"></td>
-        <td id="headerRatioD2"></td>
-        <td id="headerRatioD3"></td>
+        <td class="nowrap reportHeaderTextCell">Header Text Color:</td>
+        <td id="headerLums" class="reportHeaderTextCell"></td>
+        <td id="headerRatioL1" class="center reportHeaderTextCell"></td>
+        <td id="headerRatioL2" class="center reportHeaderTextCell"></td>
+        <td id="headerRatioL3" class="center reportHeaderTextCell">-</td>
+        <td id="headerRatioD1" class="center reportHeaderTextCell"></td>
+        <td id="headerRatioD2" class="center reportHeaderTextCell"></td>
+        <td id="headerRatioD3" class="center reportHeaderTextCell"></td>
         <td id="currentStyles" rowspan="3" style="padding-left: 19px"></td>
       </tr>
       <tr>
         <td class="nowrap">Body Text Color:</td>
         <td id="bodyLums"></td>
-        <td id="bodyRatioL1"></td>
-        <td id="bodyRatioL2"></td>
-        <td id="bodyRatioL3"></td>
-        <td id="bodyRatioD1"></td>
-        <td id="bodyRatioD2"></td>
-        <td id="bodyRatioD3"></td>
+        <td id="bodyRatioL1" class="center"></td>
+        <td id="bodyRatioL2" class="center"></td>
+        <td id="bodyRatioL3" class="center"></td>
+        <td id="bodyRatioD1" class="center"></td>
+        <td id="bodyRatioD2" class="center"></td>
+        <td id="bodyRatioD3" class="center"></td>
       </tr>
       <tr>
-        <td class="nowrap">Link Text Color:</td>
-        <td id="linkLums"></td>
-        <td id="linkRatioL1"></td>
-        <td id="linkRatioL2"></td>
-        <td id="linkRatioL3"></td>
-        <td id="linkRatioD1"></td>
-        <td id="linkRatioD2"></td>
-        <td id="linkRatioD3"></td>
+        <td class="nowrap reportLinkTextCell">Link Text Color:</td>
+        <td id="linkLums" class="reportLinkTextCell"></td>
+        <td id="linkRatioL1" class="center reportLinkTextCell"></td>
+        <td id="linkRatioL2" class="center reportLinkTextCell"></td>
+        <td id="linkRatioL3" class="center reportLinkTextCell"></td>
+        <td id="linkRatioD1" class="center reportLinkTextCell"></td>
+        <td id="linkRatioD2" class="center reportLinkTextCell"></td>
+        <td id="linkRatioD3" class="center reportLinkTextCell"></td>
       </tr>
     </tbody>
   </table>
