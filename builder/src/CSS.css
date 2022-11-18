@@ -14,6 +14,9 @@ a {
 #arrangements {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  height: 80px;
+  /* this feels like a hack TODO: figure out a better way to do this */
+  font-size: 0.1rem;
 }
 
 #arrangement-wrapper {
@@ -35,13 +38,16 @@ button {
 
 .color-arrangement {
   display: grid;
-  grid-template-rows: 30fr 30fr 18fr 18fr;
+  grid-template-rows: 2fr 1.3fr 1.3fr 1.3fr;
   width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
 }
 
 .color-arrangement-inactive {
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-top: 10px;
+  padding-bottom: 0px;
 }
 
 .color-arrangement-active {
@@ -65,32 +71,36 @@ button {
   margin-top: var(--swatch-top);
   display: inline-block;
   width: 30px;
-  height: 20px;
+  height: 100%;
   border: 1px solid #aaa;
-}
-
-.color-arrangement-swatch-2 {
-  margin-top: var(--swatch-top);
-  display: inline-block;
-  width: 30px;
-  height: 12px;
-  border: 1px solid #aaa;
-}
-
-.color-arrangement-swatch-3 {
-  margin-top: var(--swatch-top);
-  display: inline-block;
-  width: 30px;
-  height: 12px;
-  border: 1px solid #aaa;
+  padding: 0px;
 }
 
 .color-arrangement-swatch-1 {
   margin-top: var(--swatch-top);
   display: inline-block;
   width: 30px;
-  height: 20px;
+  height: 100%;
   border: 1px solid #aaa;
+  padding: 0px;
+}
+
+.color-arrangement-swatch-2 {
+  margin-top: var(--swatch-top);
+  display: inline-block;
+  width: 30px;
+  height: 100%;
+  border: 1px solid #aaa;
+  padding: 0px;
+}
+
+.color-arrangement-swatch-3 {
+  margin-top: var(--swatch-top);
+  display: inline-block;
+  width: 30px;
+  height: 100%;
+  border: 1px solid #aaa;
+  padding: 0px;
 }
 
 #colorsCol {
@@ -119,6 +129,10 @@ button {
   margin-left: var(--content-left-pad);
 }
 
+details {
+  margin-bottom: 1.3rem;
+}
+
 h1,
 h2 {
   font-weight: bold;
@@ -136,12 +150,12 @@ h2 {
   padding-left: 16px;
 }
 
-#main-headline {
-  margin-top: 1rem;
+.linkButton {
+  background-color: rgba(0, 0, 0, 0);
 }
 
-.navButton {
-  padding: 0px 3px;
+#main-headline {
+  margin-top: 1rem;
 }
 
 .palette-name {
@@ -180,6 +194,10 @@ p {
   visibility: visible;
   opacity: 1;
   transition: visibility 0s linear 0s, opacity 180ms;
+}
+
+td {
+  vertical-align: top;
 }
 
 #toggleSide {

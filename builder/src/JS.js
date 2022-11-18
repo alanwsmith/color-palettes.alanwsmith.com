@@ -232,26 +232,38 @@ const updateColors = () => {
         ratios[2] = ratios[1]
         ratios[3] = ratios[1]
     }
-
     document.body.style.backgroundColor = hex[0]
-    document.body.style.color = hex[1]
+    document.body.style.color = hex[3]
     document.querySelectorAll('h1').forEach((el) => {
-        el.style.color = hex[2]
+        el.style.color = hex[1]
     })
     document.querySelectorAll('h2').forEach((el) => {
-        el.style.color = hex[2]
+        el.style.color = hex[1]
     })
     document.querySelectorAll('a').forEach((el) => {
-        el.style.color = hex[3]
+        el.style.color = hex[2]
+    })
+    document.querySelectorAll('.linkButton').forEach((el) => {
+        el.style.color = hex[2]
     })
 
     e.currentPalette.innerText = p[state.palette].name
     e.currentOrder.innerText = state.order
     const styleString = `body { background-color: ${hex[0]}; color: ${hex[1]}; } h1, h2 { color: ${hex[2]}; } a { color: ${hex[3]}; }`
-    e.currentStyles.innerText = styleString
-    e.bodyLums.innerText = ratios[1]
-    e.headerLums.innerText = ratios[2]
-    e.linkLums.innerText = ratios[3]
+    e.currentStyles.innerHTML = styleString
+    e.bodyLums.innerHTML = `${ratios[1]}`
+    e.headerLums.innerHTML = `${ratios[2]}`
+    e.headerRatio.innerHTML = `${ratios[2]}`
+    e.linkLums.innerHTML = `${ratios[3]}`
+    e.headerRatioL1.innerHTML = `✓`
+    e.headerRatioL2.innerHTML = `✓`
+    e.headerRatioL3.innerHTML = `✓`
+    e.bodyRatioL1.innerHTML = `✓`
+    e.bodyRatioL2.innerHTML = `ⓧ`
+    e.bodyRatioL3.innerHTML = `ⓧ`
+    e.linkRatioL1.innerHTML = `✓`
+    e.linkRatioL2.innerHTML = `✓`
+    e.linkRatioL3.innerHTML = `ⓧ`
 
     for (pi = 1; pi <= 24; pi++) {
         for (si = 0; si <= 3; si++) {
@@ -303,11 +315,11 @@ const handleToggleTop = () => {
     if (state.top) {
         e.arrangements.classList.remove('fade-out')
         e.arrangements.classList.add('fade-in')
-        e.toggleTop.innerText = 'top:y'
+        // e.toggleTop.innerText = 'top:y'
     } else {
         e.arrangements.classList.remove('fade-in')
         e.arrangements.classList.add('fade-out')
-        e.toggleTop.innerText = 'top:n'
+        // e.toggleTop.innerText = 'top:n'
     }
 }
 
@@ -316,11 +328,11 @@ const handleToggleSide = () => {
     if (state.side) {
         e.colorsCol.classList.remove('fade-out')
         e.colorsCol.classList.add('fade-in')
-        e.toggleSide.innerText = 'side:y'
+        // e.toggleSide.innerText = 'side:y'
     } else {
         e.colorsCol.classList.remove('fade-in')
         e.colorsCol.classList.add('fade-out')
-        e.toggleSide.innerText = 'side:n'
+        // e.toggleSide.innerText = 'side:n'
     }
 }
 
@@ -356,23 +368,33 @@ const init = () => {
         'currentPalette',
         'currentStyles',
         'toggleSettings',
-        'toggleSide',
-        'toggleTop',
+        // 'toggleSide',
+        // 'toggleTop',
         'settingsBody',
         'designAlfaBody',
         'switchTextColors',
         'bodyLums',
         'headerLums',
+        'headerRatio',
         'linkLums',
+        'headerRatioL1',
+        'headerRatioL2',
+        'headerRatioL3',
+        'bodyRatioL1',
+        'bodyRatioL2',
+        'bodyRatioL3',
+        'linkRatioL1',
+        'linkRatioL2',
+        'linkRatioL3',
     ]
     els.forEach((name) => {
         e[name] = document.getElementById(name)
     })
 
     e['toggleSettings'].addEventListener('click', handleToggleSettings)
-    e['toggleTop'].addEventListener('click', handleToggleTop)
-    e['toggleSide'].addEventListener('click', handleToggleSide)
-    e['switchTextColors'].addEventListener('click', handleSwitchTextColors)
+    // e['toggleTop'].addEventListener('click', handleToggleTop)
+    // e['toggleSide'].addEventListener('click', handleToggleSide)
+    // e['switchTextColors'].addEventListener('click', handleSwitchTextColors)
 
     const checkStatePalette = localStorage.getItem('statePalette')
     const checkStateOrder = localStorage.getItem('stateOrder')

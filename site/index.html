@@ -86,6 +86,9 @@ a {
 #arrangements {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  height: 80px;
+  /* this feels like a hack TODO: figure out a better way to do this */
+  font-size: 0.1rem;
 }
 
 #arrangement-wrapper {
@@ -107,13 +110,16 @@ button {
 
 .color-arrangement {
   display: grid;
-  grid-template-rows: 30fr 30fr 18fr 18fr;
+  grid-template-rows: 2fr 1.3fr 1.3fr 1.3fr;
   width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
 }
 
 .color-arrangement-inactive {
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-top: 10px;
+  padding-bottom: 0px;
 }
 
 .color-arrangement-active {
@@ -137,32 +143,36 @@ button {
   margin-top: var(--swatch-top);
   display: inline-block;
   width: 30px;
-  height: 20px;
+  height: 100%;
   border: 1px solid #aaa;
-}
-
-.color-arrangement-swatch-2 {
-  margin-top: var(--swatch-top);
-  display: inline-block;
-  width: 30px;
-  height: 12px;
-  border: 1px solid #aaa;
-}
-
-.color-arrangement-swatch-3 {
-  margin-top: var(--swatch-top);
-  display: inline-block;
-  width: 30px;
-  height: 12px;
-  border: 1px solid #aaa;
+  padding: 0px;
 }
 
 .color-arrangement-swatch-1 {
   margin-top: var(--swatch-top);
   display: inline-block;
   width: 30px;
-  height: 20px;
+  height: 100%;
   border: 1px solid #aaa;
+  padding: 0px;
+}
+
+.color-arrangement-swatch-2 {
+  margin-top: var(--swatch-top);
+  display: inline-block;
+  width: 30px;
+  height: 100%;
+  border: 1px solid #aaa;
+  padding: 0px;
+}
+
+.color-arrangement-swatch-3 {
+  margin-top: var(--swatch-top);
+  display: inline-block;
+  width: 30px;
+  height: 100%;
+  border: 1px solid #aaa;
+  padding: 0px;
 }
 
 #colorsCol {
@@ -191,6 +201,10 @@ button {
   margin-left: var(--content-left-pad);
 }
 
+details {
+  margin-bottom: 1.3rem;
+}
+
 h1,
 h2 {
   font-weight: bold;
@@ -208,12 +222,12 @@ h2 {
   padding-left: 16px;
 }
 
-#main-headline {
-  margin-top: 1rem;
+.linkButton {
+  background-color: rgba(0, 0, 0, 0);
 }
 
-.navButton {
-  padding: 0px 3px;
+#main-headline {
+  margin-top: 1rem;
 }
 
 .palette-name {
@@ -252,6 +266,10 @@ p {
   visibility: visible;
   opacity: 1;
   transition: visibility 0s linear 0s, opacity 180ms;
+}
+
+td {
+  vertical-align: top;
 }
 
 #toggleSide {
@@ -503,26 +521,38 @@ const updateColors = () => {
         ratios[2] = ratios[1]
         ratios[3] = ratios[1]
     }
-
     document.body.style.backgroundColor = hex[0]
-    document.body.style.color = hex[1]
+    document.body.style.color = hex[3]
     document.querySelectorAll('h1').forEach((el) => {
-        el.style.color = hex[2]
+        el.style.color = hex[1]
     })
     document.querySelectorAll('h2').forEach((el) => {
-        el.style.color = hex[2]
+        el.style.color = hex[1]
     })
     document.querySelectorAll('a').forEach((el) => {
-        el.style.color = hex[3]
+        el.style.color = hex[2]
+    })
+    document.querySelectorAll('.linkButton').forEach((el) => {
+        el.style.color = hex[2]
     })
 
     e.currentPalette.innerText = p[state.palette].name
     e.currentOrder.innerText = state.order
     const styleString = `body { background-color: ${hex[0]}; color: ${hex[1]}; } h1, h2 { color: ${hex[2]}; } a { color: ${hex[3]}; }`
-    e.currentStyles.innerText = styleString
-    e.bodyLums.innerText = ratios[1]
-    e.headerLums.innerText = ratios[2]
-    e.linkLums.innerText = ratios[3]
+    e.currentStyles.innerHTML = styleString
+    e.bodyLums.innerHTML = `${ratios[1]}`
+    e.headerLums.innerHTML = `${ratios[2]}`
+    e.headerRatio.innerHTML = `${ratios[2]}`
+    e.linkLums.innerHTML = `${ratios[3]}`
+    e.headerRatioL1.innerHTML = `✓`
+    e.headerRatioL2.innerHTML = `✓`
+    e.headerRatioL3.innerHTML = `✓`
+    e.bodyRatioL1.innerHTML = `✓`
+    e.bodyRatioL2.innerHTML = `ⓧ`
+    e.bodyRatioL3.innerHTML = `ⓧ`
+    e.linkRatioL1.innerHTML = `✓`
+    e.linkRatioL2.innerHTML = `✓`
+    e.linkRatioL3.innerHTML = `ⓧ`
 
     for (pi = 1; pi <= 24; pi++) {
         for (si = 0; si <= 3; si++) {
@@ -574,11 +604,11 @@ const handleToggleTop = () => {
     if (state.top) {
         e.arrangements.classList.remove('fade-out')
         e.arrangements.classList.add('fade-in')
-        e.toggleTop.innerText = 'top:y'
+        // e.toggleTop.innerText = 'top:y'
     } else {
         e.arrangements.classList.remove('fade-in')
         e.arrangements.classList.add('fade-out')
-        e.toggleTop.innerText = 'top:n'
+        // e.toggleTop.innerText = 'top:n'
     }
 }
 
@@ -587,11 +617,11 @@ const handleToggleSide = () => {
     if (state.side) {
         e.colorsCol.classList.remove('fade-out')
         e.colorsCol.classList.add('fade-in')
-        e.toggleSide.innerText = 'side:y'
+        // e.toggleSide.innerText = 'side:y'
     } else {
         e.colorsCol.classList.remove('fade-in')
         e.colorsCol.classList.add('fade-out')
-        e.toggleSide.innerText = 'side:n'
+        // e.toggleSide.innerText = 'side:n'
     }
 }
 
@@ -627,23 +657,33 @@ const init = () => {
         'currentPalette',
         'currentStyles',
         'toggleSettings',
-        'toggleSide',
-        'toggleTop',
+        // 'toggleSide',
+        // 'toggleTop',
         'settingsBody',
         'designAlfaBody',
         'switchTextColors',
         'bodyLums',
         'headerLums',
+        'headerRatio',
         'linkLums',
+        'headerRatioL1',
+        'headerRatioL2',
+        'headerRatioL3',
+        'bodyRatioL1',
+        'bodyRatioL2',
+        'bodyRatioL3',
+        'linkRatioL1',
+        'linkRatioL2',
+        'linkRatioL3',
     ]
     els.forEach((name) => {
         e[name] = document.getElementById(name)
     })
 
     e['toggleSettings'].addEventListener('click', handleToggleSettings)
-    e['toggleTop'].addEventListener('click', handleToggleTop)
-    e['toggleSide'].addEventListener('click', handleToggleSide)
-    e['switchTextColors'].addEventListener('click', handleSwitchTextColors)
+    // e['toggleTop'].addEventListener('click', handleToggleTop)
+    // e['toggleSide'].addEventListener('click', handleToggleSide)
+    // e['switchTextColors'].addEventListener('click', handleSwitchTextColors)
 
     const checkStatePalette = localStorage.getItem('statePalette')
     const checkStateOrder = localStorage.getItem('stateOrder')
@@ -814,15 +854,23 @@ document.addEventListener('DOMContentLoaded', init)
         </div>
         <div></div>
         <div id="headline-wrapper">
-          <h1 id="main-headline" class="body-text">Color Palette Explorer</h1>
+          <h1 id="main-headline" class="body-text">
+            Color Palette Explorer <span id="headerRatio"></span>
+          </h1>
           <div>
-            <button id="toggleSettings">settings</button> ~
-            <a href="https://www.alanwsmith.com/">alanwsmith.com</a> ~
+            <button id="toggleSettings" class="linkButton">
+              view settings
+            </button>
+            ~ <a href="https://www.alanwsmith.com/">alanwsmith.com</a> ~
             <a href="https://links.alanwsmith.com">links</a> ~
             <a href="https://podcast.alanwsmith.com/">podcast</a> ~
-            <button id="toggleSide">side:y</button> ~
-            <button id="toggleTop">top:y</button> ~
-            <button id="switchTextColors" class="navButton">text:3</button> ~
+            <span id="linkRatio"></span>
+
+            <!--
+            <button id="toggleSide" class="linkButton">side:y</button> ~
+            <button id="toggleTop" class="linkButton">top:y</button> ~
+            <button id="switchTextColors" class="linkButton">text:3</button> ~
+            -->
           </div>
         </div>
         <div id="colorsCol"><div id="palette-wrapper-1" class="palette-wrapper inactive-palette"><button style="background-color: #3a3845; color: #f7ccac" id="palette-abandon-training" class="palette-name" data-palette="1">abandon-training</button><br /><button class="color-swatch" style="background-color: #3a3845" data-palette="1">&nbsp;</button><button class="color-swatch" style="background-color: #c69b7b" data-palette="1">&nbsp;</button><button class="color-swatch" style="background-color: #826f66" data-palette="1">&nbsp;</button><button class="color-swatch" style="background-color: #f7ccac" data-palette="1">&nbsp;</button></div>
@@ -2330,18 +2378,43 @@ document.addEventListener('DOMContentLoaded', init)
     used to kindle a fire.
   </p>
 
-  <details>
-    <summary>Click here to get the details on the current setup</summary>
-    <p>
-      <strong>Palette:</strong> <span id="currentPalette"></span><br />
-      <strong>Order:</strong> <span id="currentOrder"></span><br />
-      <strong>Header Contrast Ratio:</strong> <span id="headerLums"></span
-      ><br />
-      <strong>Body Contrast Ratio:</strong> <span id="bodyLums"></span><br />
-      <strong>Link Contrast Ratio:</strong> <span id="linkLums"></span><br />
-      <strong>Styles:</strong> <span id="currentStyles"></span>
-    </p>
-  </details>
+  <table>
+    <tbody>
+      <tr>
+        <td>Palette</td>
+        <td id="currentPalette"></td>
+        <td>Variation:</td>
+        <td id="currentOrder"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table>
+    <tbody>
+      <tr>
+        <td style="white-space: nowrap">Header Contrast Ratio:</td>
+        <td id="headerLums"></td>
+        <td id="headerRatioL1"></td>
+        <td id="headerRatioL2"></td>
+        <td id="headerRatioL3">-</td>
+        <td id="currentStyles" rowspan="3" style="padding-left: 19px"></td>
+      </tr>
+      <tr>
+        <td>Body Contrast Ratio:</td>
+        <td id="bodyLums"></td>
+        <td id="bodyRatioL1"></td>
+        <td id="bodyRatioL2"></td>
+        <td id="bodyRatioL3"></td>
+      </tr>
+      <tr>
+        <td>Link Contrast Ratio:</td>
+        <td id="linkLums"></td>
+        <td id="linkRatioL1"></td>
+        <td id="linkRatioL2"></td>
+        <td id="linkRatioL3"></td>
+      </tr>
+    </tbody>
+  </table>
 
   <p>
     Screen the porch with woven straw mats. The drip of the rain made a pleasant
