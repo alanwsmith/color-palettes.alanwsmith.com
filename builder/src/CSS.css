@@ -4,9 +4,19 @@
   --arrangement-pad: 22px;
 }
 
+a {
+  text-decoration: none;
+}
+
+.active-palette {
+}
+
 #arrangements {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  height: 80px;
+  /* this feels like a hack TODO: figure out a better way to do this */
+  font-size: 0.1rem;
 }
 
 #arrangement-wrapper {
@@ -19,19 +29,41 @@ body {
 }
 
 button {
-  font-size: 0.9rem;
   border: 0px;
   text-align: left;
   background-color: #444;
-  padding: 0px;
-}
-.color-arrangement {
-  display: grid;
-  grid-template-rows: 30fr 30fr 18fr 18fr;
-  width: 30px;
+  padding: 4px;
+  cursor: pointer;
 }
 
-#color-arrangement-4 {
+.center {
+  text-align: center;
+}
+
+.color-arrangement {
+  display: grid;
+  grid-template-rows: 2fr 1.3fr 1.3fr 1.3fr;
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+.color-arrangement-inactive {
+  padding-top: 10px;
+  padding-bottom: 0px;
+}
+
+.color-arrangement-active {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+#color-arrangement-6 {
+  margin-right: var(--arrangement-pad);
+}
+
+#color-arrangement-12 {
   margin-right: var(--arrangement-pad);
 }
 
@@ -39,44 +71,44 @@ button {
   margin-right: var(--arrangement-pad);
 }
 
-#color-arrangement-7 {
-  margin-right: var(--arrangement-pad);
-}
-
 .color-arrangement-swatch-0 {
   margin-top: var(--swatch-top);
   display: inline-block;
   width: 30px;
-  height: 30px;
+  height: 100%;
   border: 1px solid #aaa;
+  padding: 0px;
 }
 
 .color-arrangement-swatch-1 {
   margin-top: var(--swatch-top);
   display: inline-block;
   width: 30px;
-  height: 18px;
+  height: 100%;
   border: 1px solid #aaa;
+  padding: 0px;
 }
 
 .color-arrangement-swatch-2 {
   margin-top: var(--swatch-top);
   display: inline-block;
   width: 30px;
-  height: 18px;
+  height: 100%;
   border: 1px solid #aaa;
+  padding: 0px;
 }
 
 .color-arrangement-swatch-3 {
   margin-top: var(--swatch-top);
   display: inline-block;
   width: 30px;
-  height: 30px;
+  height: 100%;
   border: 1px solid #aaa;
+  padding: 0px;
 }
 
-#colors-col {
-  height: 440px;
+#colorsCol {
+  height: 438px;
   overflow-y: scroll;
   margin-top: 10px;
 }
@@ -91,13 +123,22 @@ button {
 
 #col-wrapper {
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: 160px 1fr;
   max-width: 1000px;
   margin-left: max(0px, calc(50vw - 450px - 130px));
   margin-top: 24px;
 }
 
-h1 {
+#designAlfaBody {
+  margin-left: var(--content-left-pad);
+}
+
+details {
+  margin-bottom: 1.3rem;
+}
+
+h1,
+h2 {
   font-weight: bold;
 }
 
@@ -105,8 +146,24 @@ h1 {
   margin-left: 18px;
 }
 
+.hideContent {
+  display: none;
+}
+
+.inactive-palette {
+  padding-left: 16px;
+}
+
+.linkButton {
+  background-color: rgba(0, 0, 0, 0);
+}
+
 #main-headline {
-  margin-top: 2rem;
+  margin-top: 1rem;
+}
+
+.nowrap {
+  white-space: nowrap;
 }
 
 .palette-name {
@@ -116,6 +173,8 @@ h1 {
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   border: 1px solid #ddd;
+  font-size: 0.9rem;
+  font-weight: bold;
 }
 
 p {
@@ -126,6 +185,42 @@ p {
   margin-bottom: 12px;
 }
 
+#settingsBody {
+  margin-left: var(--content-left-pad);
+}
+
 #text-col {
   padding-left: var(--content-left-pad);
+}
+
+th {
+  white-space: nowrap;
+  border-bottom: 1px solid;
+}
+
+.fade-out {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 180ms, opacity 180ms;
+}
+.fade-in {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity 180ms;
+}
+
+td {
+  vertical-align: top;
+}
+
+#toggleSide {
+  width: 55px;
+}
+
+#toggleTop {
+  width: 48px;
+}
+
+#toggleReadme {
+  width: 95px;
 }
