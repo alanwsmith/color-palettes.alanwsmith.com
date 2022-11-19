@@ -266,8 +266,8 @@ p {
 }
 
 th {
-  font-weight: normal;
   white-space: nowrap;
+  border-bottom: 1px solid;
 }
 
 .fade-out {
@@ -315,6 +315,10 @@ const e = {}
 
 // Holder for full palette set
 const p = [null]
+
+const calculatePercentage = (a, b) => {
+    return (a / b) * 100
+}
 
 const prepColor = (hex) => {
     payload = {
@@ -392,18 +396,43 @@ const loadPalettes = () => {
                     orders[o][x].l1_delta = parseFloat(orders[o][x].ratio) - 3
                     orders[o][x].l2_delta = parseFloat(orders[o][x].ratio) - 4.5
                     orders[o][x].l3_delta = parseFloat(orders[o][x].ratio) - 7
+
                     orders[o][x].l1_pass =
                         orders[o][x].l1_delta < 0 ? false : true
                     orders[o][x].l2_pass =
                         orders[o][x].l2_delta < 0 ? false : true
                     orders[o][x].l3_pass =
                         orders[o][x].l3_delta < 0 ? false : true
-                    // do this now to convert to string for output. it's a
-                    // little odd for the order since this hits things three
-                    // times but it's fine
-                    orders[o][x].l1_delta = orders[o][x].l1_delta.toFixed(2)
-                    orders[o][x].l2_delta = orders[o][x].l2_delta.toFixed(2)
-                    orders[o][x].l3_delta = orders[o][x].l3_delta.toFixed(2)
+
+                    orders[o][x].l1_delta_string =
+                        orders[o][x].l1_delta.toFixed(2)
+                    orders[o][x].l2_delta_string =
+                        orders[o][x].l2_delta.toFixed(2)
+                    orders[o][x].l3_delta_string =
+                        orders[o][x].l3_delta.toFixed(2)
+
+                    orders[o][x].l1_delta_pct = calculatePercentage(
+                        orders[o][x].l1_delta,
+                        3
+                    )
+                    orders[o][x].l2_delta_pct = calculatePercentage(
+                        orders[o][x].l2_delta,
+                        4.5
+                    )
+                    orders[o][x].l3_delta_pct = calculatePercentage(
+                        orders[o][x].l3_delta,
+                        7
+                    )
+
+                    orders[o][x].l1_delta_pct_string = `${parseInt(
+                        orders[o][x].l1_delta_pct
+                    )}%`
+                    orders[o][x].l2_delta_pct_string = `${parseInt(
+                        orders[o][x].l2_delta_pct
+                    )}%`
+                    orders[o][x].l3_delta_pct_string = `${parseInt(
+                        orders[o][x].l3_delta_pct
+                    )}%`
                 }
             }
             const payload = {
@@ -564,7 +593,6 @@ const updateColors = () => {
     document.querySelectorAll('.linkButton').forEach((el) => {
         el.style.color = hex[2]
     })
-
     document.querySelectorAll('.reportHeaderTextCell').forEach((el) => {
         el.style.color = hex[1]
     })
@@ -580,25 +608,66 @@ const updateColors = () => {
     e.bodyLums.innerHTML = `${ratios[3]}`
     e.headerLums.innerHTML = `${ratios[1]}`
     e.linkLums.innerHTML = `${ratios[2]}`
-    e.headerRatioL1.innerHTML = colors[1].l1_pass ? `✓` : `ⓧ`
-    e.headerRatioL2.innerHTML = colors[1].l2_pass ? `✓` : `ⓧ`
-    e.headerRatioL3.innerHTML = colors[1].l3_pass ? `✓` : `ⓧ`
-    e.bodyRatioL1.innerHTML = colors[3].l1_pass ? `✓` : `ⓧ`
-    e.bodyRatioL2.innerHTML = colors[3].l2_pass ? `✓` : `ⓧ`
-    e.bodyRatioL3.innerHTML = colors[3].l3_pass ? `✓` : `ⓧ`
-    e.linkRatioL1.innerHTML = colors[2].l1_pass ? `✓` : `ⓧ`
-    e.linkRatioL2.innerHTML = colors[2].l2_pass ? `✓` : `ⓧ`
-    e.linkRatioL3.innerHTML = colors[2].l3_pass ? `✓` : `ⓧ`
 
-    e.headerRatioD1.innerHTML = colors[1].l1_pass ? `✓` : colors[1].l1_delta
-    e.headerRatioD2.innerHTML = colors[1].l2_pass ? `✓` : colors[1].l2_delta
-    e.headerRatioD3.innerHTML = colors[1].l3_pass ? `✓` : colors[1].l3_delta
-    e.bodyRatioD1.innerHTML = colors[3].l1_pass ? `✓` : colors[3].l1_delta
-    e.bodyRatioD2.innerHTML = colors[3].l2_pass ? `✓` : colors[3].l2_delta
-    e.bodyRatioD3.innerHTML = colors[3].l3_pass ? `✓` : colors[3].l3_delta
-    e.linkRatioD1.innerHTML = colors[2].l1_pass ? `✓` : colors[2].l1_delta
-    e.linkRatioD2.innerHTML = colors[2].l2_pass ? `✓` : colors[2].l2_delta
-    e.linkRatioD3.innerHTML = colors[2].l3_pass ? `✓` : colors[2].l3_delta
+    // e.headerRatioL1.innerHTML = colors[1].l1_pass ? `✓` : `ⓧ`
+    // e.headerRatioL2.innerHTML = colors[1].l2_pass ? `✓` : `ⓧ`
+    // e.headerRatioL3.innerHTML = colors[1].l3_pass ? `✓` : `ⓧ`
+    // e.bodyRatioL1.innerHTML = colors[3].l1_pass ? `✓` : `ⓧ`
+    // e.bodyRatioL2.innerHTML = colors[3].l2_pass ? `✓` : `ⓧ`
+    // e.bodyRatioL3.innerHTML = colors[3].l3_pass ? `✓` : `ⓧ`
+    // e.linkRatioL1.innerHTML = colors[2].l1_pass ? `✓` : `ⓧ`
+    // e.linkRatioL2.innerHTML = colors[2].l2_pass ? `✓` : `ⓧ`
+    // e.linkRatioL3.innerHTML = colors[2].l3_pass ? `✓` : `ⓧ`
+
+    // e.headerRatioL1.innerHTML = colors[1].l1_pass ? `✓` : ``
+    // e.headerRatioL2.innerHTML = colors[1].l2_pass ? `✓` : ``
+    // e.headerRatioL3.innerHTML = colors[1].l3_pass ? `✓` : ``
+    // e.bodyRatioL1.innerHTML = colors[3].l1_pass ? `✓` : ``
+    // e.bodyRatioL2.innerHTML = colors[3].l2_pass ? `✓` : ``
+    // e.bodyRatioL3.innerHTML = colors[3].l3_pass ? `✓` : ``
+    // e.linkRatioL1.innerHTML = colors[2].l1_pass ? `✓` : ``
+    // e.linkRatioL2.innerHTML = colors[2].l2_pass ? `✓` : ``
+    // e.linkRatioL3.innerHTML = colors[2].l3_pass ? `✓` : ``
+
+    // e.headerRatioD1.innerHTML = colors[1].l1_pass ? `✓` : colors[1].l1_delta
+    // e.headerRatioD2.innerHTML = colors[1].l2_pass ? `✓` : colors[1].l2_delta
+    // e.headerRatioD3.innerHTML = colors[1].l3_pass ? `✓` : colors[1].l3_delta
+    // e.bodyRatioD1.innerHTML = colors[3].l1_pass ? `✓` : colors[3].l1_delta
+    // e.bodyRatioD2.innerHTML = colors[3].l2_pass ? `✓` : colors[3].l2_delta
+    // e.bodyRatioD3.innerHTML = colors[3].l3_pass ? `✓` : colors[3].l3_delta
+    // e.linkRatioD1.innerHTML = colors[2].l1_pass ? `✓` : colors[2].l1_delta
+    // e.linkRatioD2.innerHTML = colors[2].l2_pass ? `✓` : colors[2].l2_delta
+    // e.linkRatioD3.innerHTML = colors[2].l3_pass ? `✓` : colors[2].l3_delta
+
+    e.headerRatioD1.innerHTML = colors[1].l1_pass
+        ? `✓`
+        : colors[1].l1_delta_pct_string
+    e.headerRatioD2.innerHTML = colors[1].l2_pass
+        ? `✓`
+        : colors[1].l2_delta_pct_string
+    e.headerRatioD3.innerHTML = colors[1].l3_pass
+        ? `✓`
+        : colors[1].l3_delta_pct_string
+
+    e.bodyRatioD1.innerHTML = colors[3].l1_pass
+        ? `✓`
+        : colors[3].l1_delta_pct_string
+    e.bodyRatioD2.innerHTML = colors[3].l2_pass
+        ? `✓`
+        : colors[3].l2_delta_pct_string
+    e.bodyRatioD3.innerHTML = colors[3].l3_pass
+        ? `✓`
+        : colors[3].l3_delta_pct_string
+
+    e.linkRatioD1.innerHTML = colors[2].l1_pass
+        ? `✓`
+        : colors[2].l1_delta_pct_string
+    e.linkRatioD2.innerHTML = colors[2].l2_pass
+        ? `✓`
+        : colors[2].l2_delta_pct_string
+    e.linkRatioD3.innerHTML = colors[2].l3_pass
+        ? `✓`
+        : colors[2].l3_delta_pct_string
 
     for (pi = 1; pi <= 24; pi++) {
         for (si = 0; si <= 3; si++) {
@@ -712,15 +781,17 @@ const init = () => {
         'bodyLums',
         'headerLums',
         'linkLums',
-        'headerRatioL1',
-        'headerRatioL2',
-        'headerRatioL3',
-        'bodyRatioL1',
-        'bodyRatioL2',
-        'bodyRatioL3',
-        'linkRatioL1',
-        'linkRatioL2',
-        'linkRatioL3',
+
+        // 'headerRatioL1',
+        // 'headerRatioL2',
+        // 'headerRatioL3',
+        // 'bodyRatioL1',
+        // 'bodyRatioL2',
+        // 'bodyRatioL3',
+        // 'linkRatioL1',
+        // 'linkRatioL2',
+        // 'linkRatioL3',
+
         'headerRatioD1',
         'headerRatioD2',
         'headerRatioD3',
@@ -2427,20 +2498,42 @@ document.addEventListener('DOMContentLoaded', init)
     A gray mare walked before the colt. The bloom of the rose lasts a few days.
     Twist the valve and release hot steam. This horse will nose his way to the
     finish. A chink in the wall allowed a draft to blow. Much of the story makes
-    good sense. They took the axe and the saw to the forest. Corn cobs can be
-    used to kindle a fire.
+    good sense.
+  </p>
+  <p>
+    They took the axe and the saw to the forest. Corn cobs can be used to kindle
+    a fire. Throw out the used paper cup and plate.
+  </p>
+  <p>
+    They slice the sausage thin with a knife. A lathe cuts and trims any wood.
+    Our plans right now are hazy. A castle built from sand fails to endure. Some
+    ads serve to cheat buyers. The doorknob was made of bright clean brass. A
+    small creek cut across the field. The curtain rose and the show was on.
   </p>
 
+  <p>
+    The ramp led up to the wide highway. No cement will hold hard wood. Smoke
+    poured out of every crack. He crawled with care along the ledge. This plank
+    was made for walking on. Add salt before you fry the egg. The sofa cushion
+    is red and of light weight. Pluck the bright rose without leaves. Split the
+    log with a quick, sharp blow. The ink stain dried on the finished page. The
+    colt reared and threw the tall rider.
+  </p>
+
+  <h2>Report</h2>
   <table>
     <thead>
       <tr>
-        <th colspan="2">Contrast Antecedent</th>
+        <th>Contrast</th>
+        <th>RA</th>
         <th>L1</th>
         <th>L2</th>
         <th>L3</th>
+        <!--
         <th>D1</th>
         <th>D2</th>
         <th>D3</th>
+        -->
         <th>
           Palette <span id="currentPaletteIndex"></span>.<span
             id="currentOrderIndex"
@@ -2452,32 +2545,38 @@ document.addEventListener('DOMContentLoaded', init)
     </thead>
     <tbody>
       <tr>
-        <td class="nowrap reportHeaderTextCell">Header Text Color:</td>
+        <td class="nowrap reportHeaderTextCell">Header</td>
         <td id="headerLums" class="reportHeaderTextCell"></td>
+        <!--
         <td id="headerRatioL1" class="center reportHeaderTextCell"></td>
         <td id="headerRatioL2" class="center reportHeaderTextCell"></td>
-        <td id="headerRatioL3" class="center reportHeaderTextCell">-</td>
+        <td id="headerRatioL3" class="center reportHeaderTextCell"></td>
+        -->
         <td id="headerRatioD1" class="center reportHeaderTextCell"></td>
         <td id="headerRatioD2" class="center reportHeaderTextCell"></td>
         <td id="headerRatioD3" class="center reportHeaderTextCell"></td>
         <td id="currentStyles" rowspan="3" style="padding-left: 19px"></td>
       </tr>
       <tr>
-        <td class="nowrap">Body Text Color:</td>
+        <td class="nowrap">Body</td>
         <td id="bodyLums"></td>
+        <!--
         <td id="bodyRatioL1" class="center"></td>
         <td id="bodyRatioL2" class="center"></td>
         <td id="bodyRatioL3" class="center"></td>
+        -->
         <td id="bodyRatioD1" class="center"></td>
         <td id="bodyRatioD2" class="center"></td>
         <td id="bodyRatioD3" class="center"></td>
       </tr>
       <tr>
-        <td class="nowrap reportLinkTextCell">Link Text Color:</td>
+        <td class="nowrap reportLinkTextCell">Link</td>
         <td id="linkLums" class="reportLinkTextCell"></td>
+        <!--
         <td id="linkRatioL1" class="center reportLinkTextCell"></td>
         <td id="linkRatioL2" class="center reportLinkTextCell"></td>
         <td id="linkRatioL3" class="center reportLinkTextCell"></td>
+        -->
         <td id="linkRatioD1" class="center reportLinkTextCell"></td>
         <td id="linkRatioD2" class="center reportLinkTextCell"></td>
         <td id="linkRatioD3" class="center reportLinkTextCell"></td>
@@ -2493,22 +2592,6 @@ document.addEventListener('DOMContentLoaded', init)
   </p>
 
   <h2>A Small Creek</h2>
-  <p>
-    Throw out the used paper cup and plate. They slice the sausage thin with a
-    knife. A lathe cuts and trims any wood. Our plans right now are hazy. A
-    castle built from sand fails to endure. Some ads serve to cheat buyers. The
-    doorknob was made of bright clean brass. A small creek cut across the field.
-    The curtain rose and the show was on.
-  </p>
-
-  <p>
-    The ramp led up to the wide highway. No cement will hold hard wood. Smoke
-    poured out of every crack. He crawled with care along the ledge. This plank
-    was made for walking on. Add salt before you fry the egg. The sofa cushion
-    is red and of light weight. Pluck the bright rose without leaves. Split the
-    log with a quick, sharp blow. The ink stain dried on the finished page. The
-    colt reared and threw the tall rider.
-  </p>
 
   <p>
     The point of the steel pen was bent and twisted. No hardship seemed to keep

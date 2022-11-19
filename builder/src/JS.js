@@ -14,6 +14,10 @@ const e = {}
 // Holder for full palette set
 const p = [null]
 
+const calculatePercentage = (a, b) => {
+    return (a / b) * 100
+}
+
 const prepColor = (hex) => {
     payload = {
         hex: hex,
@@ -90,18 +94,43 @@ const loadPalettes = () => {
                     orders[o][x].l1_delta = parseFloat(orders[o][x].ratio) - 3
                     orders[o][x].l2_delta = parseFloat(orders[o][x].ratio) - 4.5
                     orders[o][x].l3_delta = parseFloat(orders[o][x].ratio) - 7
+
                     orders[o][x].l1_pass =
                         orders[o][x].l1_delta < 0 ? false : true
                     orders[o][x].l2_pass =
                         orders[o][x].l2_delta < 0 ? false : true
                     orders[o][x].l3_pass =
                         orders[o][x].l3_delta < 0 ? false : true
-                    // do this now to convert to string for output. it's a
-                    // little odd for the order since this hits things three
-                    // times but it's fine
-                    orders[o][x].l1_delta = orders[o][x].l1_delta.toFixed(2)
-                    orders[o][x].l2_delta = orders[o][x].l2_delta.toFixed(2)
-                    orders[o][x].l3_delta = orders[o][x].l3_delta.toFixed(2)
+
+                    orders[o][x].l1_delta_string =
+                        orders[o][x].l1_delta.toFixed(2)
+                    orders[o][x].l2_delta_string =
+                        orders[o][x].l2_delta.toFixed(2)
+                    orders[o][x].l3_delta_string =
+                        orders[o][x].l3_delta.toFixed(2)
+
+                    orders[o][x].l1_delta_pct = calculatePercentage(
+                        orders[o][x].l1_delta,
+                        3
+                    )
+                    orders[o][x].l2_delta_pct = calculatePercentage(
+                        orders[o][x].l2_delta,
+                        4.5
+                    )
+                    orders[o][x].l3_delta_pct = calculatePercentage(
+                        orders[o][x].l3_delta,
+                        7
+                    )
+
+                    orders[o][x].l1_delta_pct_string = `${parseInt(
+                        orders[o][x].l1_delta_pct
+                    )}%`
+                    orders[o][x].l2_delta_pct_string = `${parseInt(
+                        orders[o][x].l2_delta_pct
+                    )}%`
+                    orders[o][x].l3_delta_pct_string = `${parseInt(
+                        orders[o][x].l3_delta_pct
+                    )}%`
                 }
             }
             const payload = {
@@ -262,7 +291,6 @@ const updateColors = () => {
     document.querySelectorAll('.linkButton').forEach((el) => {
         el.style.color = hex[2]
     })
-
     document.querySelectorAll('.reportHeaderTextCell').forEach((el) => {
         el.style.color = hex[1]
     })
@@ -278,25 +306,66 @@ const updateColors = () => {
     e.bodyLums.innerHTML = `${ratios[3]}`
     e.headerLums.innerHTML = `${ratios[1]}`
     e.linkLums.innerHTML = `${ratios[2]}`
-    e.headerRatioL1.innerHTML = colors[1].l1_pass ? `✓` : `ⓧ`
-    e.headerRatioL2.innerHTML = colors[1].l2_pass ? `✓` : `ⓧ`
-    e.headerRatioL3.innerHTML = colors[1].l3_pass ? `✓` : `ⓧ`
-    e.bodyRatioL1.innerHTML = colors[3].l1_pass ? `✓` : `ⓧ`
-    e.bodyRatioL2.innerHTML = colors[3].l2_pass ? `✓` : `ⓧ`
-    e.bodyRatioL3.innerHTML = colors[3].l3_pass ? `✓` : `ⓧ`
-    e.linkRatioL1.innerHTML = colors[2].l1_pass ? `✓` : `ⓧ`
-    e.linkRatioL2.innerHTML = colors[2].l2_pass ? `✓` : `ⓧ`
-    e.linkRatioL3.innerHTML = colors[2].l3_pass ? `✓` : `ⓧ`
 
-    e.headerRatioD1.innerHTML = colors[1].l1_pass ? `✓` : colors[1].l1_delta
-    e.headerRatioD2.innerHTML = colors[1].l2_pass ? `✓` : colors[1].l2_delta
-    e.headerRatioD3.innerHTML = colors[1].l3_pass ? `✓` : colors[1].l3_delta
-    e.bodyRatioD1.innerHTML = colors[3].l1_pass ? `✓` : colors[3].l1_delta
-    e.bodyRatioD2.innerHTML = colors[3].l2_pass ? `✓` : colors[3].l2_delta
-    e.bodyRatioD3.innerHTML = colors[3].l3_pass ? `✓` : colors[3].l3_delta
-    e.linkRatioD1.innerHTML = colors[2].l1_pass ? `✓` : colors[2].l1_delta
-    e.linkRatioD2.innerHTML = colors[2].l2_pass ? `✓` : colors[2].l2_delta
-    e.linkRatioD3.innerHTML = colors[2].l3_pass ? `✓` : colors[2].l3_delta
+    // e.headerRatioL1.innerHTML = colors[1].l1_pass ? `✓` : `ⓧ`
+    // e.headerRatioL2.innerHTML = colors[1].l2_pass ? `✓` : `ⓧ`
+    // e.headerRatioL3.innerHTML = colors[1].l3_pass ? `✓` : `ⓧ`
+    // e.bodyRatioL1.innerHTML = colors[3].l1_pass ? `✓` : `ⓧ`
+    // e.bodyRatioL2.innerHTML = colors[3].l2_pass ? `✓` : `ⓧ`
+    // e.bodyRatioL3.innerHTML = colors[3].l3_pass ? `✓` : `ⓧ`
+    // e.linkRatioL1.innerHTML = colors[2].l1_pass ? `✓` : `ⓧ`
+    // e.linkRatioL2.innerHTML = colors[2].l2_pass ? `✓` : `ⓧ`
+    // e.linkRatioL3.innerHTML = colors[2].l3_pass ? `✓` : `ⓧ`
+
+    // e.headerRatioL1.innerHTML = colors[1].l1_pass ? `✓` : ``
+    // e.headerRatioL2.innerHTML = colors[1].l2_pass ? `✓` : ``
+    // e.headerRatioL3.innerHTML = colors[1].l3_pass ? `✓` : ``
+    // e.bodyRatioL1.innerHTML = colors[3].l1_pass ? `✓` : ``
+    // e.bodyRatioL2.innerHTML = colors[3].l2_pass ? `✓` : ``
+    // e.bodyRatioL3.innerHTML = colors[3].l3_pass ? `✓` : ``
+    // e.linkRatioL1.innerHTML = colors[2].l1_pass ? `✓` : ``
+    // e.linkRatioL2.innerHTML = colors[2].l2_pass ? `✓` : ``
+    // e.linkRatioL3.innerHTML = colors[2].l3_pass ? `✓` : ``
+
+    // e.headerRatioD1.innerHTML = colors[1].l1_pass ? `✓` : colors[1].l1_delta
+    // e.headerRatioD2.innerHTML = colors[1].l2_pass ? `✓` : colors[1].l2_delta
+    // e.headerRatioD3.innerHTML = colors[1].l3_pass ? `✓` : colors[1].l3_delta
+    // e.bodyRatioD1.innerHTML = colors[3].l1_pass ? `✓` : colors[3].l1_delta
+    // e.bodyRatioD2.innerHTML = colors[3].l2_pass ? `✓` : colors[3].l2_delta
+    // e.bodyRatioD3.innerHTML = colors[3].l3_pass ? `✓` : colors[3].l3_delta
+    // e.linkRatioD1.innerHTML = colors[2].l1_pass ? `✓` : colors[2].l1_delta
+    // e.linkRatioD2.innerHTML = colors[2].l2_pass ? `✓` : colors[2].l2_delta
+    // e.linkRatioD3.innerHTML = colors[2].l3_pass ? `✓` : colors[2].l3_delta
+
+    e.headerRatioD1.innerHTML = colors[1].l1_pass
+        ? `✓`
+        : colors[1].l1_delta_pct_string
+    e.headerRatioD2.innerHTML = colors[1].l2_pass
+        ? `✓`
+        : colors[1].l2_delta_pct_string
+    e.headerRatioD3.innerHTML = colors[1].l3_pass
+        ? `✓`
+        : colors[1].l3_delta_pct_string
+
+    e.bodyRatioD1.innerHTML = colors[3].l1_pass
+        ? `✓`
+        : colors[3].l1_delta_pct_string
+    e.bodyRatioD2.innerHTML = colors[3].l2_pass
+        ? `✓`
+        : colors[3].l2_delta_pct_string
+    e.bodyRatioD3.innerHTML = colors[3].l3_pass
+        ? `✓`
+        : colors[3].l3_delta_pct_string
+
+    e.linkRatioD1.innerHTML = colors[2].l1_pass
+        ? `✓`
+        : colors[2].l1_delta_pct_string
+    e.linkRatioD2.innerHTML = colors[2].l2_pass
+        ? `✓`
+        : colors[2].l2_delta_pct_string
+    e.linkRatioD3.innerHTML = colors[2].l3_pass
+        ? `✓`
+        : colors[2].l3_delta_pct_string
 
     for (pi = 1; pi <= 24; pi++) {
         for (si = 0; si <= 3; si++) {
@@ -410,15 +479,17 @@ const init = () => {
         'bodyLums',
         'headerLums',
         'linkLums',
-        'headerRatioL1',
-        'headerRatioL2',
-        'headerRatioL3',
-        'bodyRatioL1',
-        'bodyRatioL2',
-        'bodyRatioL3',
-        'linkRatioL1',
-        'linkRatioL2',
-        'linkRatioL3',
+
+        // 'headerRatioL1',
+        // 'headerRatioL2',
+        // 'headerRatioL3',
+        // 'bodyRatioL1',
+        // 'bodyRatioL2',
+        // 'bodyRatioL3',
+        // 'linkRatioL1',
+        // 'linkRatioL2',
+        // 'linkRatioL3',
+
         'headerRatioD1',
         'headerRatioD2',
         'headerRatioD3',

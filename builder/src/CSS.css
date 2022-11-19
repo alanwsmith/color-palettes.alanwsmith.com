@@ -194,8 +194,8 @@ p {
 }
 
 th {
-  font-weight: normal;
   white-space: nowrap;
+  border-bottom: 1px solid;
 }
 
 .fade-out {
